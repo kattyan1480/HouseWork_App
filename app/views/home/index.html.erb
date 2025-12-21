@@ -1,2 +1,8 @@
-<h1>家事共有アプリ</h1>
-<p>家事を見える化して、みんなで分担するアプリです。</p>
+<h1>Housework App</h1>
+
+<% if user_signed_in? %>
+  ログイン中: <%= current_user.email %>
+<% else %>
+  未ログイン
+<% end %>
+

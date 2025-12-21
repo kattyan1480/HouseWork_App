@@ -11,6 +11,31 @@
   </head>
 
   <body>
-    <%= yield %>
+    <!-- ヘッダー -->
+    <header style="padding: 10px; border-bottom: 1px solid #ccc;">
+      <strong>HouseWork_App</strong>
+
+      <span style="float: right;">
+        <% if user_signed_in? %>
+          <%= current_user.email %> |
+          <%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete } %>
+        <% else %>
+          <%= link_to "ログイン", new_user_session_path %>
+        <% end %>
+      </span>
+    </header>
+
+    <!-- フラッシュメッセージ -->
+    <% flash.each do |key, message| %>
+      <div style="margin: 10px; color: <%= key == "notice" ? "green" : "red" %>;">
+        <%= message %>
+      </div>
+    <% end %>
+
+    <!-- 各画面の中身 -->
+    <main style="padding: 20px;">
+      <%= yield %>
+    </main>
   </body>
 </html>
+
