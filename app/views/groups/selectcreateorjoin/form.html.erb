@@ -1,0 +1,34 @@
+<h1>
+  <%= @mode == "create" ? "グループを作成する" : "グループに参加する" %>
+</h1>
+
+<%= form_with url: groups_selectcreateorjoin_save_form_path, method: :post do %>
+
+  <h2>あなたの情報</h2>
+
+  <div>
+    <label>名前</label>
+    <%= text_field_tag :name %>
+  </div>
+
+  <div>
+    <label>アイコン</label>
+    <%= select_tag :icon,
+      options_for_select([["🐶", "dog"], ["🐱", "cat"], ["🐼", "panda"]]) %>
+  </div>
+
+  <h2>グループ情報</h2>
+
+  <div>
+    <label>グループ名</label>
+    <%= text_field_tag :group_name %>
+  </div>
+
+  <div>
+    <label>合言葉</label>
+    <%= password_field_tag :passcode %>
+  </div>
+
+  <%= submit_tag "次へ（ユーザー登録）" %>
+
+<% end %>

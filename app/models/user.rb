@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  belongs_to :group
   devise :database_authenticatable,
          :registerable,
          :recoverable,
