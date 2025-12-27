@@ -1,0 +1,17 @@
+<h1>グループを作成するか、参加するか選択してください</h1>
+
+<%= form_with url: groups_selectcreateorjoin_decide_path, method: :post, local: true do %>
+  <%= hidden_field_tag :mode, "create" %>
+  <%= submit_tag "グループを作成する" %>
+<% end %>
+
+<%= form_with url: groups_selectcreateorjoin_decide_path, method: :post, local: true do %>
+  <%= hidden_field_tag :mode, "join" %>
+  <%= submit_tag "グループに参加する" %>
+<% end %>
+
+<%= link_to "ログイン", new_user_session_path %>
+
+
+
+
