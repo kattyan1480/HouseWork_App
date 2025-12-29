@@ -10,9 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_12_25_121006) do
+ActiveRecord::Schema[7.0].define(version: 2025_12_29_095054) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "chore_dates", force: :cascade do |t|
+    t.bigint "chore_id", null: false
+    t.datetime "execute_at"
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chore_id"], name: "index_chore_dates_on_chore_id"
+  end
+
+  create_table "chores", force: :cascade do |t|
+    t.string "title"
+    t.text "detail"
+    t.integer "cake_reward"
+    t.bigint "group_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_id"], name: "index_chores_on_group_id"
+  end
 
   create_table "groups", force: :cascade do |t|
     t.string "name"
@@ -41,5 +60,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_12_25_121006) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "chore_dates", "chores"
+  add_foreign_key "chores", "groups"
   add_foreign_key "users", "groups"
 end

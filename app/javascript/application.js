@@ -1,3 +1,12 @@
-// Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
 import "@hotwired/turbo-rails"
 import "controllers"
+import flatpickr from "flatpickr"
+import "./chores"
+
+document.addEventListener("turbo:load", () => {
+  flatpickr(".js-multi-date", {
+    mode: "multiple",
+    dateFormat: "Y-m-d"
+  })
+})
+
