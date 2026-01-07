@@ -1,4 +1,4 @@
-class Groups::SelectcreateorjoinController < ApplicationController
+class SelectcreateorjoinController < ApplicationController
   def select
     # 表示用
   end
@@ -7,15 +7,22 @@ class Groups::SelectcreateorjoinController < ApplicationController
     session["selectcreateorjoin"] ||= {}
     session["selectcreateorjoin"]["mode"] = params[:mode]
 
-    redirect_to groups_selectcreateorjoin_form_path
+    redirect_to selectcreateorjoin_form_path
   end
 
   def form
     @mode = session.dig("selectcreateorjoin", "mode")
-    redirect_to groups_selectcreateorjoin_select_path unless @mode
+    redirect_to selectcreateorjoin_select_path unless @mode
   end
 
   def save_form
+    session["selectcreateorjoin"] ||= {}
+
+    session["selectcreateorjoin"]["user"] = {
+      "name" => params[:name],
+      "icon" => params[:icon]
+    }
+
     session["selectcreateorjoin"]["group"] = {
       "name"     => params[:group_name],
       "passcode" => params[:passcode]

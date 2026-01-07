@@ -1,5 +1,20 @@
-<body>
-  <%= render "layouts/header" %>
+<head>
+  <title>HouseworkApp</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
 
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= javascript_importmap_tags %>
+</head>
+<body>
+  <% if notice %>
+    <div class="notice"><%= notice %></div>
+  <% end %>
+
+  <% if alert %>
+    <div class="alert"><%= alert %></div>
+  <% end %>
+  <%= render "layouts/header" %>
+  <%= javascript_importmap_tags %>
   <%= yield %>
 </body>

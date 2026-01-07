@@ -1,6 +1,25 @@
 Rails.application.routes.draw do
+
+  get 'profile/index'
+  get 'profile/edit'
+  get 'profile/update'
+  
+  get  'selectcreateorjoin/select'
+  post 'selectcreateorjoin/decide'
+  get  'selectcreateorjoin/form'
+  post 'selectcreateorjoin/save_form'
+
+  get 'chores/new'
+  get 'chores/create'
+  get 'homes/index'
+
+  def after_sign_out_path_for(resource_or_scope)
+    selectcreateorjoin_select_path
+  end
+
   devise_for :users, controllers: {
-    registrations: 'users/registrations'
+    registrations: 'registrations',
+    confirmations: "confirmations"
   }
 
   authenticated :user do
@@ -8,20 +27,8 @@ Rails.application.routes.draw do
   end
 
   unauthenticated do
-    root to: 'groups/selectcreateorjoin#select'
+    root to: 'selectcreateorjoin#select'
   end
-
-  namespace :groups do
-    get  'selectcreateorjoin/select'
-    post 'selectcreateorjoin/decide'
-    get  'selectcreateorjoin/form'
-    post 'selectcreateorjoin/save_form'
-  end
-
-  get 'chores/new'
-  get 'chores/create'
-  get 'homes/index'
-
 
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"

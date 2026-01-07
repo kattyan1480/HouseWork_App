@@ -30,7 +30,7 @@ class ChoresController < ApplicationController
 
   def chore_params
     params.require(:chore).permit(
-      :name,
+      :title,
       :detail,
       :cake_reward
     )

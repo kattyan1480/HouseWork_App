@@ -1,6 +1,5 @@
 import "@hotwired/turbo-rails"
 import "controllers"
-import flatpickr from "flatpickr"
 import "./chores"
 
 document.addEventListener("turbo:load", () => {
