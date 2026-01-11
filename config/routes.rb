@@ -9,9 +9,9 @@ Rails.application.routes.draw do
   get  'selectcreateorjoin/form'
   post 'selectcreateorjoin/save_form'
 
-  get 'chores/new'
-  get 'chores/create'
   get 'homes/index'
+  
+  resources :chores
 
   def after_sign_out_path_for(resource_or_scope)
     selectcreateorjoin_select_path

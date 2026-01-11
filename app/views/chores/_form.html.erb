@@ -1,0 +1,35 @@
+<%= form_with model: @chore, local: true do |f| %>
+
+  <div>
+    <%= f.label :title, "家事名" %><br>
+    <%= f.text_field :title %>
+  </div><br>
+
+  <div>
+    <%= f.label :cake_reward, "ショートケーキ獲得数" %><br>
+    <%= f.number_field :cake_reward, min: 1 %>
+  </div><br>
+
+  <div>
+    <%= f.text_field :execute_dates,
+      id: "execute_dates",
+      value: @chore.chore_dates
+                    .order(:execute_at)
+                    .map { |cd| cd.execute_date }
+                    .join(",") %>
+  </div><br>
+
+  <div>
+    <%= f.label :execute_time, "実行時間" %><br>
+    <%= f.time_field :execute_time,
+      value: @chore.chore_dates.first&.execute_time %>
+  </div><br>
+
+  <div>
+    <%= f.label :detail, "家事の詳細" %><br>
+    <%= f.text_area :detail, rows: 4 %>
+  </div><br>
+
+  <%= f.submit %>
+
+<% end %>

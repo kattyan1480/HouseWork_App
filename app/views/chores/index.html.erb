@@ -1,0 +1,33 @@
+<% content_for :header_title do %>
+  家事リスト
+<% end %><br>
+
+<div class="chore-list">
+  <% @chores.each do |chore| %>
+    <div class="chore-row">
+
+      <div class="chore-title-detail">
+        <span class="chore-title"><%= chore.title %></span>
+        <span class="chore-detail">
+          <%= truncate(chore.detail, length: 30) %>
+        </span>
+      </div>
+
+      <div class="chore-cake-reward">
+        <%= chore.cake_reward %> pt
+      </div>
+
+      <div class="chore-actions">
+        <%= link_to "編集", edit_chore_path(chore), class: "edit-link" %>
+        <%= link_to "削除",
+                    chore_path(chore),
+                    data: { turbo_method: :delete, turbo_confirm: "削除しますか？" },
+                    class: "delete-link" %>
+      </div>
+    </div>
+  <% end %>
+</div><br>
+
+<div style="text-align: right;">
+  <%= link_to "戻る", homes_index_path %>
+</div
