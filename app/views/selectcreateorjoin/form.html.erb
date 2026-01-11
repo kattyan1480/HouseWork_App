@@ -2,12 +2,12 @@
   <%= @mode == "create" ? "グループを作成する" : "グループに参加する" %>
 </h1>
 
-<%= form_with url: groups_selectcreateorjoin_save_form_path, method: :post do %>
+<%= form_with url: selectcreateorjoin_save_form_path, method: :post do %>
 
-  <h2>あなたの情報</h2>
+  <h2>ユーザー情報</h2>
 
   <div>
-    <label>名前</label>
+    <label>ニックネーム</label>
     <%= text_field_tag :name %>
   </div>
 
@@ -15,7 +15,7 @@
     <label>アイコン</label>
     <%= select_tag :icon,
       options_for_select([["🐶", "dog"], ["🐱", "cat"], ["🐼", "panda"]]) %>
-  </div>
+  </div><br><br>
 
   <h2>グループ情報</h2>
 

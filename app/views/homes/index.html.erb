@@ -1,0 +1,13 @@
+<% content_for :header_title do %>
+  ホーム
+<% end %>
+<% content_for :header_right do %>
+  <%= link_to "プロフ", profile_index_path %>
+<% end %>
+
+<h1>ホーム</h1>
+
+<%= link_to "家事リスト", chores_path %><br><br>
+
+<%= link_to "家事を登録する", new_chore_path %>
+

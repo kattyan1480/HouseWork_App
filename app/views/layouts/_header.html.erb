@@ -1,3 +1,14 @@
-<header style="background: #e6f2ee; padding: 12px;">
-  <strong>HouseWork</strong>
+<header style="background: #e6f2ee; padding: 12px; display: flex; justify-content: space-between;">
+  <div>
+    <%= content_for?(:header_left) ? yield(:header_left) : "ロゴ" %>
+  </div>
+
+  <strong>
+    <%= content_for?(:header_title) ? yield(:header_title) : "" %>
+  </strong>
+
+  <div>
+    <%= content_for?(:header_right) ? yield(:header_right) : "" %>
+  </div>
 </header>
+
