@@ -19,13 +19,28 @@
 @import "https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css";
 
 body {
-  background-color: #ffeeee;
+  background-color: #ffffffd3;
 }
 
 .chore-list {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  width: 30%;
+}
+
+.chore-list-home {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 27%;
+}
+
+.chore-list-previous {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 28%;
 }
 
 .chore-row {
@@ -66,8 +81,18 @@ body {
   font-weight: bold;
 }
 
+.chore-actions-home {
+  width: 60px;
+  text-align: right;
+}
+
+.chore-actions-previous {
+  width: 80px;
+  text-align: right;
+}
+
 .chore-actions {
-  width: 120px;
+  width: 100px;
   text-align: right;
 }
 
@@ -80,4 +105,260 @@ body {
 .delete-link {
   color: #dc3545;
   text-decoration: none;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* 画面高さ分確保 */
+}
+
+.content {
+  flex: 1;                    /* 余白を埋める */
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
+  align-items: center;         /* 横中央 */
+  gap: 0;
+}
+
+.content.centered {
+  display: flex;
+  align-items: center;
+  padding-top: 20px;
+  flex-direction: column; /* ← これが必要 */
+  gap: 0px;
+}
+
+.content.selectorjoin {
+  display: flex;
+  flex-direction: column; /* 縦並び */
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 40px;
+  gap: 16px;
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo-image {
+  height: 28px;
+  width: auto;
+  margin: 0px 0;   /* ← 上下余白 */
+}
+
+.hidden-calendar-input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  height: 0;
+}
+
+.chore-cake-reward {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  flex-wrap: nowrap;
+}
+
+.cake-icon {
+  width: 24px;
+  height: auto;
+}
+
+.app-header {
+  background: #d0e0fd;
+  height: 56px;              /* ← 固定したい高さ */
+  padding: 0 16px;           /* ← 縦paddingは消す */
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  position: relative;
+}
+
+.header-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.avatar-upload {
+  display: flex;
+  flex-direction: column; /* 縦並び */
+  gap: 6px; /* ボタンと文字の間の余白 */
+}
+
+/* 標準の file input を非表示 */
+.hidden-file {
+  display: none;
+}
+
+/* ファイル選択ボタン */
+#avatar_button {
+  cursor: pointer;
+  padding: 4px 10px;      /* ボタンの大きさ */
+  font-size: 12px;          /* ボタン文字の大きさ */
+  background-color: #ebe8e8; /* お好みの背景色 */
+  border: 1px solid #555;
+  border-radius: 6px;
+  text-align: center;
+}
+
+/* ファイル名表示 */
+#avatar_filename {
+  font-size: 12px;          /* 文字の大きさ */
+  color: #555;              /* 文字色 */
+  min-height: 1em;          /* 選択されていないときも高さを確保 */
+}
+
+.user-avatar {
+  width: 37px;
+  height: 37px;
+  border-radius: 50%; /* 丸くする */
+  object-fit: cover;  /* はみ出さない */
+  align-items: center; /* 縦中央揃え */
+}
+
+.avatar-preview {
+  width: 80px;
+  height: 80px;
+  border-radius: 4px;
+}
+
+.header-profile {
+  display: flex;
+  align-items: center; /* ← 縦中央揃えの決定打 */
+  gap: 6px;
+}
+
+.fixed-bottom-right {
+  position: fixed;
+  right: 40px;
+  bottom: 80px;
+
+  display: flex;
+  gap: 12px;          /* ボタン間の隙間 */
+  align-items: center;
+}
+
+.fixed-bottom-left {
+  position: fixed;
+  left: 40px;
+  bottom: 80px;
+
+  display: flex;
+  gap: 12px;          /* ボタン間の隙間 */
+  align-items: center;
+}
+
+.fixed-btn {
+  width: 110px;
+  appearance: none;
+  -webkit-appearance: none;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 50px;
+  padding: 0 10px;
+
+  border-radius: 5px;
+
+  font-size: 16px;
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1;
+
+  border: 1px solid #000000;   /* ← 枠線を明示 */
+  background-color: #6a7eb4;
+  color: #fff;
+
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+.fixed-link {
+  width: 110px;
+  appearance: none;
+  -webkit-appearance: none;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 50px;
+  padding: 0 10px;
+
+  border-radius: 5px;
+
+  font-size: 16px;
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1;
+
+  border: 1px solid #535353;   /* ← 枠線を明示 */
+  background-color: #e0e0e0;
+  color: #000000;
+
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+.hidden {
+  display: none;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+}
+
+.modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  position: relative;
+  background: #fff;
+  width: 300px;
+  padding: 15px;
+  margin: 150px auto;
+  border-radius: 8px;
+  text-align: center;
+
+  display: flex;
+  flex-direction: column; /* ← 縦並び */
+  gap: 4px;
+}
+
+.modal-members {
+  margin-top: 16px;
+  text-align: left;
+}
+
+.modal-section-title {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.member-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
 }

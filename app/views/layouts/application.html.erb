@@ -1,5 +1,4 @@
 <head>
-  <title>HouseworkApp</title>
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
 
@@ -7,6 +6,8 @@
   <%= javascript_importmap_tags %>
 </head>
 <body>
+  <%= render "layouts/header" %>
+
   <% if notice %>
     <div class="notice"><%= notice %></div>
   <% end %>
@@ -14,7 +15,22 @@
   <% if alert %>
     <div class="alert"><%= alert %></div>
   <% end %>
-  <%= render "layouts/header" %>
-  <%= javascript_importmap_tags %>
-  <%= yield %>
+
+  <main class="content">
+    <%= yield %>
+  </main>
+
+  <% if content_for?(:fixed_ui_right) %>
+    <div class="fixed-bottom-right">
+      <%= yield :fixed_ui_right %>
+    </div>
+  <% end %>
+
+  <% if content_for?(:fixed_ui_left) %>
+    <div class="fixed-bottom-left">
+      <%= yield :fixed_ui_left %>
+    </div>
+  <% end %>
+
+  <%= render "layouts/footer" if show_footer? %>
 </body>

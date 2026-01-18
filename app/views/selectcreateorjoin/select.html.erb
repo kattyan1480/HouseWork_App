@@ -1,16 +1,15 @@
-<% content_for :header_right do %>
-  <%= link_to "ログイン", user_session_path %>
+<% content_for :header_title do %>
+  グループ作成・参加
 <% end %>
 
-<h1>グループを作成するか、参加するか選択してください</h1>
+<div class="content selectorjoin">
+    <%= form_with url: selectcreateorjoin_decide_path, method: :post, local: true do %>
+      <%= hidden_field_tag :mode, "create" %>
+      <%= submit_tag "グループを作成する" %>
+    <% end %>
 
-<%= form_with url: selectcreateorjoin_decide_path, method: :post, local: true do %>
-  <%= hidden_field_tag :mode, "create" %>
-  <%= submit_tag "グループを作成する" %>
-<% end %>
-
-<%= form_with url: selectcreateorjoin_decide_path, method: :post, local: true do %>
-  <%= hidden_field_tag :mode, "join" %>
-  <%= submit_tag "グループに参加する" %>
-<% end %>
-
+    <%= form_with url: selectcreateorjoin_decide_path, method: :post, local: true do %>
+      <%= hidden_field_tag :mode, "join" %>
+      <%= submit_tag "グループに参加する" %>
+    <% end %>
+</div>

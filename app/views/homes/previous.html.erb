@@ -1,0 +1,47 @@
+<% content_for :header_title do %>
+  過去のやり残し
+<% end %>
+
+<% if @before_yesterday_chore_dates.any? %>
+  <div class="chore-list-previous">
+    <% @before_yesterday_chore_dates.each do |chore_date| %>
+      <% chore = chore_date.chore %>
+
+      <div class="chore-row">
+
+        <div class="chore-title-detail">
+          <span class="chore-title"><%= truncate(chore.title, length: 7) %></span>
+          <span class="chore-detail">
+            <%= truncate(chore.detail, length: 13) %>
+          </span>
+        </div>
+
+      <div class="chore-cake-reward">
+        <% reward = chore.cake_reward.to_i %>
+
+        <% if reward <= 5 %>
+          <% reward.times do %>
+            <%= image_tag "shortcake.png", class: "cake-icon" %>
+          <% end %>
+        <% else %>
+          <%= image_tag "shortcake.png", class: "cake-icon" %>
+          <span class="cake-multiple">×<%= reward %></span>
+        <% end %>
+      </div>
+
+        <div class="chore-actions-previous">
+          <span class="chore-date">
+            <%= chore_date.execute_at.strftime("%-m月%-d日") %>
+          </span>
+        </div>
+
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p>過去やり残した家事はありません</p>
+<% end %>
+
+<% content_for :fixed_ui_right do %>
+  <%= link_to "戻る", homes_index_path, class: "fixed-link" %>
+<% end %>

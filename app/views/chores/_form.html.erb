@@ -6,13 +6,25 @@
   </div><br>
 
   <div>
-    <%= f.label :cake_reward, "ショートケーキ獲得数" %><br>
+    <%= f.label :cake_reward, "報酬" %><br>
     <%= f.number_field :cake_reward, min: 1 %>
   </div><br>
 
   <div>
+    <%= f.label :execute_dates, "実行日" %><br>
+
+    <button
+      type="button"
+      id="open-calendar-btn"
+      data-has-dates="<%= @chore.chore_dates.any? %>">
+      <%= @chore.chore_dates.any? ?
+            "実行日を変更する" :
+            "クリックして日付を選択" %>
+    </button>
+
     <%= f.text_field :execute_dates,
       id: "execute_dates",
+      class: "hidden-calendar-input",
       value: @chore.chore_dates
                     .order(:execute_at)
                     .map { |cd| cd.execute_date }
@@ -30,6 +42,13 @@
     <%= f.text_area :detail, rows: 4 %>
   </div><br>
 
-  <%= f.submit %>
+  <div class="fixed-bottom-right">
+    <%= f.submit (local_assigns[:submit_label] || "登録"),
+          class: "fixed-btn" %>
+
+    <%= link_to (local_assigns[:back_label] || "戻る"),
+          (local_assigns[:back_path] || chores_path),
+          class: "fixed-link" %>
+  </div>
 
 <% end %>

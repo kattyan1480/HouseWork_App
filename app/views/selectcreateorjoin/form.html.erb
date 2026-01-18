@@ -1,34 +1,48 @@
-<h1>
-  <%= @mode == "create" ? "グループを作成する" : "グループに参加する" %>
-</h1>
-
-<%= form_with url: selectcreateorjoin_save_form_path, method: :post do %>
-
-  <h2>ユーザー情報</h2>
-
-  <div>
-    <label>ニックネーム</label>
-    <%= text_field_tag :name %>
-  </div>
-
-  <div>
-    <label>アイコン</label>
-    <%= select_tag :icon,
-      options_for_select([["🐶", "dog"], ["🐱", "cat"], ["🐼", "panda"]]) %>
-  </div><br><br>
-
-  <h2>グループ情報</h2>
-
-  <div>
-    <label>グループ名</label>
-    <%= text_field_tag :group_name %>
-  </div>
-
-  <div>
-    <label>合言葉</label>
-    <%= password_field_tag :passcode %>
-  </div>
-
-  <%= submit_tag "次へ（ユーザー登録）" %>
-
+<% content_for :header_title do %>
+  <%= @mode == "create" ? "➕グループ作成" : "↪グループ参加" %>
 <% end %>
+
+<div class="content centered">
+  <%= form_with url: selectcreateorjoin_save_form_path, local: true, multipart: true do |f| %>
+
+    <h3>ユーザー情報</h3>
+
+    <div>
+      <label>ニックネーム</label><br>
+      <%= text_field_tag :name %>
+    </div><br>
+
+    <div class="avatar-upload">
+      <label>プロフィール画像</label>
+      <%= f.file_field :avatar_image,
+          accept: "image/*",
+          id: "avatar_input",
+          class: "hidden-file" %>
+
+      <button type="button" id="avatar_button">ファイルを選択</button>
+      <div id="avatar_filename">選択されていません</div>
+
+      <img id="avatar_preview"
+        class="user-avatar avatar-preview"
+        style="display:none;" />
+    </div>
+
+    <h2>グループ情報</h2>
+
+    <div>
+      <label>グループ名</label><br>
+      <%= text_field_tag :group_name %>
+    </div><br>
+
+    <div>
+      <label>合言葉</label><br>
+      <%= password_field_tag :passcode %>
+    </div><br>
+
+    
+    <% content_for :fixed_ui_right do %>
+      <%= submit_tag "登録", class: "fixed-btn" %>
+    <% end %>
+
+  <% end %>
+</div>

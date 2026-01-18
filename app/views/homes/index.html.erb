@@ -1,13 +1,148 @@
 <% content_for :header_title do %>
-  ホーム
+  🏠 ホーム
 <% end %>
+
 <% content_for :header_right do %>
-  <%= link_to "プロフ", profile_index_path %>
+  <%= link_to profile_index_path, class: "header-item" do %>
+    <span class="header-profile">
+      <span class="header-icon">
+        <%= image_tag(
+          current_user.avatar_image.attached? ?
+            current_user.avatar_image :
+            "default_avatar.png",
+          class: "user-avatar"
+        ) %>
+      </span>
+    </span>
+  <% end %>
 <% end %>
 
-<h1>ホーム</h1>
+<h3>今日の予定</h3>
 
-<%= link_to "家事リスト", chores_path %><br><br>
+<% if @today_chore_dates.any? %>
+  <div class="chore-list-home">
+    <% @today_chore_dates.each do |chore_date| %>
+      <% chore = chore_date.chore %>
 
-<%= link_to "家事を登録する", new_chore_path %>
+      <div class="chore-row js-open-modal"
+        data-chore-date-id="<%= chore_date.id %>"
+        data-chore-title="<%= chore.title %>"
+        data-chore-detail="<%= chore.detail %>">
 
+        <div class="chore-title-detail">
+          <span class="chore-title"><%= truncate(chore.title, length: 7) %></span>
+          <span class="chore-detail">
+            <%= truncate(chore.detail, length: 13) %>
+          </span>
+        </div>
+
+        <div class="chore-cake-reward">
+          <% reward = chore.cake_reward.to_i %>
+
+          <% if reward <= 5 %>
+            <% reward.times do %>
+              <%= image_tag "shortcake.png", class: "cake-icon" %>
+            <% end %>
+          <% else %>
+            <%= image_tag "shortcake.png", class: "cake-icon" %>
+            <span class="cake-multiple">×<%= reward %></span>
+          <% end %>
+        </div>
+
+        <div class="chore-actions-home">
+          <span class="chore-time">
+            <%= chore_date.execute_at.strftime("%H:%M") %>
+          </span>
+        </div>
+
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p>今日やる家事はありません</p>
+<% end %>
+
+<h3>昨日やり残した家事</h3>
+
+<% if @yesterday_chore_dates.any? %>
+  <div class="chore-list-home">
+    <% @yesterday_chore_dates.each do |chore_date| %>
+      <% chore = chore_date.chore %>
+
+      <div class="chore-row">
+
+        <div class="chore-title-detail">
+          <span class="chore-title"><%= truncate(chore.title, length: 7) %></span>
+          <span class="chore-detail">
+            <%= truncate(chore.detail, length: 13) %>
+          </span>
+        </div>
+
+      <div class="chore-cake-reward">
+        <% reward = chore.cake_reward.to_i %>
+
+        <% if reward <= 5 %>
+          <% reward.times do %>
+            <%= image_tag "shortcake.png", class: "cake-icon" %>
+          <% end %>
+        <% else %>
+          <%= image_tag "shortcake.png", class: "cake-icon" %>
+          <span class="cake-multiple">×<%= reward %></span>
+        <% end %>
+      </div>
+
+        <div class="chore-actions-home">
+          <span class="chore-time">
+            <%= chore_date.execute_at.strftime("%H:%M") %>
+          </span>
+        </div>
+
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p>昨日やり残した家事はありません</p>
+<% end %><br>
+
+<%= link_to "過去のやり残し", homes_previous_path %>
+
+<% content_for :fixed_ui_right do %>
+  <%= link_to "新規登録", new_chore_path, class: "fixed-btn" %>
+<% end %>
+
+<!-- ポップアップ用 -->
+<div id="chore-modal" class="modal hidden">
+  <div class="modal-overlay"></div>
+
+  <div class="modal-content">
+    <span id="modal-chore-title" class="chore-title"></span>
+    <span id="modal-chore-detail" class="chore-detail"></span>
+
+    <!-- ★ 完了者選択 -->
+    <div class="modal-members">
+      <p class="modal-section-title">やった人</p>
+
+      <% current_user.group.users.each do |user| %>
+        <label class="member-checkbox">
+          <input type="checkbox"
+                name="completed_user_ids[]"
+                value="<%= user.id %>">
+          <span><%= user.name %></span>
+        </label>
+      <% end %>
+    </div>
+
+    <div class="modal-buttons">
+      <button id="modal-complete">完了</button>
+      <button id="modal-reschedule">リスケ</button>
+      <a id="modal-delete"
+        href="#"
+        data-turbo-method="delete"
+        data-turbo-confirm="削除しますか？">
+        削除
+      </a>
+    </div>
+
+    <div id="modal-close" class="modal-close"></div>
+  </div>
+</div>
