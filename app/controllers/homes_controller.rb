@@ -2,5 +2,34 @@ class HomesController < ApplicationController
   before_action :authenticate_user!
 
   def index
+    today_range =
+      Time.zone.now.beginning_of_day..Time.zone.now.end_of_day
+
+    @today_chore_dates =
+      current_user.group
+                  .chore_dates
+                  .where(execute_at: today_range)
+                  .includes(:chore)
+
+    yesterday_range =
+      (Time.zone.now - 1.day).beginning_of_day..(Time.zone.now - 1.day).end_of_day
+
+    @yesterday_chore_dates =
+      current_user.group
+                  .chore_dates
+                  .where(execute_at: yesterday_range)
+                  .includes(:chore)
+  end
+
+  def previous
+    before_yesterday_range =
+      ..(Time.zone.now - 2.day).end_of_day
+
+    @before_yesterday_chore_dates =
+      current_user.group
+                  .chore_dates
+                  .where(execute_at: before_yesterday_range)
+                  .includes(:chore)
+                  .order(execute_at: :desc)
   end
 end

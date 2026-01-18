@@ -1,6 +1,8 @@
 class SelectcreateorjoinController < ApplicationController
+  before_action :authenticate_user!
+
   def select
-    # 表示用
+    # 作成 or 参加 の選択画面
   end
 
   def decide
@@ -16,18 +18,29 @@ class SelectcreateorjoinController < ApplicationController
   end
 
   def save_form
-    session["selectcreateorjoin"] ||= {}
+    mode = session.dig("selectcreateorjoin", "mode")
+    redirect_to selectcreateorjoin_select_path and return unless mode
 
-    session["selectcreateorjoin"]["user"] = {
-      "name" => params[:name],
-      "icon" => params[:icon]
-    }
+    if mode == "create"
+      group = Group.create!(
+        name: params[:group_name],
+        passcode: params[:passcode]
+      )
+    elsif mode == "join"
+      group = Group.find_by!(
+        name: params[:group_name],
+        passcode: params[:passcode]
+      )
+    end
 
-    session["selectcreateorjoin"]["group"] = {
-      "name"     => params[:group_name],
-      "passcode" => params[:passcode]
-    }
+    # ユーザーの更新
+    current_user.update!(
+      group: group,
+      name: params[:name],          # ニックネーム
+      avatar_image: params[:avatar_image]  # プロフィール画像
+    )
 
-    redirect_to new_user_registration_path
+    session.delete("selectcreateorjoin")
+    redirect_to root_path
   end
 end

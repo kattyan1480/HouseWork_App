@@ -1,11 +1,9 @@
 <% content_for :header_title do %>
-  家事変更
+  詳細
 <% end %>
 
-<h1>家事変更</h1>
+<%= render "form",
+      chore: @chore,
+      submit_label: "更新",
+      back_path: chores_path %>
 
-<%= render "form" %>
-
-<div style="text-align: left;">
-  <%= link_to "戻る", chores_path %>
-</div

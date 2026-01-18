@@ -10,8 +10,10 @@ Rails.application.routes.draw do
   post 'selectcreateorjoin/save_form'
 
   get 'homes/index'
+  get 'homes/previous'
   
   resources :chores
+  resources :chore_dates, only: [:destroy]
 
   def after_sign_out_path_for(resource_or_scope)
     selectcreateorjoin_select_path
@@ -27,7 +29,7 @@ Rails.application.routes.draw do
   end
 
   unauthenticated do
-    root to: 'selectcreateorjoin#select'
+    root to: redirect('/users/sign_in')
   end
 
   if Rails.env.development?

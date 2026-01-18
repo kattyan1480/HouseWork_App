@@ -2,7 +2,10 @@ class ChoresController < ApplicationController
   before_action :set_chore, only: [:edit, :update, :destroy]
 
   def index
-    @chores = current_user.group.chores
+    @chores =
+      current_user.group.chores
+        .joins(:chore_dates)
+        .distinct
   end
 
   def new
@@ -27,7 +30,7 @@ class ChoresController < ApplicationController
       end
     end
 
-    redirect_to root_path, notice: "家事を登録しました"
+    redirect_to homes_index_path, notice: "家事を登録しました"
   rescue ActiveRecord::RecordInvalid
     render :new
   end
@@ -58,7 +61,7 @@ class ChoresController < ApplicationController
       end
     end
 
-    redirect_to @chore, notice: "更新しました"
+    redirect_to chores_path, notice: "更新しました"
   rescue ActiveRecord::RecordInvalid
     render :edit
   end
