@@ -1,6 +1,7 @@
 class Chore < ApplicationRecord
   belongs_to :group
   has_many :chore_dates, dependent: :destroy
+  has_many :chore_histories
 
   validates :title, presence: true
   validates :cake_reward,

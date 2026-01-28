@@ -1,0 +1,86 @@
+<div id="chore-modal" class="modal hidden">
+  <div class="modal-overlay"></div>
+
+  <div class="modal-content">
+    <!-- 家事タイトル -->
+    <span id="modal-chore-title" class="modal-chore-title"></span>
+
+    <!-- 家事詳細 -->
+    <span id="modal-chore-detail" class="modal-chore-detail"></span>
+
+    <!-- ===== 完了フォーム ===== -->
+    <form action="<%= complete_chore_date_path('DUMMY') %>"
+          method="post"
+          id="complete-form"
+          data-turbo="true">
+
+      <!-- Rails用 CSRF -->
+      <%= csrf_meta_tags %>
+
+      <!-- chore_date の id を JS でセット -->
+      <%= hidden_field_tag :id, "", id: "modal-chore-date-id" %>
+
+      <!-- ★ 完了者選択 -->
+      <div class="modal-members">
+        <p class="modal-section-title">やった人</p>
+
+        <% current_user.group.users.each do |user| %>
+          <label class="member-checkbox">
+            <input type="checkbox"
+                  name="completed_user_ids[]"
+                  value="<%= user.id %>">
+            <span><%= user.name %></span>
+          </label>
+        <% end %>
+      </div>
+
+      <!-- ボタン群 -->
+      <div class="modal-buttons">
+        <!-- 完了 -->
+        <div class="modal-buttons-main">
+          <button type="submit">完了</button>
+        </div>
+      </div>
+    </form>
+
+    <!-- ===== リスケフォーム ===== -->
+    <form action="<%= reschedule_chore_date_path('DUMMY') %>"
+          method="post"
+          id="reschedule-form"
+          data-turbo="true">
+
+      <%= csrf_meta_tags %>
+      <%= hidden_field_tag :_method, "patch" %>
+
+      <!-- chore_date_id を JS でセット -->
+      <%= hidden_field_tag :id, "", id: "reschedule-chore-date-id" %>
+
+      <div>
+        <!-- flatpickr 用（非表示・値保持用） -->
+        <input
+          type="text"
+          name="execute_at"
+          id="reschedule-execute-at"
+          class="hidden-calendar-input">
+      </div>
+
+      <!-- リスケ -->
+      <div class="modal-buttons-sub">
+        <button id="modal-reschedule" type="button">リスケ</button>  <!-- ★ このボタンが状態によって役割を変える -->
+      </div>
+    </form>
+
+    <!--  削除 -->
+    <div class="modal-buttons-sub">
+      <a id="modal-delete"
+         href="#"
+         data-turbo-method="delete"
+         data-turbo-confirm="削除しますか？">
+        削除
+      </a>
+    </div>
+
+    <!-- 閉じる -->
+    <div id="modal-close" class="modal-close"></div>
+  </div>
+</div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_01_12_113233) do
+ActiveRecord::Schema[7.0].define(version: 2026_01_27_133602) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -45,10 +45,22 @@ ActiveRecord::Schema[7.0].define(version: 2026_01_12_113233) do
   create_table "chore_dates", force: :cascade do |t|
     t.bigint "chore_id", null: false
     t.datetime "execute_at"
-    t.integer "status", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "status", default: 0, null: false
+    t.index "chore_id, date(execute_at)", name: "index_chore_dates_on_chore_id_and_execute_date_pending", unique: true, where: "(status = 0)"
     t.index ["chore_id"], name: "index_chore_dates_on_chore_id"
+  end
+
+  create_table "chore_histories", force: :cascade do |t|
+    t.bigint "chore_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "chore_date_id", null: false
+    t.integer "cake_reward_count", default: 0, null: false
+    t.datetime "done_at", null: false
+    t.index ["chore_date_id"], name: "index_chore_histories_on_chore_date_id"
+    t.index ["chore_id"], name: "index_chore_histories_on_chore_id"
+    t.index ["user_id"], name: "index_chore_histories_on_user_id"
   end
 
   create_table "chores", force: :cascade do |t|
@@ -91,6 +103,9 @@ ActiveRecord::Schema[7.0].define(version: 2026_01_12_113233) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "chore_dates", "chores"
+  add_foreign_key "chore_histories", "chore_dates"
+  add_foreign_key "chore_histories", "chores"
+  add_foreign_key "chore_histories", "users"
   add_foreign_key "chores", "groups"
   add_foreign_key "users", "groups"
 end
