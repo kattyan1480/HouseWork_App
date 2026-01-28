@@ -8,7 +8,7 @@ class HomesController < ApplicationController
     @today_chore_dates =
       current_user.group
                   .chore_dates
-                  .where(execute_at: today_range)
+                  .where(execute_at: today_range, status: :pending)
                   .includes(:chore)
 
     yesterday_range =
@@ -17,7 +17,7 @@ class HomesController < ApplicationController
     @yesterday_chore_dates =
       current_user.group
                   .chore_dates
-                  .where(execute_at: yesterday_range)
+                  .where(execute_at: yesterday_range, status: :pending)
                   .includes(:chore)
   end
 
@@ -28,7 +28,7 @@ class HomesController < ApplicationController
     @before_yesterday_chore_dates =
       current_user.group
                   .chore_dates
-                  .where(execute_at: before_yesterday_range)
+                  .where(execute_at: before_yesterday_range, status: :pending)
                   .includes(:chore)
                   .order(execute_at: :desc)
   end

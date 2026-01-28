@@ -107,42 +107,7 @@
 <%= link_to "過去のやり残し", homes_previous_path %>
 
 <% content_for :fixed_ui_right do %>
-  <%= link_to "新規登録", new_chore_path, class: "fixed-btn" %>
+  <%= link_to "家事作成", new_chore_path, class: "fixed-btn" %>
 <% end %>
 
-<!-- ポップアップ用 -->
-<div id="chore-modal" class="modal hidden">
-  <div class="modal-overlay"></div>
-
-  <div class="modal-content">
-    <span id="modal-chore-title" class="chore-title"></span>
-    <span id="modal-chore-detail" class="chore-detail"></span>
-
-    <!-- ★ 完了者選択 -->
-    <div class="modal-members">
-      <p class="modal-section-title">やった人</p>
-
-      <% current_user.group.users.each do |user| %>
-        <label class="member-checkbox">
-          <input type="checkbox"
-                name="completed_user_ids[]"
-                value="<%= user.id %>">
-          <span><%= user.name %></span>
-        </label>
-      <% end %>
-    </div>
-
-    <div class="modal-buttons">
-      <button id="modal-complete">完了</button>
-      <button id="modal-reschedule">リスケ</button>
-      <a id="modal-delete"
-        href="#"
-        data-turbo-method="delete"
-        data-turbo-confirm="削除しますか？">
-        削除
-      </a>
-    </div>
-
-    <div id="modal-close" class="modal-close"></div>
-  </div>
-</div>
+<%= render "popup" %>

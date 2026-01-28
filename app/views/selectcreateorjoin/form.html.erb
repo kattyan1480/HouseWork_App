@@ -27,7 +27,7 @@
         style="display:none;" />
     </div>
 
-    <h2>グループ情報</h2>
+    <h3>グループ情報</h3>
 
     <div>
       <label>グループ名</label><br>
@@ -40,9 +40,10 @@
     </div><br>
 
     
-    <% content_for :fixed_ui_right do %>
+    <div class="fixed-bottom-right">
       <%= submit_tag "登録", class: "fixed-btn" %>
-    <% end %>
+    </div>
 
   <% end %>
 </div>
+  

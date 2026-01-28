@@ -46,8 +46,8 @@ body {
 .chore-row {
   display: flex;
   align-items: center;       /* 縦中央揃え */
-  padding: 12px 16px;
-
+  height: 50px;           /* ← ここで固定高さ */
+  padding: 0 16px;        /* 上下の余白は不要なら0に */
   border: 1px solid #ddd;
   border-radius: 8px;
   background-color: #fff;
@@ -89,6 +89,32 @@ body {
 .chore-actions-previous {
   width: 80px;
   text-align: right;
+}
+
+.chore-actions-history {
+  width: 80px;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 上下中央寄せ（不要なら消してOK） */
+  gap: 0;                  /* flexの隙間をゼロに */
+}
+
+.chore-date-history {
+  font-size: 14px;
+  line-height: 1;          /* 行間を詰める */
+}
+
+.chore-time-history {
+  font-size: 12px;
+  line-height: 1;
+  color: #777;
+}
+
+.chore-time {
+  font-size: 16px;
+  line-height: 1;
+  color: #777;
 }
 
 .chore-actions {
@@ -230,6 +256,28 @@ body {
   align-items: center; /* 縦中央揃え */
 }
 
+/* アイコンを横並びにする親要素 */
+.chore-users-history {
+  width: 90px;
+  display: flex;
+  justify-content: flex-end;   /* ← 右詰め */
+  gap: 4px;                    /* アイコン間の隙間 */
+  padding-left: 4px;          /* ← 右側に余白 */
+  align-items: center;         /* 縦中央揃え */
+  box-sizing: border-box;      /* ← paddingを幅に含める */
+}
+
+/* アイコン自体 */
+.user-avatar-history {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  line-height: 1;
+  margin: 0;
+  display: inline-block;
+}
+
 .avatar-preview {
   width: 80px;
   height: 80px;
@@ -332,33 +380,90 @@ body {
   background: rgba(0, 0, 0, 0.5);
 }
 
+/* モーダル全体の箱 */
 .modal-content {
   position: relative;
   background: #fff;
-  width: 300px;
-  padding: 15px;
-  margin: 150px auto;
+  width: 230px;
+  padding: 20px 0px;       /* 上下、左右 */
+  margin: 100px auto;      /* 画面中央に配置 */
   border-radius: 8px;
-  text-align: center;
 
   display: flex;
-  flex-direction: column; /* ← 縦並び */
-  gap: 4px;
+  flex-direction: column; /* 中身を縦並び */
+  align-items: center;    /* 中身を横方向中央寄せ */
+  gap: 6px;               /* 各セクション間の行間（狭め） */
+  text-align: center;
+}
+
+.modal-chore-title {
+  font-size: 16px;
+  font-weight: bold;
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+.modal-chore-detail {
+  font-size: 13px;
+  display: block;
+  width: 100%;
+  text-align: center;
 }
 
 .modal-members {
-  margin-top: 16px;
-  text-align: left;
+  text-align: center;     /* タイトル文字を中央寄せ */
 }
 
 .modal-section-title {
   font-weight: bold;
-  margin-bottom: 8px;
+  margin-top: 4px;     /* ← 上を詰める */
+  margin-bottom: 4px;  /* ← 下は少しだけ空ける */
+  line-height: 1.2;
+  text-align: center;
+}
+.member-checkbox {
+  display: flex;          /* チェックボックスと文字を横並び */
+  align-items: center;    /* 縦位置を中央に揃える */
+  justify-content: center;/* 行全体を中央寄せ */
+  gap: 6px;               /* チェックボックスと名前の間隔 */
+  margin-bottom: 4px;     /* 各メンバー間の行間（狭め） */
 }
 
-.member-checkbox {
+/* ボタン全体 */
+.modal-buttons {
   display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 6px;
+  flex-direction: column; 
+  align-items: stretch;   /* ← 中身を横幅いっぱいに伸ばす */
+  gap: 6px;               /* 行間 */
+  margin-top: 4px;
+  width: 100%;            /* モーダル幅いっぱい */
 }
+
+/* 1行目：完了ボタンを横いっぱいに */
+.modal-buttons-main button {
+  width: 100%;            /* 親に合わせて横いっぱい */
+  margin: 0px;
+  padding: 3px 0;
+  box-sizing: border-box; /* パディング込みで幅いっぱい */
+}
+
+/* 2行目：リスケ・削除ボタンを均等幅で横並び */
+.modal-buttons-sub {
+  display: flex;    
+  gap: 6px;               /* ボタン間のスペース */
+  margin-top: 6px;               
+  width: 100%;            /* 親幅いっぱい */
+}
+
+.modal-buttons-sub button,
+.modal-buttons-sub a {
+  flex: 1;                /* 均等幅 */
+  text-align: center;
+  padding: 3px 0;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;    /* aタグも高さ揃え */
+}
+
