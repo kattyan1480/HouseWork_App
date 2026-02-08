@@ -1,6 +1,11 @@
 class ApplicationController < ActionController::Base
   before_action :redirect_if_group_not_set
   helper_method :show_footer?
+  helper_method :current_group
+
+  def current_group
+    current_user.group
+  end
 
   private
 
@@ -15,7 +20,8 @@ class ApplicationController < ActionController::Base
   def show_footer?
     footer_pages = {
       "homes"  => %w[index],
-      "chores" => %w[index history]
+      "chores" => %w[index history],
+      "achievements" => %w[index]
     }
 
     footer_pages[controller_name]&.include?(action_name)

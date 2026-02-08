@@ -79,6 +79,8 @@ class ChoresController < ApplicationController
                           .done
                           .includes(chore: {}, chore_histories: :user)
                           .order('chore_histories.done_at DESC')
+                          .page(params[:page])
+                          .per(10)
   end
 
   private

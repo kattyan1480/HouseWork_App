@@ -1,0 +1,40 @@
+<% content_for :header_title do %>
+  💪 成果
+<% end %>
+
+<div class="member-tabs">
+  <% @users.each do |user| %>
+    <%= link_to achievements_path(user_id: user.id),
+                class: "member-tab #{'active' if user == @user}" do %>
+      <%= image_tag user.avatar_image_or_default, class: "user-avatar-history" %>
+    <% end %>
+  <% end %>
+</div>
+
+<h3>保有ケーキ</h3>
+
+<div class="achievement-panel">
+
+  <div class="cake-display">
+
+
+    <div class="cake-row wholecakes">
+      <% wholecake_count = @user.cake_amount / 8 %>
+
+      <!-- ホールケーキは常に表示 -->
+      <%= image_tag "holecake4.png", class: "cake-icon whole" %>
+
+    </div>
+
+    <div class="cake-row shortcakes">
+      <% wholecake_count = @user.cake_amount / 8 %>
+
+      <% wholecake_count.times do |i| %>
+          <%= image_tag "holecake8.png", class: "cake-icon short" %>
+      <% end %>
+    </div>
+
+  </div>
+</div>
+
+<%= render "rewards/index" %>

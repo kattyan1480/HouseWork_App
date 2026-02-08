@@ -6,12 +6,7 @@
   <%= link_to profile_index_path, class: "header-item" do %>
     <span class="header-profile">
       <span class="header-icon">
-        <%= image_tag(
-          current_user.avatar_image.attached? ?
-            current_user.avatar_image :
-            "default_avatar.png",
-          class: "user-avatar"
-        ) %>
+        <%= image_tag current_user.avatar_image_or_default, class: "user-avatar-history" %>
       </span>
     </span>
   <% end %>
@@ -69,7 +64,10 @@
     <% @yesterday_chore_dates.each do |chore_date| %>
       <% chore = chore_date.chore %>
 
-      <div class="chore-row">
+      <div class="chore-row js-open-modal"
+        data-chore-date-id="<%= chore_date.id %>"
+        data-chore-title="<%= chore.title %>"
+        data-chore-detail="<%= chore.detail %>">
 
         <div class="chore-title-detail">
           <span class="chore-title"><%= truncate(chore.title, length: 7) %></span>
@@ -78,18 +76,18 @@
           </span>
         </div>
 
-      <div class="chore-cake-reward">
-        <% reward = chore.cake_reward.to_i %>
+        <div class="chore-cake-reward">
+          <% reward = chore.cake_reward.to_i %>
 
-        <% if reward <= 5 %>
-          <% reward.times do %>
+          <% if reward <= 5 %>
+            <% reward.times do %>
+              <%= image_tag "shortcake.png", class: "cake-icon" %>
+            <% end %>
+          <% else %>
             <%= image_tag "shortcake.png", class: "cake-icon" %>
+            <span class="cake-multiple">×<%= reward %></span>
           <% end %>
-        <% else %>
-          <%= image_tag "shortcake.png", class: "cake-icon" %>
-          <span class="cake-multiple">×<%= reward %></span>
-        <% end %>
-      </div>
+        </div>
 
         <div class="chore-actions-home">
           <span class="chore-time">
@@ -105,6 +103,10 @@
 <% end %><br>
 
 <%= link_to "過去のやり残し", homes_previous_path %>
+
+<% content_for :fixed_ui_left do %>
+  <%= link_to "予定一覧", chores_path, class: "fixed-link" %>
+<% end %>
 
 <% content_for :fixed_ui_right do %>
   <%= link_to "家事作成", new_chore_path, class: "fixed-btn" %>
