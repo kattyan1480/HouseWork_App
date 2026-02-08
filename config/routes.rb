@@ -15,6 +15,12 @@ Rails.application.routes.draw do
   resources :chores, only: [:index, :new, :create, :edit, :update, :destroy] 
   get 'chores/history'
 
+  resources :achievements, only: [:index]
+
+  resource :reward, only: [:index, :new, :create, :edit, :update] do
+    post :expend
+  end
+
   resources :chore_dates, only: [:destroy] do
     member do
       post :complete

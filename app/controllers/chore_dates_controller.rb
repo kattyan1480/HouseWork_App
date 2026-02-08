@@ -6,7 +6,7 @@ class ChoreDatesController < ApplicationController
   end
 
   def complete
-    chore_date = current_user.group.chore_dates.find(params[:id])
+    chore_date = current_group.chore_dates.find(params[:id])
     chore = chore_date.chore
 
     user_ids = params[:completed_user_ids]
@@ -25,12 +25,20 @@ class ChoreDatesController < ApplicationController
       per_user_cake = (chore.cake_reward.to_f / user_ids.size).ceil
 
       user_ids.each do |user_id|
+        user = User.find(user_id)
+
+        # ③ 家事履歴を作成
         ChoreHistory.create!(
           chore: chore,
-          user_id: user_id,
+          user: user,
           chore_date: chore_date,
           cake_reward_count: per_user_cake,
           done_at: Time.current
+        )
+
+        # ④ ケーキを加算
+        user.update!(
+          cake_amount: user.cake_amount + per_user_cake
         )
       end
     end

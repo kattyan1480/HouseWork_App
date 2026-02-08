@@ -1,0 +1,34 @@
+<div class="modal hidden js-reward-popup">
+  <div class="modal-overlay"></div>
+
+  <div class="modal-content">
+    <h3>
+      🎁 <%= user.reward.title %>
+
+      <% if user == current_user %>
+        <%= link_to image_tag("編集.png", class: "edit-icon"), edit_reward_path %>
+      <% end %>
+    </h3>
+
+    <p>
+      コスト：
+      <%= image_tag "holecake.png", class: "reward-cake-icon whole" %>
+      × <%= user.reward.cake_cost %>
+    </p>
+
+    <% if user.reward.respond_to?(:description) && user.reward.description.present? %>
+      <p class="reward-description">
+        <%= simple_format(user.reward.description) %>
+      </p>
+    <% end %>
+
+    <% if user == current_user %>
+      <div class="actions">
+        <%= button_to "獲得！",
+            expend_reward_path,
+            method: :post,
+            class: "btn btn-success" %>
+      </div>
+    <% end %>
+  </div>
+</div>

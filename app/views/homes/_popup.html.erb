@@ -76,7 +76,16 @@
          href="#"
          data-turbo-method="delete"
          data-turbo-confirm="削除しますか？">
-        削除
+        <%= image_tag "削除.png", class: "delete-icon" %>
+      </a>
+    </div>
+
+    <!--  詳細 -->
+    <div class="modal-buttons-sub">
+      <a id="modal-detail"
+         href="#"
+         data-turbo-method="get">
+        <%= image_tag "詳細.png", class: "detail-icon" %>
       </a>
     </div>
 

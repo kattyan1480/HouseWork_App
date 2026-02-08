@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_01_27_133602) do
+ActiveRecord::Schema[7.0].define(version: 2026_02_01_064532) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -80,6 +80,18 @@ ActiveRecord::Schema[7.0].define(version: 2026_01_27_133602) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "rewards", force: :cascade do |t|
+    t.bigint "group_id", null: false
+    t.bigint "user_id", null: false
+    t.string "title", null: false
+    t.integer "cake_cost", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "description"
+    t.index ["group_id"], name: "index_rewards_on_group_id"
+    t.index ["user_id"], name: "index_rewards_on_user_id", unique: true
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.string "email", default: "", null: false
@@ -94,6 +106,7 @@ ActiveRecord::Schema[7.0].define(version: 2026_01_27_133602) do
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
     t.bigint "group_id"
+    t.integer "cake_amount", default: 0, null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["group_id"], name: "index_users_on_group_id"
@@ -107,5 +120,7 @@ ActiveRecord::Schema[7.0].define(version: 2026_01_27_133602) do
   add_foreign_key "chore_histories", "chores"
   add_foreign_key "chore_histories", "users"
   add_foreign_key "chores", "groups"
+  add_foreign_key "rewards", "groups"
+  add_foreign_key "rewards", "users"
   add_foreign_key "users", "groups"
 end

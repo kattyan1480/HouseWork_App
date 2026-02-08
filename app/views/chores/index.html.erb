@@ -10,9 +10,6 @@
 
       <div class="chore-title-detail">
         <span class="chore-title"><%= truncate(chore.title, length: 7) %></span>
-        <span class="chore-detail">
-          <%= truncate(chore.detail, length: 13) %>
-        </span>
       </div>
 
       <div class="chore-cake-reward">
@@ -29,11 +26,14 @@
       </div>
 
       <div class="chore-actions">
-        <%= link_to "詳細", edit_chore_path(chore), class: "edit-link" %>
-        <%= link_to "削除",
+        <%= link_to edit_chore_path(chore), class: "detail-edit-link" do %>
+          <%= image_tag "詳細.png", class: "detail-icon" %>
+          <%= image_tag "編集.png", class: "edit-icon" %>
+        <% end %>
+        <span class="icon-separator">|</span>
+        <%= link_to image_tag("削除.png", class: "delete-icon"),
                     chore_path(chore),
-                    data: { turbo_method: :delete, turbo_confirm: "削除しますか？" },
-                    class: "delete-link" %>
+                    data: { turbo_method: :delete, turbo_confirm: "削除しますか？" } %>
       </div>
     </div>
   <% end %>

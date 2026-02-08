@@ -1,21 +1,16 @@
-<footer style="background: #d0e0fd; padding: 12px; display: flex; justify-content: space-between;">
+<footer class="app-footer">
   <%= link_to homes_index_path, class: "footer-item" do %>
-    <span class="footer-icon">🏠</span>
+    <span class="footer-icon"><%= image_tag "home.png", class: "footer-icon" %></span>
     <span class="footer-text">ホーム</span>
   <% end %>
 
-  <%= link_to chores_path, class: "footer-item" do %>
-    <span class="footer-icon">🧹</span>
-    <span class="footer-text">家事list</span>
-  <% end %>
-
-  <%= link_to "#", class: "footer-item" do %>
-    <span class="footer-icon">💪</span>
-    <span class="footer-text">頑張り度</span>
+  <%= link_to achievements_path, class: "footer-item" do %>
+    <span class="footer-icon"><%= image_tag "achievement.png", class: "footer-icon" %></span>
+    <span class="footer-text">成果</span>
   <% end %>
 
   <%= link_to chores_history_path, class: "footer-item" do %>
-    <span class="footer-icon">📜</span>
+    <span class="footer-icon"><%= image_tag "history.png", class: "footer-icon" %></span>
     <span class="footer-text">履歴</span>
   <% end %>
 </footer>

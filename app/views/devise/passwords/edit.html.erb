@@ -1,4 +1,6 @@
-<h2>Change your password</h2>
+<% content_for :header_title do %>
+  パスワード再設定
+<% end %>
 
 <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>

@@ -19,14 +19,14 @@
 @import "https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css";
 
 body {
-  background-color: #ffffffd3;
+  background-color: #ffffffdc;
 }
 
 .chore-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
   width: 30%;
+  gap: 3px;
 }
 
 .chore-list-home {
@@ -48,9 +48,9 @@ body {
   align-items: center;       /* 縦中央揃え */
   height: 50px;           /* ← ここで固定高さ */
   padding: 0 16px;        /* 上下の余白は不要なら0に */
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #fff;
+  border: 1px solid #808080;
+  border-radius: 3px;
+  background-color: #ffffff9f;
 }
 
 .chore-title-detail {
@@ -119,17 +119,17 @@ body {
 
 .chore-actions {
   width: 100px;
-  text-align: right;
+  display: flex;          /* ← 必須 */
+  align-items: center;    /* ← 縦中央 */
+  justify-content: flex-end;
+  gap: 4px;               /* アイコン間の余白 */
 }
 
 .edit-link {
-  margin-right: 8px;
-  color: #007bff;
   text-decoration: none;
 }
 
 .delete-link {
-  color: #dc3545;
   text-decoration: none;
 }
 
@@ -144,21 +144,91 @@ body {
   min-height: 100vh; /* 画面高さ分確保 */
 }
 
+/* 画面全体の中央寄せ用 */
 .content {
-  flex: 1;                    /* 余白を埋める */
+  flex: 1;
   display: flex;
   flex-direction: column;
+  align-items: center;   /* 横中央 */
   padding-top: 20px;
-  align-items: center;         /* 横中央 */
-  gap: 0;
 }
 
-.content.centered {
+/* フォーム＋エラーをまとめる箱 */
+.form-wrapper {
+  width: 360px;          /* 基準幅（重要） */
+  max-width: 90%;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* フィールド */
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ボタン */
+.actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+/* Devise エラーメッセージ */
+#error_explanation {
+  text-align: left;
+}
+
+#error_explanation ul {
+  padding-left: 20px;
+}
+/* 画面全体の中央寄せ用 */
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;   /* 横中央 */
   padding-top: 20px;
-  flex-direction: column; /* ← これが必要 */
-  gap: 0px;
+}
+
+/* フォーム＋エラーをまとめる箱 */
+.form-wrapper {
+  width: 260px;          /* 基準幅（重要） */
+  max-width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* フィールド */
+.field {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 16px;
+}
+
+.field.remember-me {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ボタン */
+.actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* Devise エラーメッセージ */
+#error_explanation {
+  text-align: left;
+}
+
+#error_explanation ul {
+  padding-left: 20px;
 }
 
 .content.selectorjoin {
@@ -176,7 +246,7 @@ body {
 }
 
 .logo-image {
-  height: 28px;
+  height: 25px;
   width: auto;
   margin: 0px 0;   /* ← 上下余白 */
 }
@@ -202,21 +272,50 @@ body {
 }
 
 .app-header {
-  background: #d0e0fd;
-  height: 56px;              /* ← 固定したい高さ */
-  padding: 0 16px;           /* ← 縦paddingは消す */
-
+  background: #2E2F4E;
+  height: 56px;
+  padding: 0 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-shadow: 0 16px 13px -12px rgba(0, 0, 0, 0), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+}
 
-  position: relative;
+.app-footer {
+  background: #2E2F4E;
+  height: 48px;
+  padding: 0 600px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 16px 13px -12px rgba(0, 0, 0, 0), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+}
+
+.footer-item {
+  color: #ffffffbe;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 12px;
+}
+
+.footer-icon {
+  width: 18px;
+  height: auto;
+  padding-top: 2px;
+}
+
+.footer-icon-achievement {
+  width: 13px;
+  height: auto;
 }
 
 .header-center {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
+  color: #ffffffda;
 }
 
 .avatar-upload {
@@ -330,11 +429,13 @@ body {
   line-height: 1;
 
   border: 1px solid #000000;   /* ← 枠線を明示 */
-  background-color: #6a7eb4;
-  color: #fff;
+  background-color: #54577a;
+  color: #ffffffe5;
 
   text-decoration: none;
   box-sizing: border-box;
+
+  box-shadow: 0 16px 13px -12px rgba(0, 0, 0, -19.44), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
 }
 
 .fixed-link {
@@ -362,6 +463,8 @@ body {
 
   text-decoration: none;
   box-sizing: border-box;
+
+  box-shadow: 0 16px 13px -12px rgba(0, 0, 0, -19.44), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
 }
 
 .hidden {
@@ -383,7 +486,8 @@ body {
 /* モーダル全体の箱 */
 .modal-content {
   position: relative;
-  background: #fff;
+  background: #ffffff;
+  border: 1px solid #535353;   /* ← 枠線を明示 */
   width: 230px;
   padding: 20px 0px;       /* 上下、左右 */
   margin: 100px auto;      /* 画面中央に配置 */
@@ -467,3 +571,126 @@ body {
   align-items: center;    /* aタグも高さ揃え */
 }
 
+.member-tabs {
+  display: flex;
+  margin-bottom: 16px;
+}
+
+.member-tab {
+  padding: 6px 12px;
+  background: #ffffffdc;
+  text-decoration: none;
+}
+
+.member-tab.active {
+  background: #3030304b;
+}
+
+.achievement-panel {
+  margin-bottom: 30px;
+  padding: 16px;
+  width: 400px;
+  height: 200px;
+  border-bottom: 1px solid #000000;
+  border-top: 1px solid #000000;
+}
+
+.reward-ok {
+  color: #4caf50;
+  font-weight: bold;
+}
+
+.reward-ng {
+  color: #f44336;
+}
+
+.cake-display {
+  display: flex;
+  flex-direction: column; /* 縦並び */
+  gap: 4px;
+}
+
+.cake-row {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.cake-icon {
+  height: auto;
+  width: 35px;
+}
+
+.cake-icon.short {
+  width: 50px;
+  margin-left: 3px;
+}
+
+.cake-icon.whole {
+  width: 200px;
+  margin-left: 30px;
+}
+
+.cake-multiple-icon {
+  width: 40px;
+  height: 40px;
+  margin-top: 50px;
+}
+
+.cake-number {
+  display: flex;
+}
+
+.cake-number-icon {
+  width: 48px;
+  height: 100px;
+  margin-top: 6px;
+  margin-left: 3px;
+}
+
+.reward-cake-icon.whole {
+  width: 40px;
+  align-items: center;
+}
+
+.reward-box {
+  padding: 16px;
+  width: 400px;
+  height: 120px;
+  border: 1px solid #000000;
+}
+
+.detail-edit-link {
+  display: inline-flex;   /* ← 中の詳細・編集を中央揃え */
+  align-items: center;
+  text-decoration: none;
+}
+
+.detail-icon,
+.edit-icon,
+.delete-icon {
+  width: 17px;
+  padding: 2px;
+  height: auto;
+}
+
+.icon-separator {
+  font-size: 14px;
+  line-height: 1;         /* 文字の縦ズレ防止 */
+}
+
+.pagination {
+  margin-top: 24px;
+  text-align: center;
+}
+
+.pagination a,
+.pagination span {
+  margin: 0 4px;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+.pagination .current {
+  font-weight: bold;
+}

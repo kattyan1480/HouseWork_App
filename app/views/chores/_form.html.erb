@@ -1,17 +1,20 @@
 <%= form_with model: @chore, local: true do |f| %>
 
-  <div>
-    <%= f.label :title, "家事名" %><br>
-    <%= f.text_field :title %>
-  </div><br>
+  <div class="field">
+    <%= f.label :title, "家事名" %>
+    <%= f.text_field :title,
+          placeholder: "例：洗濯、皿洗い" %>
+  </div>
 
-  <div>
-    <%= f.label :cake_reward, "報酬" %><br>
-    <%= f.number_field :cake_reward, min: 1 %>
-  </div><br>
+  <div class="field">
+    <%= f.label :cake_reward, "報酬" %>
+    <%= f.number_field :cake_reward,
+          min: 1,
+          placeholder: "ケーキの数を入力する" %>
+  </div>
 
-  <div>
-    <%= f.label :execute_dates, "実行日" %><br>
+  <div class="field">
+    <%= f.label :execute_dates, "実行日" %>
 
     <button
       type="button"
@@ -23,24 +26,27 @@
     </button>
 
     <%= f.text_field :execute_dates,
-      id: "execute_dates",
-      class: "hidden-calendar-input",
-      value: @pending_chore_dates
+          id: "execute_dates",
+          class: "hidden-calendar-input",
+          value: @pending_chore_dates
                     .order(:execute_at)
                     .map { |cd| cd.execute_date }
-                    .join(",") %>
-  </div><br>
+                    .join(","),
+          placeholder: "日付を選択してください" %>
+  </div>
 
   <div>
     <%= f.label :execute_time, "実行時間" %><br>
     <%= f.time_field :execute_time,
-      value: @pending_chore_dates.first&.execute_time %>
+          value: @pending_chore_dates.first&.execute_time %>
   </div><br>
 
-  <div>
-    <%= f.label :detail, "備考" %><br>
-    <%= f.text_area :detail, rows: 4 %>
-  </div><br>
+  <div class="field">
+    <%= f.label :detail, "備考" %>
+    <%= f.text_area :detail,
+          rows: 4,
+          placeholder: "詳細があれば入力してください" %>
+  </div>
 
   <div class="fixed-bottom-right">
     <%= f.submit (local_assigns[:submit_label] || "登録"),

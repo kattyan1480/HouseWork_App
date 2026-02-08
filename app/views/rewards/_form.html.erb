@@ -1,0 +1,27 @@
+<%= form_with model: @reward, url: reward_path do |f| %>
+  <div class="form-group">
+    <%= f.label :title, "ごほうび名" %><br>
+    <%= f.text_field :title, class: "form-input", placeholder: "例：ケーキを食べる" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :cake_cost, "コスト" %><br>
+    <%= f.number_field :cake_cost, class: "form-input", min: 0 %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :description, "詳細", placeholder: "例：仕事を1週間頑張ったら買うケーキ" %><br>
+    <%= f.text_area :description,
+          class: "form-input",
+          rows: 4,
+          placeholder: "例：仕事を1週間頑張ったら買うケーキ" %>
+  </div>
+
+  <div class="fixed-bottom-right">
+    <%= f.submit (local_assigns[:submit_label] || "登録"),
+          class: "fixed-btn" %>
+
+    <%= link_to  "戻る", achievements_path, class: "fixed-link" %>
+  </div>
+
+<% end %>

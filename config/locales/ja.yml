@@ -1,0 +1,18 @@
+ja:
+  errors:
+    messages:
+      taken: "はすでに使用されています"
+      blank: "を入力してください"
+      too_short: "は%{count}文字以上で入力してください"
+      too_long: "は%{count}文字以内で入力してください"
+      invalid: "は不正な値です"
+
+  activerecord:
+    errors:
+      messages:
+        taken: "はすでに使用されています"
+    attributes:
+      user:
+        email: "メールアドレス"
+        password: "パスワード"
+        password_confirmation: "パスワード（確認）"
