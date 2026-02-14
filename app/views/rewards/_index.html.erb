@@ -1,39 +1,40 @@
-<h3>ごほうび</h3>
-
 <div class="reward-container">
   <div class="reward-box js-open-reward-popup">
     <% if @user.reward.present? %>
-        <%= @user.reward.title %>
-        <p>進捗：
-          <% 
-            cake_cost   = @user.reward.cake_cost.to_i
-            cake_amount = @user.cake_amount.to_i
+      <% 
+        cake_cost   = @user.reward.cake_cost.to_i
+        cake_amount = @user.cake_amount.to_i
+        remain      = cake_cost - cake_amount / 8
+      %>
+      
+      <div class="reward-left">
+        <!-- 左上：ご褒美タイトル -->
+        <div class="reward-title">
+          🎁<%= @user.reward.title %>
+        </div>
 
-            full_count = cake_amount / 8
-            half_exist = (cake_amount % 8) >= 4
-          %>
+        <!-- 左下：必要なホールケーキ数 -->
+        <div class="reward-need">
+          必要なホールケーキ<br>
+          <span class="cake-count">
+            <%= image_tag "holecake8.png", class: "mini-cake-reward" %>
+            ×<%= cake_cost %>個
+          </span>
+        </div>
+      </div>
 
-          <% cake_cost.times do |i| %>
-            <% if i < full_count %>
-              <%= image_tag "holecake.png", class: "reward-cake-icon whole" %>
-
-            <% elsif i == full_count && half_exist %>
-              <%= image_tag "holecake-half.png", class: "reward-cake-icon whole" %>
-
-            <% else %>
-              <%= image_tag "holecake-blank.png", class: "reward-cake-icon whole" %>
-            <% end %>
+      <!-- 右：残り数を丸で表示 -->
+      <div class="reward-right">
+        <div class="reward-circle <%= remain <= 0 ? "ok" : "ng" %>">
+          <% if remain <= 0 %>
+             達成!
+          <% else %>
+            <span class="reward-label">達成まで</span>
+            <strong><%= remain %>ホール</strong>
           <% end %>
-        </p>
+        </div>
+      </div>
 
-        <% if @user.cake_amount >= @user.reward.cake_cost %>
-          <p class="reward-ok">🎉 達成可能！</p>
-
-        <% else %>
-          <p class="reward-ng">
-            あと <%= @user.reward.cake_cost - @user.cake_amount %> ケーキ
-          </p>
-        <% end %>
     <% else %>
       <% if @user == current_user %>
         <%= link_to "ご褒美を設定する", new_reward_path, class: "btn btn-primary" %>

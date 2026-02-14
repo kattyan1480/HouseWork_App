@@ -20,9 +20,9 @@
       <% chore = chore_date.chore %>
 
       <div class="chore-row js-open-modal"
+        data-chore-id="<%= chore.id %>"
         data-chore-date-id="<%= chore_date.id %>"
-        data-chore-title="<%= chore.title %>"
-        data-chore-detail="<%= chore.detail %>">
+        data-chore-title="<%= chore.title %>">
 
         <div class="chore-title-detail">
           <span class="chore-title"><%= truncate(chore.title, length: 7) %></span>
@@ -65,9 +65,9 @@
       <% chore = chore_date.chore %>
 
       <div class="chore-row js-open-modal"
+        data-chore-id="<%= chore.id %>"
         data-chore-date-id="<%= chore_date.id %>"
-        data-chore-title="<%= chore.title %>"
-        data-chore-detail="<%= chore.detail %>">
+        data-chore-title="<%= chore.title %>">
 
         <div class="chore-title-detail">
           <span class="chore-title"><%= truncate(chore.title, length: 7) %></span>

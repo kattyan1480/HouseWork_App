@@ -1,8 +1,6 @@
 <% content_for :header_title do %>
   🧹 家事list
-<% end %>
-
-<h3>未完了の家事一覧</h3>
+<% end %><br>
 
 <div class="chore-list">
   <% @chores.each do |chore| %>
@@ -38,3 +36,9 @@
     </div>
   <% end %>
 </div>
+
+<h5>※まだ完了していない家事を、家事が作成された順に表示しています</h5><br>
+
+<% content_for :fixed_ui_left do %>
+  <%= link_to "戻る", homes_index_path, class: "fixed-link" %>
+<% end %>

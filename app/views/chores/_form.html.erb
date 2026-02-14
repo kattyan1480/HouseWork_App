@@ -1,60 +1,67 @@
-<%= form_with model: @chore, local: true do |f| %>
+<%= form_with model: @chore, local: true, class: "form-wrapper-chore" do |f| %>
+  <div class="form-card">
 
-  <div class="field">
-    <%= f.label :title, "家事名" %>
-    <%= f.text_field :title,
-          placeholder: "例：洗濯、皿洗い" %>
+    <div class="form-group">
+      <%= f.label :title, "家事名", class: "form-label" %>
+      <span class="required">必須</span>
+      <%= f.text_field :title,
+            class: "form-input",
+            placeholder: "例）洗濯、皿洗い" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :cake_reward, "貰えるショートケーキの数", class: "form-label" %>
+      <span class="required">必須</span>
+      <%= f.number_field :cake_reward,
+            min: 1,
+            class: "form-input",
+            placeholder: "ショートケーキの数を入力してください" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :execute_dates, "実行日", class: "form-label" %>
+      <span class="required">必須</span>
+
+      <button
+        type="button"
+        id="open-calendar-btn"
+        class="calendar-btn"
+        data-has-dates="<%= @pending_chore_dates.any? %>">
+        <%= @pending_chore_dates.any? ? "実行日を変更する" : "クリックして日付を選択" %>
+      </button>
+
+      <%= f.text_field :execute_dates,
+            id: "execute_dates",
+            class: "hidden-calendar-input",
+            value: @pending_chore_dates
+                      .order(:execute_at)
+                      .map { |cd| cd.execute_date }
+                      .join(",") %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :execute_time, "実行時間", class: "form-label" %>
+      <span class="required">必須</span>
+      <%= f.time_field :execute_time,
+            class: "form-input",
+            value: @pending_chore_dates.first&.execute_time %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :detail, "備考", class: "form-label" %>
+      <%= f.text_area :detail,
+            rows: 4,
+            class: "form-textarea",
+            placeholder: "詳細があれば入力してください" %>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit (local_assigns[:submit_label] || "作成"),
+            class: "submit-btn" %>
+
+      <%= link_to (local_assigns[:back_label] || "キャンセル"),
+            (local_assigns[:back_path] || chores_path),
+            class: "back-link" %>
+    </div>
   </div>
-
-  <div class="field">
-    <%= f.label :cake_reward, "報酬" %>
-    <%= f.number_field :cake_reward,
-          min: 1,
-          placeholder: "ケーキの数を入力する" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :execute_dates, "実行日" %>
-
-    <button
-      type="button"
-      id="open-calendar-btn"
-      data-has-dates="<%= @pending_chore_dates.any? %>">
-      <%= @pending_chore_dates.any? ?
-            "実行日を変更する" :
-            "クリックして日付を選択" %>
-    </button>
-
-    <%= f.text_field :execute_dates,
-          id: "execute_dates",
-          class: "hidden-calendar-input",
-          value: @pending_chore_dates
-                    .order(:execute_at)
-                    .map { |cd| cd.execute_date }
-                    .join(","),
-          placeholder: "日付を選択してください" %>
-  </div>
-
-  <div>
-    <%= f.label :execute_time, "実行時間" %><br>
-    <%= f.time_field :execute_time,
-          value: @pending_chore_dates.first&.execute_time %>
-  </div><br>
-
-  <div class="field">
-    <%= f.label :detail, "備考" %>
-    <%= f.text_area :detail,
-          rows: 4,
-          placeholder: "詳細があれば入力してください" %>
-  </div>
-
-  <div class="fixed-bottom-right">
-    <%= f.submit (local_assigns[:submit_label] || "登録"),
-          class: "fixed-btn" %>
-
-    <%= link_to (local_assigns[:back_label] || "戻る"),
-          (local_assigns[:back_path] || chores_path),
-          class: "fixed-link" %>
-  </div>
-
 <% end %>

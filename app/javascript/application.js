@@ -3,6 +3,7 @@ import "controllers"
 import "./chores"
 import "./chore_dates"
 import "./rewards"
+import "./popups"
 
 document.addEventListener("turbo:load", () => {
   // flatpickr の初期化

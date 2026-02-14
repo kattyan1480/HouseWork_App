@@ -1,8 +1,8 @@
 <% content_for :header_title do %>
-  家事登録
+  家事作成
 <% end %>
 
 <%= render "form",
       chore: @chore,
-      submit_label: "登録",
+      submit_label: "作成",
       back_path: homes_index_path %>

@@ -6,31 +6,35 @@
   <%= javascript_importmap_tags %>
 </head>
 <body>
-  <%= render "layouts/header" %>
+  <div class="layout">
+    <%= render "layouts/header" %>
 
-  <% if notice %>
-    <div class="notice"><%= notice %></div>
-  <% end %>
+    <% if notice %>
+      <div class="notice"><%= notice %></div>
+    <% end %>
 
-  <% if alert %>
-    <div class="alert"><%= alert %></div>
-  <% end %>
+    <% if alert %>
+      <div class="alert"><%= alert %></div>
+    <% end %>
 
-  <main class="content">
-    <%= yield %>
-  </main>
+    <main class="content">
+      <div class="content-inner">
+        <%= yield %>
+      </div>
+    </main>
 
-  <% if content_for?(:fixed_ui_right) %>
-    <div class="fixed-bottom-right">
-      <%= yield :fixed_ui_right %>
-    </div>
-  <% end %>
+    <% if content_for?(:fixed_ui_right) %>
+      <div class="fixed-bottom-right">
+        <%= yield :fixed_ui_right %>
+      </div>
+    <% end %>
 
-  <% if content_for?(:fixed_ui_left) %>
-    <div class="fixed-bottom-left">
-      <%= yield :fixed_ui_left %>
-    </div>
-  <% end %>
+    <% if content_for?(:fixed_ui_left) %>
+      <div class="fixed-bottom-left">
+        <%= yield :fixed_ui_left %>
+      </div>
+    <% end %>
 
-  <%= render "layouts/footer" if show_footer? %>
+    <%= render "layouts/footer" if show_footer? %>
+  </div>
 </body>

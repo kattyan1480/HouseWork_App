@@ -3,10 +3,15 @@
 
   <div class="modal-content">
     <!-- 家事タイトル -->
-    <span id="modal-chore-title" class="modal-chore-title"></span>
+    <div class="modal-title-area">
+      <span id="modal-chore-title" class="modal-chore-title"></span>
 
-    <!-- 家事詳細 -->
-    <span id="modal-chore-detail" class="modal-chore-detail"></span>
+      <a id="modal-detail"
+        href="#"
+        data-turbo="true">
+        <%= image_tag "詳細.png", class: "detail-icon" %>
+      </a>
+    </div>
 
     <!-- ===== 完了フォーム ===== -->
     <form action="<%= complete_chore_date_path('DUMMY') %>"
@@ -22,72 +27,67 @@
 
       <!-- ★ 完了者選択 -->
       <div class="modal-members">
-        <p class="modal-section-title">やった人</p>
 
-        <% current_user.group.users.each do |user| %>
-          <label class="member-checkbox">
-            <input type="checkbox"
-                  name="completed_user_ids[]"
-                  value="<%= user.id %>">
-            <span><%= user.name %></span>
-          </label>
-        <% end %>
+      <div class="member-select">
+
+        <!-- 表示部分 -->
+        <div class="member-select-header js-toggle-member">
+          <span class="selected-text">完了者を選択</span>
+          <span class="arrow">▼</span>
+        </div>
+
+        <!-- ドロップダウン -->
+        <div class="member-select-dropdown">
+
+          <% current_user.group.users.each do |user| %>
+            <label class="member-checkbox">
+              <input type="checkbox"
+                    name="completed_user_ids[]"
+                    value="<%= user.id %>">
+              <span><%= user.name %></span>
+            </label>
+          <% end %>
+
+        </div>
       </div>
 
       <!-- ボタン群 -->
       <div class="modal-buttons">
         <!-- 完了 -->
-        <div class="modal-buttons-main">
+        <div class="modal-buttons-complete">
           <button type="submit">完了</button>
         </div>
       </div>
     </form>
 
     <!-- ===== リスケフォーム ===== -->
-    <form action="<%= reschedule_chore_date_path('DUMMY') %>"
-          method="post"
-          id="reschedule-form"
-          data-turbo="true">
+    <%= form_with url: reschedule_chore_dates_path,
+                  method: :patch,
+                  id: "reschedule-form",
+                  local: true do %>
 
-      <%= csrf_meta_tags %>
-      <%= hidden_field_tag :_method, "patch" %>
+      <%= hidden_field_tag :id, "" , id: "reschedule-id" %>
 
-      <!-- chore_date_id を JS でセット -->
-      <%= hidden_field_tag :id, "", id: "reschedule-chore-date-id" %>
+      <%= text_field_tag :execute_at, "",
+            id: "reschedule-execute-at",
+            class: "hidden-calendar-input-reschedule" %>
 
-      <div>
-        <!-- flatpickr 用（非表示・値保持用） -->
-        <input
-          type="text"
-          name="execute_at"
-          id="reschedule-execute-at"
-          class="hidden-calendar-input">
-      </div>
-
-      <!-- リスケ -->
       <div class="modal-buttons-sub">
-        <button id="modal-reschedule" type="button">リスケ</button>  <!-- ★ このボタンが状態によって役割を変える -->
+        <!-- 完了 -->
+        <div class="modal-buttons-reschedule">
+          <button id="modal-reschedule" type="button">リスケ</button>
+        </div>
       </div>
-    </form>
+
+    <% end %>
 
     <!--  削除 -->
-    <div class="modal-buttons-sub">
-      <a id="modal-delete"
-         href="#"
-         data-turbo-method="delete"
-         data-turbo-confirm="削除しますか？">
-        <%= image_tag "削除.png", class: "delete-icon" %>
-      </a>
-    </div>
-
-    <!--  詳細 -->
-    <div class="modal-buttons-sub">
-      <a id="modal-detail"
-         href="#"
-         data-turbo-method="get">
-        <%= image_tag "詳細.png", class: "detail-icon" %>
-      </a>
-    </div>
+    <a id="modal-delete"
+      href="#"
+      data-turbo-method="delete"
+      data-turbo-confirm="削除しますか？">
+      <%= image_tag "削除.png", class: "delete-icon" %>
+    </a>
 
     <!-- 閉じる -->
     <div id="modal-close" class="modal-close"></div>

@@ -31,5 +31,7 @@ class HomesController < ApplicationController
                   .where(execute_at: before_yesterday_range, status: :pending)
                   .includes(:chore)
                   .order(execute_at: :desc)
+                  .page(params[:page])
+                  .per(10)
   end
 end
