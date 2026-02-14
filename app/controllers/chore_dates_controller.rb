@@ -1,6 +1,14 @@
 class ChoreDatesController < ApplicationController
+
+  def show
+    @chore_date = ChoreDate
+                    .joins(chore: :group)
+                    .where(groups: { id: current_user.group.id })
+                    .find(params[:id])
+  end
+
   def destroy
-    chore_date = current_user.group.chore_dates.find(params[:id])
+    chore_date = current_group.chore_dates.find(params[:id])
     chore_date.destroy
     redirect_to root_path, notice: "今日の家事を削除しました"
   end
@@ -47,7 +55,7 @@ class ChoreDatesController < ApplicationController
   end
 
   def reschedule
-    @chore_date = ChoreDate.find(params[:id])
+    @chore_date = current_group.chore_dates.find(params[:id])
 
     if @chore_date.update(execute_at: params[:execute_at])
       redirect_to root_path, notice: "実施日を変更しました"

@@ -12,8 +12,11 @@ Rails.application.routes.draw do
   get 'homes/index'
   get 'homes/previous'
   
-  resources :chores, only: [:index, :new, :create, :edit, :update, :destroy] 
-  get 'chores/history'
+  resources :chores do
+    collection do
+      get :history
+    end
+  end
 
   resources :achievements, only: [:index]
 
@@ -21,13 +24,14 @@ Rails.application.routes.draw do
     post :expend
   end
 
-  resources :chore_dates, only: [:destroy] do
+  resources :chore_dates, only: [:destroy, :show] do
     member do
       post :complete
+    end
+    collection do
       patch :reschedule
     end
   end
-
 
   def after_sign_out_path_for(resource_or_scope)
     selectcreateorjoin_select_path

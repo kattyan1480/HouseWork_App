@@ -1,5 +1,5 @@
 class ChoresController < ApplicationController
-  before_action :set_chore, only: [:edit, :update, :destroy]
+  before_action :set_chore, only: [:show, :edit, :update, :destroy]
 
   def index
     @chores =
@@ -11,7 +11,7 @@ class ChoresController < ApplicationController
 
   def new
     @chore = Chore.new
-    @pending_chore_dates = @chore.chore_dates.none 
+    @pending_chore_dates = @chore.chore_dates.none
   end
 
   def create
@@ -27,7 +27,8 @@ class ChoresController < ApplicationController
         datetime = Time.zone.parse("#{date} #{time}")
 
         @chore.chore_dates.create!(
-          execute_at: datetime
+          execute_at: datetime,
+          status: :pending
         )
       end
     end
@@ -42,17 +43,16 @@ class ChoresController < ApplicationController
   end
 
   def update
-    # set_chore
     dates = params[:chore][:execute_dates].split(",")
     time  = params[:chore][:execute_time]
 
     ActiveRecord::Base.transaction do
       @chore.update!(chore_params)
 
-      # ① 未完了の実行日のみ削除
+      # 未完了の実行日のみ削除
       @pending_chore_dates.destroy_all
 
-      # ② 新しい実行日を作り直す（pending）
+      # 新しい実行日を再作成
       dates.each do |date|
         datetime = Time.zone.parse("#{date} #{time}")
 
@@ -69,7 +69,6 @@ class ChoresController < ApplicationController
   end
 
   def destroy
-    # set_chore
     @pending_chore_dates.destroy_all
     redirect_to chores_path, notice: "家事を削除しました"
   end
@@ -79,8 +78,6 @@ class ChoresController < ApplicationController
                           .done
                           .includes(chore: {}, chore_histories: :user)
                           .order('chore_histories.done_at DESC')
-                          .page(params[:page])
-                          .per(10)
   end
 
   private
@@ -98,4 +95,3 @@ class ChoresController < ApplicationController
     )
   end
 end
-

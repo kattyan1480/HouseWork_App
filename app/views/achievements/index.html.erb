@@ -6,7 +6,7 @@
   <% @users.each do |user| %>
     <%= link_to achievements_path(user_id: user.id),
                 class: "member-tab #{'active' if user == @user}" do %>
-      <%= image_tag user.avatar_image_or_default, class: "user-avatar-history" %>
+      <%= image_tag user.avatar_image_or_default, class: "user-avatar-achievement" %>
     <% end %>
   <% end %>
 </div>
@@ -14,25 +14,32 @@
 <h3>保有ケーキ</h3>
 
 <div class="achievement-panel">
-
   <div class="cake-display">
 
+    <% remainder = @user.cake_amount % 8 %>
+    <% completed = @user.cake_amount / 8 %>
+    <% remaining = remainder.zero? ? 0 : 8 - remainder %>
 
-    <div class="cake-row wholecakes">
-      <% wholecake_count = @user.cake_amount / 8 %>
+    <div class="cake-wrapper">
+      <%= image_tag "holecake#{remainder.zero? ? 8 : remainder}.png",
+            class: "cake-icon whole" %>
 
-      <!-- ホールケーキは常に表示 -->
-      <%= image_tag "holecake4.png", class: "cake-icon whole" %>
+      <!-- 右上：完成まで -->
+      <div class="cake-info top-right">
+        完成まで <span class="number"><%= remaining %>ピース</span>
+      </div>
 
-    </div>
+      <!-- 右下：完成ホール数（装飾なし） -->
+<div class="cake-count-plain">
+  <div class="cake-count-label">
+    完成したホールケーキ
+  </div>
 
-    <div class="cake-row shortcakes">
-      <% wholecake_count = @user.cake_amount / 8 %>
-
-      <% wholecake_count.times do |i| %>
-          <%= image_tag "holecake8.png", class: "cake-icon short" %>
-      <% end %>
-    </div>
+  <div class="cake-count-body">
+    <%= image_tag "holecake8.png", class: "mini-cake" %>
+    <span class="count">× <%= completed %> 個</span>
+  </div>
+</div>
 
   </div>
 </div>

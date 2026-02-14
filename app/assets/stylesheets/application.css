@@ -18,39 +18,137 @@
 /* flatpickr */
 @import "https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css";
 
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
 body {
+  flex-direction: column;
   background-color: #ffffffdc;
+  overflow: hidden;
+}
+
+.app-header {
+  background: #2E2F4E;
+  height: 56px;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 16px 13px -12px rgba(0, 0, 0, 0), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+  flex-shrink: 0
+}
+
+.app-footer {
+  background: #2E2F4E;
+  height: 48px;
+  padding: 0 600px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 16px 13px -12px rgba(0, 0, 0, 0), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+  flex-shrink: 0;
+}
+
+.footer-item {
+  color: #ffffffbe;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 12px;
+}
+
+.footer-icon {
+  width: 18px;
+  height: auto;
+  padding-top: 2px;
+}
+
+.footer-icon-achievement {
+  width: 13px;
+  height: auto;
+}
+
+.header-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #ffffffda;
+}
+
+.avatar-upload {
+  display: flex;
+  flex-direction: column; /* 縦並び */
+  gap: 6px; /* ボタンと文字の間の余白 */
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* 画面全体の中央寄せ用 */
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;   /* 横中央 */
+  padding-top: 20px;
+  align-items: center;
+  width: 100%;
+  overflow-y: auto;        /* 縦スクロール */
+}
+
+.content-inner {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;   /* ← ここで使う */
 }
 
 .chore-list {
   display: flex;
   flex-direction: column;
-  width: 30%;
+  width: 50%;
   gap: 3px;
 }
 
 .chore-list-home {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  width: 27%;
+  gap: 3px;
+  width: 40%;
 }
 
 .chore-list-previous {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  width: 28%;
+  gap: 3px;
+  width: 40%;
 }
 
 .chore-row {
   display: flex;
-  align-items: center;       /* 縦中央揃え */
-  height: 50px;           /* ← ここで固定高さ */
-  padding: 0 16px;        /* 上下の余白は不要なら0に */
+  align-items: center;
+  height: 50px;
+  padding: 0 16px;
   border: 1px solid #808080;
   border-radius: 3px;
-  background-color: #ffffff9f;
+}
+
+/* 奇数行 */
+.chore-row:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+/* 偶数行 */
+.chore-row:nth-child(even) {
+  background-color: #aca8a82f;
 }
 
 .chore-title-detail {
@@ -133,26 +231,6 @@ body {
   text-decoration: none;
 }
 
-html, body {
-  height: 100%;
-  margin: 0;
-}
-
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh; /* 画面高さ分確保 */
-}
-
-/* 画面全体の中央寄せ用 */
-.content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;   /* 横中央 */
-  padding-top: 20px;
-}
-
 /* フォーム＋エラーをまとめる箱 */
 .form-wrapper {
   width: 360px;          /* 基準幅（重要） */
@@ -182,23 +260,6 @@ body {
 
 #error_explanation ul {
   padding-left: 20px;
-}
-/* 画面全体の中央寄せ用 */
-.content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;   /* 横中央 */
-  padding-top: 20px;
-}
-
-/* フォーム＋エラーをまとめる箱 */
-.form-wrapper {
-  width: 260px;          /* 基準幅（重要） */
-  max-width: 90%;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
 }
 
 /* フィールド */
@@ -246,7 +307,7 @@ body {
 }
 
 .logo-image {
-  height: 25px;
+  height: 30px;
   width: auto;
   margin: 0px 0;   /* ← 上下余白 */
 }
@@ -256,6 +317,7 @@ body {
   opacity: 0;
   pointer-events: none;
   height: 0;
+  width: 0;
 }
 
 .chore-cake-reward {
@@ -269,59 +331,6 @@ body {
 .cake-icon {
   width: 24px;
   height: auto;
-}
-
-.app-header {
-  background: #2E2F4E;
-  height: 56px;
-  padding: 0 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 16px 13px -12px rgba(0, 0, 0, 0), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
-}
-
-.app-footer {
-  background: #2E2F4E;
-  height: 48px;
-  padding: 0 600px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 16px 13px -12px rgba(0, 0, 0, 0), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
-}
-
-.footer-item {
-  color: #ffffffbe;
-  text-decoration: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 12px;
-}
-
-.footer-icon {
-  width: 18px;
-  height: auto;
-  padding-top: 2px;
-}
-
-.footer-icon-achievement {
-  width: 13px;
-  height: auto;
-}
-
-.header-center {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  color: #ffffffda;
-}
-
-.avatar-upload {
-  display: flex;
-  flex-direction: column; /* 縦並び */
-  gap: 6px; /* ボタンと文字の間の余白 */
 }
 
 /* 標準の file input を非表示 */
@@ -489,7 +498,8 @@ body {
   background: #ffffff;
   border: 1px solid #535353;   /* ← 枠線を明示 */
   width: 230px;
-  padding: 20px 0px;       /* 上下、左右 */
+  padding-top: 25px;
+  padding-bottom: 5px;
   margin: 100px auto;      /* 画面中央に配置 */
   border-radius: 8px;
 
@@ -498,40 +508,79 @@ body {
   align-items: center;    /* 中身を横方向中央寄せ */
   gap: 6px;               /* 各セクション間の行間（狭め） */
   text-align: center;
+  color: #000000;
+  font-weight: normal;
 }
 
+/* タイトル＋詳細 横並び */
+.modal-title-area {
+  display: flex;
+  align-items: center;   /* 縦中央揃え */
+  justify-content: center; /* 横中央揃え */
+}
+
+/* タイトル */
 .modal-chore-title {
   font-size: 16px;
   font-weight: bold;
-  display: block;
+  margin: 0;      /* 余計なズレ防止 */
+}
+
+/* 詳細アイコン */
+.detail-icon {
+  width: 18px;
+  height: 18px;
+  display: block;  /* 下の余白を消す */
+  cursor: pointer;
+}
+
+.member-select {
+  position: relative;
+  width: 170px;
+  padding-top: 12px;
+}
+
+/* 上のボックス */
+.member-select-header {
+  background: #d1d1d165;
+  border: 1px solid #2e2e2e;
+  padding: 5px 7px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 下の一覧 */
+.member-select-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
   width: 100%;
-  text-align: center;
+  background: #ffffff;
+  border: 1px solid #a5a5a59a;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+
+  max-height: 180px;   /* ← 高さ固定 */
+  overflow-y: auto;    /* ← スクロール */
+
+  display: none;
+  z-index: 100;
 }
 
-.modal-chore-detail {
-  font-size: 13px;
-  display: block;
-  width: 100%;
-  text-align: center;
-}
-
-.modal-members {
-  text-align: center;     /* タイトル文字を中央寄せ */
-}
-
-.modal-section-title {
-  font-weight: bold;
-  margin-top: 4px;     /* ← 上を詰める */
-  margin-bottom: 4px;  /* ← 下は少しだけ空ける */
-  line-height: 1.2;
-  text-align: center;
-}
 .member-checkbox {
-  display: flex;          /* チェックボックスと文字を横並び */
-  align-items: center;    /* 縦位置を中央に揃える */
-  justify-content: center;/* 行全体を中央寄せ */
-  gap: 6px;               /* チェックボックスと名前の間隔 */
-  margin-bottom: 4px;     /* 各メンバー間の行間（狭め） */
+  display: block;
+  padding: 12px 16px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+
+.member-checkbox:last-child {
+  border-bottom: none;
+}
+
+.member-checkbox:hover {
+  background: #f5f5f5;
 }
 
 /* ボタン全体 */
@@ -540,43 +589,104 @@ body {
   flex-direction: column; 
   align-items: stretch;   /* ← 中身を横幅いっぱいに伸ばす */
   gap: 6px;               /* 行間 */
-  margin-top: 4px;
-  width: 100%;            /* モーダル幅いっぱい */
+  padding: 2px 0px;       /* 上下、左右 */
+  padding-top: 24px;
+  width: 100%;         /* モーダル幅いっぱい */
 }
 
 /* 1行目：完了ボタンを横いっぱいに */
-.modal-buttons-main button {
+.modal-buttons-complete button {
   width: 100%;            /* 親に合わせて横いっぱい */
   margin: 0px;
   padding: 3px 0;
+  border-radius: 4px;
   box-sizing: border-box; /* パディング込みで幅いっぱい */
+  background-color: #57587e;
+  color: #ffffff;
 }
 
-/* 2行目：リスケ・削除ボタンを均等幅で横並び */
+/* ボタン全体 */
 .modal-buttons-sub {
-  display: flex;    
-  gap: 6px;               /* ボタン間のスペース */
-  margin-top: 6px;               
-  width: 100%;            /* 親幅いっぱい */
+  display: flex;
+  flex-direction: column; 
+  align-items: stretch;   /* ← 中身を横幅いっぱいに伸ばす */
+  gap: 6px;               /* 行間 */
+  padding-top: 4px;
+  width: 100%;         /* モーダル幅いっぱい */
 }
 
-.modal-buttons-sub button,
-.modal-buttons-sub a {
-  flex: 1;                /* 均等幅 */
-  text-align: center;
+.modal-buttons-reschedule button {
+  width: 100%;            /* 親に合わせて横いっぱい */
+  margin: 0px;
   padding: 3px 0;
-  box-sizing: border-box;
+  border-radius: 4px;
+  box-sizing: border-box; /* パディング込みで幅いっぱい */
+  border: 1px solid #000000;
+  background-color: #ffffff46;
+  color: #000000;
+}
+
+.hidden-calendar-input-reschedule {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  height: 0;
+  width: 0;
+}
+
+/* =========================
+   削除アイコン（左上）
+========================= */
+#modal-delete {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 10;
+}
+
+.delete-icon {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+/* ==============================
+   reward専用
+================================ */
+
+/* タイトル（choreと同じ見た目） */
+.modal-reward-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0;
+  padding-bottom: 8px;
+}
+
+/* コスト表示 */
+.reward-cost {
   display: flex;
-  justify-content: center;
-  align-items: center;    /* aタグも高さ揃え */
+  flex-direction: column;  /* ← 縦並びにする */
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+}
+
+.reward-cost-value {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ケーキアイコン */
+.reward-cake-icon {
+  width: 24px;
+  height: 24px;
+  display: block;
 }
 
 .member-tabs {
   display: flex;
   margin-bottom: 16px;
-}
-
-.member-tab {
   padding: 6px 12px;
   background: #ffffffdc;
   text-decoration: none;
@@ -586,6 +696,21 @@ body {
   background: #3030304b;
 }
 
+.member-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.user-avatar-achievement {
+  width: 34px;
+  height: 34px;
+  padding: 6px 6px;
+  border-radius: 50%;
+  object-fit: cover;
+  line-height: 1;
+  margin: 0;
+  display: inline-block;
+}
+
 .achievement-panel {
   margin-bottom: 30px;
   padding: 16px;
@@ -593,15 +718,6 @@ body {
   height: 200px;
   border-bottom: 1px solid #000000;
   border-top: 1px solid #000000;
-}
-
-.reward-ok {
-  color: #4caf50;
-  font-weight: bold;
-}
-
-.reward-ng {
-  color: #f44336;
 }
 
 .cake-display {
@@ -619,16 +735,6 @@ body {
 .cake-icon {
   height: auto;
   width: 35px;
-}
-
-.cake-icon.short {
-  width: 50px;
-  margin-left: 3px;
-}
-
-.cake-icon.whole {
-  width: 200px;
-  margin-left: 30px;
 }
 
 .cake-multiple-icon {
@@ -653,11 +759,112 @@ body {
   align-items: center;
 }
 
+.reward-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+
+  margin-top: 60px;
+  margin-bottom: 32px;
+
+  position: relative;
+}
+
 .reward-box {
-  padding: 16px;
-  width: 400px;
-  height: 120px;
-  border: 1px solid #000000;
+  width: 420px;
+  height: 130px;
+  padding: 14px 40px;
+
+  box-sizing: border-box; /* ← これが肝 */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  color: #ffffff;
+
+
+  background-image: url("/assets/thankyou.jpg"); /* 画像パス */
+  background-size: cover;
+  background-position: center;
+
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+/* 左側 */
+.reward-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.reward-title {
+  font-size: 19px;
+  font-weight: bold;
+  padding-bottom: 8px;
+}
+
+.reward-need {
+  font-size: 14px;
+  color: #ffffff;
+}
+
+/* 右側 */
+.reward-right {
+  display: flex;
+  align-items: center;
+}
+
+/* 丸表示 */
+.reward-circle {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* 未達成 */
+.reward-circle.ng {
+  background: #fff3f3;
+  color: #e05353;
+  border: 2px solid #d32f2f;
+  font-size: 12px;
+}
+
+/* 達成 */
+.reward-circle.ok {
+  background: #f0ffe4;
+  color: #3b3a3a;
+  border: 2px solid #6f9165;
+  font-size: 14px;
+}
+
+/* 「達成まで」だけ黒文字 */
+.reward-circle.ng .reward-label {
+  color: #000000;
+  font-size: 12px;
+  font-weight: normal;
+}
+
+.cake-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: bold;
+}
+
+.mini-cake-reward {
+  height: 30px;
 }
 
 .detail-edit-link {
@@ -693,4 +900,213 @@ body {
 
 .pagination .current {
   font-weight: bold;
+}
+
+.cake-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.cake-icon.whole {
+  width: 200px;
+  padding-left: 15px;
+}
+
+.cake-info {
+  position: absolute;
+  background: #fff;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 13px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  text-align: center;
+}
+
+.cake-info.top-right {
+  top: 20px;
+  right: 40px;
+}
+
+.cake-info .number {
+  font-weight: bold;
+  color: #e74c3c; /* 赤系でケーキ感 */
+}
+
+.cake-count-plain {
+  position: absolute;
+  bottom: 10px;
+  right: 25px;
+  display: flex;
+  flex-direction: column; /* 縦並び */
+  align-items: flex-end;  /* 右寄せ */
+  gap: 4px;
+  font-size: 14px;
+  color: #333;
+}
+
+.cake-count-label {
+  font-size: 13px;
+}
+
+.cake-count-body {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mini-cake {
+  width: 28px;
+  height: auto;
+}
+
+.cake-count-body .count {
+  font-weight: bold;
+}
+
+.form-wrapper-chore {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 0;
+}
+
+.form-card {
+  background: #ffffff;
+  width: 420px;                /* 少し広げる */
+  padding: 36px 32px;
+  border-radius: 12px;         /* 角丸を少し大きく */
+  border: 1px solid #dcdfe3;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06); /* うっすら影 */
+}
+
+.form-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 28px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e5e7eb;
+  color: #333;
+}
+
+/* グループ間余白を増やす */
+.form-group {
+  margin-bottom: 26px;
+}
+
+.form-label {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #6b7280; /* 少し薄く */
+  letter-spacing: 0.05em;
+}
+
+.required {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 6px;
+  font-size: 10px;
+  color: #c62828;
+  background: #fdecea;
+  border-radius: 4px;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: 9px 10px;
+  border-radius: 4px;
+  border: 1px solid #cfd3d8;
+  background: #ffffff;
+  font-size: 14px;
+  box-sizing: border-box;   /* ← これを追加 */
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: #5b7dbd;
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: #9aa0a6;
+}
+
+/* show専用の表示フィールド */
+/* 表示フィールド */
+.display-field {
+  background-color: #f9fafb;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  font-size: 15px;
+  color: #111827;
+  pointer-events: none;
+}
+
+/* textarea表示用 */
+.form-textarea.display-field {
+  min-height: 110px;
+  line-height: 1.6;
+}
+
+.calendar-btn {
+  width: 100%;
+  padding: 9px 10px;
+  border-radius: 4px;
+  border: 1px solid #cfd3d8;
+  background: #ffffff;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  text-align: left;
+}
+
+.calendar-btn:hover {
+  background: #f3f4f6;
+}
+
+.form-actions {
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between; /* ← 左右に分ける */
+  align-items: center;
+}
+
+.submit-btn {
+  padding: 12px 34px;  /* 横幅はpaddingで調整 */
+  border-radius: 6px;
+  border: none;
+  background: #464766;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.submit-btn:hover {
+  opacity: 0.9;
+}
+
+.back-link {
+  display: inline-block;
+  padding: 12px 14px;   /* width削除 */
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  font-size: 14px;
+  color: #374151;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.back-link:hover {
+  background: #f3f4f6;
 }

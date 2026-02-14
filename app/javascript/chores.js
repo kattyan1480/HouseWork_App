@@ -8,17 +8,17 @@ document.addEventListener("turbo:load", () => {
   if (!button || !input) return
 
   // hidden_field に入っている既存値（編集画面用）
-  const dates = input.value
-    ? input.value.split(",")
-    : []
+  const dates = input.value ? input.value.split(",") : []
 
+  // flatpickr 初期化
   const fp = flatpickr(input, {
     mode: "multiple",
     dateFormat: "Y-m-d",
     locale: Japanese,
     defaultDate: dates,
-    clickOpens: false,   // ← 超重要
-    onChange: function(selectedDates, dateStr) {
+    // ボタンで開く場合は clickOpens を true にする
+    clickOpens: true,
+    onChange: (selectedDates, dateStr) => {
       input.value = dateStr
       button.textContent =
         selectedDates.length > 0
@@ -27,7 +27,7 @@ document.addEventListener("turbo:load", () => {
     }
   })
 
-  // ボタンを押したらカレンダーを開く
+  // もしボタンで開きたい場合
   button.addEventListener("click", () => {
     fp.open()
   })

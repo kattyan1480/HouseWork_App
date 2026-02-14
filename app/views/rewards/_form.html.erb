@@ -1,27 +1,39 @@
-<%= form_with model: @reward, url: reward_path do |f| %>
-  <div class="form-group">
-    <%= f.label :title, "ごほうび名" %><br>
-    <%= f.text_field :title, class: "form-input", placeholder: "例：ケーキを食べる" %>
+<%= form_with model: @reward, local: true, class: "form-wrapper-chore" do |f| %>
+  <div class="form-card">
+
+    <div class="form-group">
+      <%= f.label :title, "ごほうび名", class: "form-label" %>
+      <span class="required">必須</span>
+      <%= f.text_field :title,
+            class: "form-input",
+            placeholder: "例）ケーキを買ってもらう" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :cake_cost, "必要なホールケーキの数", class: "form-label" %>
+      <span class="required">必須</span>
+      <%= f.number_field :cake_cost,
+            min: 1,
+            class: "form-input",
+            placeholder: "ホールケーキの数を入力してください" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :description, "備考", class: "form-label" %>
+      <%= f.text_area :description,
+            rows: 4,
+            class: "form-textarea",
+            placeholder: "詳細があれば入力してください" %>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit (local_assigns[:submit_label] || "登録"),
+            class: "submit-btn" %>
+
+      <%= link_to (local_assigns[:back_label] || "キャンセル"),
+            (local_assigns[:back_path] || achievements_path),
+            class: "back-link" %>
+    </div>
+
   </div>
-
-  <div class="form-group">
-    <%= f.label :cake_cost, "コスト" %><br>
-    <%= f.number_field :cake_cost, class: "form-input", min: 0 %>
-  </div>
-
-  <div class="form-group">
-    <%= f.label :description, "詳細", placeholder: "例：仕事を1週間頑張ったら買うケーキ" %><br>
-    <%= f.text_area :description,
-          class: "form-input",
-          rows: 4,
-          placeholder: "例：仕事を1週間頑張ったら買うケーキ" %>
-  </div>
-
-  <div class="fixed-bottom-right">
-    <%= f.submit (local_assigns[:submit_label] || "登録"),
-          class: "fixed-btn" %>
-
-    <%= link_to  "戻る", achievements_path, class: "fixed-link" %>
-  </div>
-
 <% end %>
