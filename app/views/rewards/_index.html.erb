@@ -34,13 +34,6 @@
           <% end %>
         </div>
       </div>
-
-    <% else %>
-      <% if @user == current_user %>
-        <%= link_to "ご褒美を設定する", new_reward_path, class: "btn btn-primary" %>
-      <% else %>
-        <p>ご褒美未設定</p>
-      <% end %>
     <% end %>
   </div>
   <%= render "rewards/popup", user: @user %>

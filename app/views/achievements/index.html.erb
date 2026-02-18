@@ -11,9 +11,12 @@
   <% end %>
 </div>
 
-<h3>保有ケーキ</h3>
+<h3>今の保有ケーキ</h3>
 
 <div class="achievement-panel">
+
+  <div class="top-decor">✦</div>
+
   <div class="cake-display">
 
     <% remainder = @user.cake_amount % 8 %>
@@ -29,19 +32,24 @@
         完成まで <span class="number"><%= remaining %>ピース</span>
       </div>
 
-      <!-- 右下：完成ホール数（装飾なし） -->
-<div class="cake-count-plain">
-  <div class="cake-count-label">
-    完成したホールケーキ
-  </div>
+      <!-- 右下：完成ホール数 -->
+      <div class="cake-count-plain">
+        <div class="cake-count-label">
+          完成したホールケーキ
+        </div>
 
-  <div class="cake-count-body">
-    <%= image_tag "holecake8.png", class: "mini-cake" %>
-    <span class="count">× <%= completed %> 個</span>
-  </div>
-</div>
+        <div class="cake-count-body">
+          <%= image_tag "holecake8.png", class: "mini-cake" %>
+          <span class="count">× <%= completed %> 個</span>
+        </div>
+      </div>
 
-  </div>
+    </div> <!-- cake-wrapper -->
+
+  </div> <!-- ★ cake-display を閉じる -->
+
+  <div class="bottom-decor">✦</div>
+
 </div>
 
 <%= render "rewards/index" %>

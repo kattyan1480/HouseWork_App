@@ -9,7 +9,7 @@
       <a id="modal-detail"
         href="#"
         data-turbo="true">
-        <%= image_tag "詳細.png", class: "detail-icon" %>
+        <%= image_tag "詳細.png", class: "detail-icon-home" %>
       </a>
     </div>
 
@@ -28,34 +28,35 @@
       <!-- ★ 完了者選択 -->
       <div class="modal-members">
 
-      <div class="member-select">
+        <div class="member-select">
 
-        <!-- 表示部分 -->
-        <div class="member-select-header js-toggle-member">
-          <span class="selected-text">完了者を選択</span>
-          <span class="arrow">▼</span>
+          <!-- 表示部分 -->
+          <div class="member-select-header js-toggle-member">
+            <span class="selected-text">完了者を選択</span>
+            <span class="arrow">▼</span>
+          </div>
+
+          <!-- ドロップダウン -->
+          <div class="member-select-dropdown">
+
+            <% current_user.group.users.each do |user| %>
+              <label class="member-checkbox">
+                <input type="checkbox"
+                      name="completed_user_ids[]"
+                      value="<%= user.id %>">
+                <span><%= user.name %></span>
+              </label>
+            <% end %>
+
+          </div>
         </div>
 
-        <!-- ドロップダウン -->
-        <div class="member-select-dropdown">
-
-          <% current_user.group.users.each do |user| %>
-            <label class="member-checkbox">
-              <input type="checkbox"
-                    name="completed_user_ids[]"
-                    value="<%= user.id %>">
-              <span><%= user.name %></span>
-            </label>
-          <% end %>
-
-        </div>
-      </div>
-
-      <!-- ボタン群 -->
-      <div class="modal-buttons">
-        <!-- 完了 -->
-        <div class="modal-buttons-complete">
-          <button type="submit">完了</button>
+        <!-- ボタン群 -->
+        <div class="modal-buttons">
+          <!-- 完了 -->
+          <div class="modal-buttons-complete">
+            <button type="submit">完了</button>
+          </div>
         </div>
       </div>
     </form>
@@ -73,7 +74,6 @@
             class: "hidden-calendar-input-reschedule" %>
 
       <div class="modal-buttons-sub">
-        <!-- 完了 -->
         <div class="modal-buttons-reschedule">
           <button id="modal-reschedule" type="button">リスケ</button>
         </div>

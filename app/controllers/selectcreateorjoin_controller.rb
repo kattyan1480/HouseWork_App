@@ -40,6 +40,13 @@ class SelectcreateorjoinController < ApplicationController
       avatar_image: params[:avatar_image]  # プロフィール画像
     )
 
+    Reward.create!(
+      user: current_user,
+      group: group,
+      title: "ごほうびを設定してください",
+      cake_cost: 0
+    )
+
     session.delete("selectcreateorjoin")
     redirect_to root_path
   end
