@@ -43,8 +43,8 @@ class SelectcreateorjoinController < ApplicationController
     Reward.create!(
       user: current_user,
       group: group,
-      title: "ごほうびを設定してください",
-      cake_cost: 0
+      title: "ごほうびを設定して下さい",
+      cake_cost: 1
     )
 
     session.delete("selectcreateorjoin")

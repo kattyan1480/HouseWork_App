@@ -33,13 +33,8 @@ Rails.application.routes.draw do
     end
   end
 
-  def after_sign_out_path_for(resource_or_scope)
-    selectcreateorjoin_select_path
-  end
-
   devise_for :users, controllers: {
     registrations: 'registrations',
-    confirmations: "confirmations"
   }
 
   authenticated :user do

@@ -6,8 +6,7 @@ class User < ApplicationRecord
          :registerable,
          :recoverable,
          :rememberable,
-         :validatable,
-         :confirmable # メール確認用
+         :validatable
 
   def avatar_image_or_default
     if avatar_image.attached?

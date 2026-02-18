@@ -1,5 +1,4 @@
 class ApplicationController < ActionController::Base
-  before_action :redirect_if_group_not_set
   helper_method :show_footer?
   helper_method :current_group
 
@@ -7,19 +6,19 @@ class ApplicationController < ActionController::Base
     current_user.group
   end
 
+  def after_sign_in_path_for(resource)
+    if resource.group_id.present?
+      authenticated_root_path
+    else
+      selectcreateorjoin_select_path
+    end
+  end
+
   def after_sign_out_path_for(resource_or_scope)
-    selectcreateorjoin_select_path
+    new_user_session_path
   end
 
   private
-
-  def redirect_if_group_not_set
-    return unless user_signed_in?
-    return if current_user.group_id.present?
-    return if controller_name == "selectcreateorjoin"
-
-    redirect_to selectcreateorjoin_select_path
-  end
 
   def show_footer?
     footer_pages = {
