@@ -91,18 +91,22 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  # メール送信設定
+  # メール送信設定（SendGrid用）
   config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+
   config.action_mailer.smtp_settings = {
-    address: 'smtp.gmail.com',
+    address: "smtp.sendgrid.net",
     port: 587,
-    user_name: ENV['GMAIL_USERNAME'],
-    password: ENV['GMAIL_PASSWORD'],
-    authentication: 'plain',
+    domain: "onrender.com",
+    authentication: :plain,
+    user_name: "apikey",
+    password: ENV["SENDGRID_API_KEY"],
     enable_starttls_auto: true
   }
 
   config.action_mailer.default_url_options = {
-    host: 'https://housework-app-4u9b.onrender.com'
+    host: "housework-app-4u9b.onrender.com",
+    protocol: "https"
   }
 end
