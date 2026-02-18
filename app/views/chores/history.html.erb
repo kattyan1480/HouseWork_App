@@ -2,59 +2,68 @@
   📜 家事履歴
 <% end %><br>
 
-<div class="chore-list">
-  <% @chore_dates.each do |chore_date| %>
-    <% chore = chore_date.chore %>
-    <% histories = chore_date.chore_histories.order(done_at: :desc) %>
-    <% next if histories.empty? %> <!-- 念のため -->
+<% if @chore_dates.any? { |cd| cd.chore_histories.exists? } %>
+  <div class="chore-list-history">
 
-    <div class="chore-row">
+    <div class="chore-row-header chore-header">
+      <div class="chore-title-header-chores-history">家事名</div>
+      <div class="chore-reward-header-chores-history">報酬</div>
+      <div class="chore-date-header-chores-history">日時</div>
+      <div class="chore-users-header-chores-history">実施者</div>
+    </div>
 
-      <!-- 家事タイトル・備考 -->
-      <div class="chore-title-detail">
-        <span class="chore-title"><%= truncate(chore.title, length: 7) %></span>
-        <span class="chore-detail"><%= truncate(chore.detail, length: 13) %></span>
-      </div>
+    <% @chore_dates.each do |chore_date| %>
+      <% chore = chore_date.chore %>
+      <% histories = chore_date.chore_histories.order(done_at: :desc) %>
+      <% next if histories.empty? %>
 
-      <!-- ケーキ報酬（合計） -->
-      <div class="chore-cake-reward">
-        <% total_cake = histories.sum(&:cake_reward_count) %>
-        <% if total_cake <= 5 %>
-          <% total_cake.times do %>
+      <div class="chore-row-history">
+
+        <!-- 家事タイトル・備考 -->
+        <div  class="chore-title"><%= truncate(chore.title, length: 15) %></div>
+
+        <!-- ケーキ報酬（合計） -->
+        <div class="chore-cake-reward">
+          <% total_cake = histories.sum(&:cake_reward_count) %>
+          <% if total_cake <= 5 %>
+            <% total_cake.times do %>
+              <%= image_tag "shortcake.png", class: "cake-icon" %>
+            <% end %>
+          <% else %>
             <%= image_tag "shortcake.png", class: "cake-icon" %>
+            <span class="cake-multiple">×<%= total_cake %></span>
           <% end %>
-        <% else %>
-          <%= image_tag "shortcake.png", class: "cake-icon" %>
-          <span class="cake-multiple">×<%= total_cake %></span>
-        <% end %>
-      </div>
+        </div>
 
-      <!-- 完了日時（代表者） -->
-      <div class="chore-actions-history">
-        <% first_history = histories.first %>
-        <span class="chore-date-history">
-          <%= first_history.done_at.strftime("%-m月%-d日") %>
-        </span>
-        <span class="chore-time-history">
-          <%= first_history.done_at.in_time_zone("Tokyo").strftime("%H時%M分") %>
-        </span>
-      </div>
+        <!-- 完了日時（代表者） -->
+        <div class="chore-actions-history">
+          <% first_history = histories.first %>
+          <span class="chore-date-history">
+            <%= first_history.done_at.strftime("%-m月%-d日") %>
+          </span>
+          <span class="chore-time-history">
+            <%= first_history.done_at.in_time_zone("Tokyo").strftime("%H時%M分") %>
+          </span>
+        </div>
 
-      <!-- 実施者アイコン -->
-      <div class="chore-users-history">
-        <% if histories.size >= 3 %>
-          <%= image_tag "group.png", class: "user-avatar-history" %>
-        <% else %>
-          <% histories.each do |h| %>
-            <% if h.user&.avatar_image&.attached? %>
-              <%= image_tag h.user.avatar_image, class: "user-avatar-history" %>
-            <% else %>
-              <%= image_tag "default_avatar.png", class: "user-avatar-history" %>
+        <!-- 実施者アイコン -->
+        <div class="chore-users-history">
+          <% if histories.size >= 3 %>
+            <%= image_tag "group.png", class: "user-avatar-history" %>
+          <% else %>
+            <% histories.each do |h| %>
+              <% if h.user&.avatar_image&.attached? %>
+                <%= image_tag h.user.avatar_image, class: "user-avatar-history" %>
+              <% else %>
+                <%= image_tag "default_avatar.png", class: "user-avatar-history" %>
+              <% end %>
             <% end %>
           <% end %>
-        <% end %>
-      </div>
+        </div>
 
-    </div>
-  <% end %>
-</div><br>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p>まだ家事の履歴はありません</p>
+<% end %>

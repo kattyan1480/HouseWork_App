@@ -4,20 +4,22 @@
 
 <% if @before_yesterday_chore_dates.any? %>
   <div class="chore-list-home">
+
+    <div class="chore-row-header chore-header">
+      <div class="chore-title-header-homes">家事名</div>
+      <div class="chore-reward-header-homes">報酬</div>
+      <div class="chore-date-header-homes">日時</div>
+    </div>
+
     <% @before_yesterday_chore_dates.each do |chore_date| %>
       <% chore = chore_date.chore %>
 
-      <div class="chore-row js-open-modal"
+      <div class="chore-row-home js-open-modal"
         data-chore-id="<%= chore.id %>"
         data-chore-date-id="<%= chore_date.id %>"
         data-chore-title="<%= chore.title %>">
 
-        <div class="chore-title-detail">
-          <span class="chore-title"><%= truncate(chore.title, length: 7) %></span>
-          <span class="chore-detail">
-            <%= truncate(chore.detail, length: 13) %>
-          </span>
-        </div>
+        <div class="chore-title"><%= truncate(chore.title, length: 15) %></div>
 
         <div class="chore-cake-reward">
           <% reward = chore.cake_reward.to_i %>
@@ -45,12 +47,8 @@
   <p>過去やり残した家事はありません</p>
 <% end %>
 
-<% content_for :fixed_ui_right do %>
+<% content_for :fixed_ui_left do %>
   <%= link_to "戻る", homes_index_path, class: "fixed-link" %>
 <% end %>
 
 <%= render "popup" %>
-
-<div class="pagination">
-  <%= paginate @before_yesterday_chore_dates %>
-</div>

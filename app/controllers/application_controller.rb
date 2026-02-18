@@ -7,6 +7,10 @@ class ApplicationController < ActionController::Base
     current_user.group
   end
 
+  def after_sign_out_path_for(resource_or_scope)
+    selectcreateorjoin_select_path
+  end
+
   private
 
   def redirect_if_group_not_set
@@ -19,9 +23,11 @@ class ApplicationController < ActionController::Base
 
   def show_footer?
     footer_pages = {
-      "homes"  => %w[index],
-      "chores" => %w[index history],
-      "achievements" => %w[index]
+      "homes"  => %w[index previous],
+      "chores" => %w[index history new],
+      "achievements" => %w[index],
+      "rewards" => %w[new edit],
+      "profile" => %w[index]
     }
 
     footer_pages[controller_name]&.include?(action_name)
