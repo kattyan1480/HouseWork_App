@@ -1,9 +1,9 @@
 import "@hotwired/turbo-rails"
 import "controllers"
-import "./chores"
-import "./chore_dates"
-import "./rewards"
-import "./popups"
+import "rewards"
+import "chores"
+import "chore_dates"
+import "popups"
 
 document.addEventListener("turbo:load", () => {
   // flatpickr の初期化
