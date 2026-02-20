@@ -1,5 +1,6 @@
 class HomesController < ApplicationController
   before_action :authenticate_user!
+  before_action :ensure_group!
 
   def index
     today_range =
@@ -33,5 +34,13 @@ class HomesController < ApplicationController
                   .order(execute_at: :desc)
                   .page(params[:page])
                   .per(10)
+  end
+
+  private
+
+  def ensure_group!
+    return if current_user.group.present?
+
+    redirect_to selectcreateorjoin_select_path
   end
 end
