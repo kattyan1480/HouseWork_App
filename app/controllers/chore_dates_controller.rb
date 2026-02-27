@@ -10,7 +10,7 @@ class ChoreDatesController < ApplicationController
   def destroy
     chore_date = current_group.chore_dates.find(params[:id])
     chore_date.destroy
-    redirect_to root_path, notice: "今日の家事を削除しました"
+    redirect_to root_path, notice: "家事を削除しました。"
   end
 
   def complete
@@ -21,7 +21,7 @@ class ChoreDatesController < ApplicationController
 
     # チェックなし防止
     if user_ids.blank?
-      redirect_back fallback_location: root_path, alert: "完了者を選択してください"
+      redirect_back fallback_location: root_path, alert: "完了者を選択してください。"
       return
     end
 
@@ -51,14 +51,14 @@ class ChoreDatesController < ApplicationController
       end
     end
 
-    redirect_to homes_index_path, notice: "家事を完了しました"
+    redirect_to homes_index_path, notice: "家事を完了しました。"
   end
 
   def reschedule
     @chore_date = current_group.chore_dates.find(params[:id])
 
     if @chore_date.update(execute_at: params[:execute_at])
-      redirect_to root_path, notice: "実施日を変更しました"
+      redirect_to root_path, notice: "実施日を変更しました。"
     else
       redirect_to root_path, alert: @chore_date.errors.full_messages.join("、")
     end

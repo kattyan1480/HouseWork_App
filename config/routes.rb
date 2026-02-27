@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get  'selectcreateorjoin/select'
   post 'selectcreateorjoin/decide'
   get  'selectcreateorjoin/form'
+  get 'selectcreateorjoin/save_form', to: 'selectcreateorjoin#form'
   post 'selectcreateorjoin/save_form'
 
   get 'homes/index'
@@ -35,6 +36,7 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: {
     registrations: 'registrations',
+    sessions: "sessions" ,
   }
 
   authenticated :user do

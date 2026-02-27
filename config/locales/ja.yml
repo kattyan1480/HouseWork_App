@@ -6,13 +6,33 @@ ja:
       too_short: "は%{count}文字以上で入力してください"
       too_long: "は%{count}文字以内で入力してください"
       invalid: "は不正な値です"
+      confirmation: "と一致しません"
+      not_a_number: "は数値で入力してください"
+      greater_than: "は%{count}より大きい値にしてください"
 
   activerecord:
     errors:
       messages:
         taken: "はすでに使用されています"
+      models:
+        user:
+          attributes:
+            password_confirmation:
+              confirmation: "がパスワードと一致しません"
     attributes:
       user:
         email: "メールアドレス"
         password: "パスワード"
-        password_confirmation: "パスワード（確認）"
+        password_confirmation: "パスワード確認"
+        name: "ニックネーム"
+      group:
+        name: "グループ名"
+        passcode: "合言葉"
+      chore:
+        title: 家事名
+        cake_reward: ショートケーキの数
+        execute_dates: 実行日
+        execute_time: 実行時間
+      reward:
+        title: ごほうび名
+        cake_cost: ケーキコスト

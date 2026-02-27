@@ -1,60 +1,121 @@
-<%= form_with model: @chore, local: true, class: "form-wrapper-chore" do |f| %>
+<%= form_with model: @chore,
+              local: true,
+              data: { turbo: false },
+              class: "form-wrapper-chore" do |f| %>
+
   <div class="form-card">
 
+    <!-- 家事名 -->
     <div class="form-group">
-      <%= f.label :title, "家事名", class: "form-label" %>
-      <span class="required">必須</span>
+      <div class="label-row">
+        <%= f.label :title, "家事名", class: "form-label" %>
+        <span class="required">必須</span>
+      </div>
+
       <%= f.text_field :title,
-            class: "form-input",
+            class: "form-input #{'input-error' if @chore.errors[:title].any?}",
             placeholder: "例）洗濯、皿洗い" %>
+
+      <% if @chore.errors[:title].any? %>
+        <div class="field-error-message">
+          <%= @chore.errors.full_messages_for(:title).first %>
+        </div>
+      <% end %>
     </div>
 
+    <!-- 報酬 -->
     <div class="form-group">
-      <%= f.label :cake_reward, "貰えるショートケーキの数", class: "form-label" %>
-      <span class="required">必須</span>
+      <div class="label-row">
+        <%= f.label :cake_reward, "貰えるショートケーキの数", class: "form-label" %>
+        <span class="required">必須</span>
+      </div>
+
       <%= f.number_field :cake_reward,
             min: 1,
-            class: "form-input",
+            class: "form-input #{'input-error' if @chore.errors[:cake_reward].any?}",
             placeholder: "ショートケーキの数を入力してください" %>
+
+      <% if @chore.errors[:cake_reward].any? %>
+        <div class="field-error-message">
+          <%= @chore.errors.full_messages_for(:cake_reward).first %>
+        </div>
+      <% end %>
     </div>
 
+    <!-- 実行日 -->
     <div class="form-group">
-      <%= f.label :execute_dates, "実行日", class: "form-label" %>
-      <span class="required">必須</span>
+      <div class="label-row">
+        <%= f.label :execute_dates, "実行日", class: "form-label" %>
+        <span class="required">必須</span>
+      </div>
+
+      <% selected_dates =
+           params.dig(:chore, :execute_dates) ||
+           @pending_chore_dates&.order(:execute_at)
+             &.map { |cd| cd.execute_date }
+             &.join(",") %>
 
       <button
         type="button"
         id="open-calendar-btn"
-        class="calendar-btn"
-        data-has-dates="<%= @pending_chore_dates.any? %>">
-        <%= @pending_chore_dates.any? ? "実行日を変更する" : "クリックして日付を選択" %>
+        class="calendar-btn <%= 'input-error' if @chore.errors[:execute_dates].any? %>"
+        data-has-dates="<%= selected_dates.present? %>">
+        <%= selected_dates.present? ? "実行日を変更する" : "クリックして日付を選択" %>
       </button>
 
       <%= f.text_field :execute_dates,
             id: "execute_dates",
             class: "hidden-calendar-input",
-            value: @pending_chore_dates
-                      .order(:execute_at)
-                      .map { |cd| cd.execute_date }
-                      .join(",") %>
+            value: selected_dates %>
+
+      <% if @chore.errors[:execute_dates].any? %>
+        <div class="field-error-message">
+          <%= @chore.errors.full_messages_for(:execute_dates).first %>
+        </div>
+      <% end %>
     </div>
 
+    <!-- 実行時間 -->
     <div class="form-group">
-      <%= f.label :execute_time, "実行時間", class: "form-label" %>
-      <span class="required">必須</span>
+      <div class="label-row">
+        <%= f.label :execute_time, "実行時間", class: "form-label" %>
+        <span class="required">必須</span>
+      </div>
+
+      <% selected_time =
+           params.dig(:chore, :execute_time) ||
+           @pending_chore_dates&.first&.execute_time %>
+
       <%= f.time_field :execute_time,
-            class: "form-input",
-            value: @pending_chore_dates.first&.execute_time %>
+            class: "form-input #{'input-error' if @chore.errors[:execute_time].any?}",
+            value: selected_time %>
+
+      <% if @chore.errors[:execute_time].any? %>
+        <div class="field-error-message">
+          <%= @chore.errors.full_messages_for(:execute_time).first %>
+        </div>
+      <% end %>
     </div>
 
+    <!-- 備考 -->
     <div class="form-group">
-      <%= f.label :detail, "備考", class: "form-label" %>
+      <div class="label-row">
+        <%= f.label :detail, "備考", class: "form-label" %>
+      </div>
+
       <%= f.text_area :detail,
             rows: 4,
-            class: "form-textarea",
+            class: "form-textarea #{'input-error' if @chore.errors[:detail].any?}",
             placeholder: "詳細があれば入力してください" %>
+
+      <% if @chore.errors[:detail].any? %>
+        <div class="field-error-message">
+          <%= @chore.errors[:detail].first %>
+        </div>
+      <% end %>
     </div>
 
+    <!-- ボタン -->
     <div class="form-actions">
       <%= f.submit (local_assigns[:submit_label] || "作成"),
             class: "submit-btn" %>
@@ -63,5 +124,6 @@
             (local_assigns[:back_path] || chores_path),
             class: "back-link" %>
     </div>
+
   </div>
 <% end %>

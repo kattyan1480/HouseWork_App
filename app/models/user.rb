@@ -8,6 +8,13 @@ class User < ApplicationRecord
          :rememberable,
          :validatable
 
+  validates :email, presence: true
+  validates :password, presence: true, on: :create
+  validates :name,
+            presence: true,
+            length: { maximum: 20 },
+            on: :update
+
   def avatar_image_or_default
     if avatar_image.attached?
       avatar_image

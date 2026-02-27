@@ -2,14 +2,42 @@
   グループ作成・参加
 <% end %>
 
-<div class="content selectorjoin">
-    <%= form_with url: selectcreateorjoin_decide_path, method: :post, local: true do %>
-      <%= hidden_field_tag :mode, "create" %>
-      <%= submit_tag "グループを作成する" %>
-    <% end %>
+<div class="content">
 
-    <%= form_with url: selectcreateorjoin_decide_path, method: :post, local: true do %>
-      <%= hidden_field_tag :mode, "join" %>
-      <%= submit_tag "グループに参加する" %>
-    <% end %>
+  <div class="form-wrapper-chore">
+    <div class="form-card">
+
+      <!-- 説明 -->
+      <div class="form-group">
+        <p class="form-description">
+          <a><a class="font-weight-bold">新しくグループを作成</a> or <a class="font-weight-bold">既存のグループに参加</a><br>を選択してください。</a>
+        </p>
+      </div>
+
+      <!-- ボタンエリア -->
+      <div class="form-actions selector-buttons">
+
+        <!-- 作成 -->
+        <%= form_with url: selectcreateorjoin_decide_path,
+                      method: :post,
+                      local: true do %>
+          <%= hidden_field_tag :mode, "create" %>
+          <%= submit_tag "グループを作成する",
+                class: "submit-btn" %>
+        <% end %>
+
+        <!-- 参加 -->
+        <%= form_with url: selectcreateorjoin_decide_path,
+                      method: :post,
+                      local: true do %>
+          <%= hidden_field_tag :mode, "join" %>
+          <%= submit_tag "グループに参加する",
+                class: "submit-btn secondary-btn" %>
+        <% end %>
+
+      </div>
+
+    </div>
+  </div>
+
 </div>

@@ -17,15 +17,29 @@ class ChoresController < ApplicationController
   def create
     @chore = current_user.group.chores.build(chore_params)
 
-    dates = params[:chore][:execute_dates].split(",")
+    dates = params[:chore][:execute_dates].to_s.split(",").reject(&:blank?)
     time  = params[:chore][:execute_time]
+
+    @chore.validate  # ← これ重要
+
+    if dates.blank?
+      @chore.errors.add(:execute_dates, "を入力してください")
+    end
+
+    if time.blank?
+      @chore.errors.add(:execute_time, "を入力してください")
+    end
+
+    if @chore.errors.any?
+      @pending_chore_dates = @chore.chore_dates.none
+      return render :new, status: :unprocessable_entity
+    end
 
     ActiveRecord::Base.transaction do
       @chore.save!
 
       dates.each do |date|
         datetime = Time.zone.parse("#{date} #{time}")
-
         @chore.chore_dates.create!(
           execute_at: datetime,
           status: :pending
@@ -33,9 +47,7 @@ class ChoresController < ApplicationController
       end
     end
 
-    redirect_to homes_index_path, notice: "家事を登録しました"
-  rescue ActiveRecord::RecordInvalid
-    render :new
+    redirect_to homes_index_path, notice: "家事を作成しました。"
   end
 
   def edit
@@ -43,16 +55,32 @@ class ChoresController < ApplicationController
   end
 
   def update
-    dates = params[:chore][:execute_dates].split(",")
+    dates = params[:chore][:execute_dates].to_s.split(",").reject(&:blank?)
     time  = params[:chore][:execute_time]
 
-    ActiveRecord::Base.transaction do
-      @chore.update!(chore_params)
+    @chore.assign_attributes(chore_params)
+    @chore.validate   # ← create と同じく明示的にvalidate
 
-      # 未完了の実行日のみ削除
+    if dates.blank?
+      @chore.errors.add(:execute_dates, "を入力してください")
+    end
+
+    if time.blank?
+      @chore.errors.add(:execute_time, "を入力してください")
+    end
+
+    if @chore.errors.any?
+      @pending_chore_dates = @chore.chore_dates.pending.order(:execute_at)
+      return render :edit, status: :unprocessable_entity
+    end
+
+    ActiveRecord::Base.transaction do
+      @chore.save!
+
+      # 未完了の実行日を削除
       @pending_chore_dates.destroy_all
 
-      # 新しい実行日を再作成
+      # 新しい実行日を作成
       dates.each do |date|
         datetime = Time.zone.parse("#{date} #{time}")
 
@@ -63,14 +91,16 @@ class ChoresController < ApplicationController
       end
     end
 
-    redirect_to chores_path, notice: "更新しました"
+    redirect_to chores_path, notice: "家事を更新しました。"
+
   rescue ActiveRecord::RecordInvalid
-    render :edit
+    @pending_chore_dates = @chore.chore_dates.pending.order(:execute_at)
+    render :edit, status: :unprocessable_entity
   end
 
   def destroy
     @pending_chore_dates.destroy_all
-    redirect_to chores_path, notice: "家事を削除しました"
+    redirect_to chores_path, notice: "家事を削除しました。"
   end
 
   def history
@@ -91,7 +121,7 @@ class ChoresController < ApplicationController
     params.require(:chore).permit(
       :title,
       :cake_reward,
-      :detail
+      :detail,
     )
   end
 end

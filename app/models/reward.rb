@@ -4,6 +4,10 @@ class Reward < ApplicationRecord
 
   validates :title, presence: true
   validates :cake_cost,
-            presence: true,
-            numericality: { only_integer: true, greater_than: 0 }
+    presence: true,
+    numericality: {
+      only_integer: true,
+      greater_than: 0,
+      allow_blank: true
+    }
 end
