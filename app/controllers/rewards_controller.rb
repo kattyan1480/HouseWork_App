@@ -14,7 +14,7 @@ class RewardsController < ApplicationController
     if @reward.save
       redirect_to achievements_path, notice: "ご褒美を登録しました"
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -25,9 +25,9 @@ class RewardsController < ApplicationController
   def update
     @reward = current_user.reward
     if @reward.update(reward_params)
-      redirect_to achievements_path, notice: "ご褒美を変更しました"
+      redirect_to achievements_path, notice: "ご褒美を変更しました。"
     else
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 
@@ -36,7 +36,7 @@ class RewardsController < ApplicationController
     user   = current_user
 
     if user.cake_amount < reward.cake_cost
-      redirect_to reward_path, alert: "ケーキが足りません"
+      redirect_to reward_path, alert: "ケーキが足りません。"
       return
     end
 
@@ -47,7 +47,7 @@ class RewardsController < ApplicationController
 
     redirect_to reward_path, notice: "ご褒美を獲得しました！🎉"
   rescue ActiveRecord::RecordInvalid
-    redirect_to reward_path, alert: "獲得に失敗しました"
+    redirect_to reward_path, alert: "獲得に失敗しました。"
   end
 
   private

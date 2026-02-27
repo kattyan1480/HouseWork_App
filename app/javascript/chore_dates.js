@@ -14,9 +14,10 @@ document.addEventListener("turbo:load", () => {
   const deleteLink = document.getElementById("modal-delete")
   const completeForm = document.getElementById("complete-form")
 
-  const rescheduleBtn   = document.getElementById("modal-reschedule")
-  const rescheduleInput = document.getElementById("reschedule-execute-at")
-  const rescheduleId    = document.getElementById("reschedule-id")
+  const rescheduleBtn    = document.getElementById("modal-reschedule")
+  const rescheduleSubmit = document.getElementById("modal-reschedule-submit")
+  const rescheduleInput  = document.getElementById("reschedule-execute-at")
+  const rescheduleId     = document.getElementById("reschedule-id")
 
   if (!rescheduleBtn || !rescheduleInput) return
 
@@ -25,72 +26,57 @@ document.addEventListener("turbo:load", () => {
   // ===== モーダルを開く =====
   openButtons.forEach(button => {
     button.addEventListener("click", () => {
-
-      // タイトル設定（7文字＋…）
       const choreTitle = button.dataset.choreTitle || ""
-      title.textContent =
-        choreTitle.slice(0, 7) + (choreTitle.length > 7 ? "…" : "")
+      title.textContent = choreTitle.slice(0, 7) + (choreTitle.length > 7 ? "…" : "")
 
       const choreDateId = button.dataset.choreDateId
 
-      const choreId = button.dataset.choreId
-
-      // 詳細リンク
       detailLink.href = `/chore_dates/${choreDateId}`
-
-      // 削除リンク
       deleteLink.href = `/chore_dates/${choreDateId}`
-
-      // 完了フォーム
       completeForm.action = `/chore_dates/${choreDateId}/complete`
-
-      // リスケIDセット
       rescheduleId.value = choreDateId
 
-      // モーダル表示
       modal.classList.remove("hidden")
 
-      // ===== flatpickr 初期化（1回だけ）=====
       if (!picker) {
         picker = flatpickr(rescheduleInput, {
-          mode: "single",          // 単一選択
+          mode: "single",
           dateFormat: "Y-m-d",
           locale: Japanese,
-          appendTo: modalContent,  // モーダル内に表示
+          appendTo: modalContent,
           positionElement: rescheduleBtn,
-          static: true,            // モーダル内で固定
+          static: true,
           disableMobile: true,
-          clickOpens: false,       // 自動で開かない
-          allowInput: true,        // 入力は防ぐ
-
-          onChange: (selectedDates, dateStr) => {
-            // 日付選択後にボタンを「変更する」に切り替え
-            rescheduleBtn.textContent = "変更する"
-            rescheduleBtn.type = "submit"
+          clickOpens: false,
+          allowInput: true,
+          onChange: () => {
+            // 日付が選択されたらボタンを活性化
+            if (rescheduleInput.value) {
+              rescheduleSubmit.disabled = false
+            } else {
+              rescheduleSubmit.disabled = true
+            }
           }
         })
       }
     })
   })
 
-  // ===== リスケボタン =====
+  // ===== リスケボタンでカレンダー表示 =====
   rescheduleBtn.addEventListener("click", () => {
-    if (rescheduleBtn.type === "button" && picker) {
-      picker.open()
-    }
+    if (picker) picker.open()
   })
 
   // ===== モーダル閉じる =====
   if (overlay) {
     overlay.addEventListener("click", () => {
       modal.classList.add("hidden")
-
       if (picker) picker.clear()
-
-      rescheduleBtn.textContent = "リスケ"
-      rescheduleBtn.type = "button"
       rescheduleInput.value = ""
       rescheduleId.value = ""
+      rescheduleBtn.textContent = "リスケ"
+      // ボタンを非活性に戻す
+      rescheduleSubmit.disabled = true
     })
   }
 })

@@ -38,7 +38,6 @@
 
           <!-- ドロップダウン -->
           <div class="member-select-dropdown">
-
             <% current_user.group.users.each do |user| %>
               <label class="member-checkbox">
                 <input type="checkbox"
@@ -47,13 +46,11 @@
                 <span><%= user.name %></span>
               </label>
             <% end %>
-
           </div>
         </div>
 
-        <!-- ボタン群 -->
+        <!-- 完了ボタン -->
         <div class="modal-buttons">
-          <!-- 完了 -->
           <div class="modal-buttons-complete">
             <button type="submit">完了</button>
           </div>
@@ -67,21 +64,26 @@
                   id: "reschedule-form",
                   local: true do %>
 
-      <%= hidden_field_tag :id, "" , id: "reschedule-id" %>
+      <%= hidden_field_tag :id, "", id: "reschedule-id" %>
 
+      <!-- カレンダー入力（非表示） -->
       <%= text_field_tag :execute_at, "",
             id: "reschedule-execute-at",
             class: "hidden-calendar-input-reschedule" %>
 
       <div class="modal-buttons-sub">
         <div class="modal-buttons-reschedule">
+          <!-- カレンダー開くボタン -->
           <button id="modal-reschedule" type="button">リスケ</button>
+
+          <!-- 送信ボタンは常に submit -->
+          <button id="modal-reschedule-submit" type="submit" disabled>変更する</button>
         </div>
       </div>
 
     <% end %>
 
-    <!--  削除 -->
+    <!-- 削除 -->
     <a id="modal-delete"
       href="#"
       data-turbo-method="delete"

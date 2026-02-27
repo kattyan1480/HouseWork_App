@@ -2,48 +2,137 @@
   <%= @mode == "create" ? "グループ作成" : "グループ参加" %>
 <% end %>
 
-<div class="content centered">
-  <%= form_with url: selectcreateorjoin_save_form_path, local: true, multipart: true do |f| %>
+<div class="content">
+  <%= form_with url: selectcreateorjoin_save_form_path,
+                local: true,
+                multipart: true,
+                class: "form-wrapper-chore", data: { turbo: false } do |f| %>
 
-    <h3>ユーザー情報</h3>
+    <div class="form-card">
 
-    <div>
-      <label>ニックネーム</label><br>
-      <%= text_field_tag :name %>
-    </div><br>
+      <!-- ===================== -->
+      <!-- ユーザー情報 -->
+      <!-- ===================== -->
+      <div class="selection-title-user">
+        <%= image_tag "default_avatar.png", class: "user-avatar" %>
+        <div class="form-selection-title">
+          ユーザー情報
+        </div>
+      </div>
 
-    <div class="avatar-upload">
-      <label>プロフィール画像</label>
-      <%= f.file_field :avatar_image,
-          accept: "image/*",
-          id: "avatar_input",
-          class: "hidden-file" %>
+      <!-- ニックネーム -->
+      <div class="form-group">
+        <div class="label-row">
+          <label class="form-label">ニックネーム</label>
+          <span class="required">必須</span>
+        </div>
 
-      <button type="button" id="avatar_button">ファイルを選択</button>
-      <div id="avatar_filename">選択されていません</div>
+        <% name_error = @user.present? && @user.errors.full_messages_for(:name).any? %>
 
-      <img id="avatar_preview"
-        class="user-avatar avatar-preview"
-        style="display:none;" />
+        <%= text_field_tag :name,
+              params[:name],
+              class: "form-input #{'input-error' if name_error}",
+              placeholder: "ニックネームを入力してください" %>
+
+        <% if name_error %>
+          <div class="field-error-message">
+            <%= @user.errors.full_messages_for(:name).first %>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- プロフィール画像 -->
+      <div class="form-group">
+        <div class="label-row">
+          <label class="form-label">プロフィール画像</label>
+        </div>
+
+        <div class="avatar-upload">
+          <%= f.file_field :avatar_image,
+                accept: "image/*",
+                id: "avatar_input",
+                class: "hidden-file" %>
+
+          <button type="button"
+                  id="avatar_button"
+                  class="calendar-btn">
+            ファイルを選択
+          </button>
+
+          <div id="avatar_filename" class="file-name">
+            選択されていません
+          </div>
+
+          <img id="avatar_preview"
+               class="user-avatar avatar-preview"
+               style="display:none;" />
+        </div>
+      </div>
+
+      <!-- ===================== -->
+      <!-- グループ情報 -->
+      <!-- ===================== -->
+      <div class="selection-title">
+        <%= image_tag "group.png", class: "user-avatar" %>
+        <div class="form-selection-title">
+          グループ情報
+        </div>
+      </div>
+
+      <!-- グループ名 -->
+      <div class="form-group">
+        <div class="label-row">
+          <label class="form-label">グループ名</label>
+          <span class="required">必須</span>
+        </div>
+
+        <%= text_field_tag :group_name,
+              params[:group_name],
+              class: "form-input #{'input-error' if @group&.errors[:name].any?}",
+              placeholder: "グループ名を入力してください" %>
+
+        <% if @group&.errors[:name].any? %>
+          <div class="field-error-message">
+            <%= @group.errors.full_messages_for(:name).first %>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- 合言葉 -->
+      <div class="form-group">
+        <div class="label-row">
+          <label class="form-label">合言葉</label>
+          <span class="required">必須</span>
+        </div>
+
+        <%= text_field_tag :passcode,
+              params[:passcode],
+              class: "form-input #{'input-error' if @group&.errors[:passcode].any?}",
+              placeholder: "合言葉を入力してください" %>
+
+        <% if @group&.errors[:passcode].any? %>
+          <div class="field-error-message">
+            <%= @group.errors.full_messages_for(:passcode).first %>
+          </div>
+        <% end %>
+      </div>
+
+      <% if @group.errors[:base].any? %>
+        <div class="field-error-message">
+          <%= @group.errors[:base].first %>
+        </div>
+      <% end %>
+
+      <!-- ボタン -->
+      <div class="form-actions">
+        <%= submit_tag "登録",
+              class: "submit-btn" %>
+
+        <%= link_to "キャンセル",
+              root_path,
+              class: "back-link" %>
+      </div>
+
     </div>
-
-    <h3>グループ情報</h3>
-
-    <div>
-      <label>グループ名</label><br>
-      <%= text_field_tag :group_name %>
-    </div><br>
-
-    <div>
-      <label>合言葉</label><br>
-      <%= password_field_tag :passcode %>
-    </div><br>
-
-    
-    <div class="fixed-bottom-right">
-      <%= submit_tag "登録", class: "fixed-btn" %>
-    </div>
-
   <% end %>
 </div>
-  

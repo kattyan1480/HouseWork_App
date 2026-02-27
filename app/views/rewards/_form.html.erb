@@ -1,31 +1,62 @@
 <%= form_with model: @reward, local: true, class: "form-wrapper-chore" do |f| %>
   <div class="form-card">
 
+    <!-- ごほうび名 -->
     <div class="form-group">
-      <%= f.label :title, "ごほうび名", class: "form-label" %>
-      <span class="required">必須</span>
+      <div class="label-row">
+        <%= f.label :title, "ごほうび名", class: "form-label" %>
+        <span class="required">必須</span>
+      </div>
+
       <%= f.text_field :title,
-            class: "form-input",
+            class: "form-input #{'input-error' if @reward.errors[:title].any?}",
             placeholder: "例）ケーキを買ってもらう" %>
+
+      <% if @reward.errors[:title].any? %>
+        <div class="field-error-message">
+          <%= @reward.errors.full_messages_for(:title).first %>
+        </div>
+      <% end %>
     </div>
 
+    <!-- 必要なホールケーキの数 -->
     <div class="form-group">
-      <%= f.label :cake_cost, "必要なホールケーキの数", class: "form-label" %>
-      <span class="required">必須</span>
+      <div class="label-row">
+        <%= f.label :cake_cost, "必要なホールケーキの数", class: "form-label" %>
+        <span class="required">必須</span>
+      </div>
+
       <%= f.number_field :cake_cost,
             min: 1,
-            class: "form-input",
+            class: "form-input #{'input-error' if @reward.errors[:cake_cost].any?}",
             placeholder: "ホールケーキの数を入力してください" %>
+
+      <% if @reward.errors[:cake_cost].any? %>
+        <div class="field-error-message">
+          <%= @reward.errors.full_messages_for(:cake_cost).first %>
+        </div>
+      <% end %>
     </div>
 
+    <!-- 備考 -->
     <div class="form-group">
-      <%= f.label :description, "備考", class: "form-label" %>
+      <div class="label-row">
+        <%= f.label :description, "備考", class: "form-label" %>
+      </div>
+
       <%= f.text_area :description,
             rows: 4,
-            class: "form-textarea",
+            class: "form-textarea #{'input-error' if @reward.errors[:description].any?}",
             placeholder: "詳細があれば入力してください" %>
+
+      <% if @reward.errors[:description].any? %>
+        <div class="field-error-message">
+          <%= @reward.errors.full_messages_for(:description).first %>
+        </div>
+      <% end %>
     </div>
 
+    <!-- ボタン -->
     <div class="form-actions">
       <%= f.submit (local_assigns[:submit_label] || "登録"),
             class: "submit-btn" %>
