@@ -12,7 +12,9 @@ Rails.application.routes.draw do
 
   get 'homes/index'
   get 'homes/previous'
-  
+
+  resources :categories, only: [:index, :new,:create, :destroy]
+
   resources :chores do
     collection do
       get :history

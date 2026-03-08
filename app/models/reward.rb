@@ -3,7 +3,7 @@ class Reward < ApplicationRecord
   belongs_to :user
 
   validates :title, presence: true
-  validates :cake_cost,
+  validates :stamp_cost,
     presence: true,
     numericality: {
       only_integer: true,

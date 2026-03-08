@@ -2,9 +2,9 @@
   <div class="reward-box js-open-reward-popup">
     <% if @user.reward.present? %>
       <% 
-        cake_cost   = @user.reward.cake_cost.to_i
-        cake_amount = @user.cake_amount.to_i
-        remain      = cake_cost - cake_amount / 8
+        stamp_cost   = @user.reward.stamp_cost.to_i
+        stamp_amount = @user.stamp_amount.to_i
+        remain      = stamp_cost - stamp_amount / 15
       %>
       
       <div class="reward-left">
@@ -15,10 +15,10 @@
 
         <!-- 左下：必要なホールケーキ数 -->
         <div class="reward-need">
-          必要なホールケーキ<br>
-          <span class="cake-count">
-            <%= image_tag "holecake8.png", class: "mini-cake-reward" %>
-            ×<%= cake_cost %>個
+          必要なチケット<br>
+          <span class="stamp-count">
+            <%= image_tag "チケット.jpeg", class: "mini-stamp-reward" %>
+            ×<%= stamp_cost %>枚
           </span>
         </div>
       </div>
@@ -30,7 +30,7 @@
              達成!
           <% else %>
             <span class="reward-label">達成まで</span>
-            <strong><%= remain %>ホール</strong>
+            <strong><%= remain %>枚</strong>
           <% end %>
         </div>
       </div>

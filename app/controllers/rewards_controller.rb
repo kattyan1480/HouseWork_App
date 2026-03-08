@@ -35,13 +35,13 @@ class RewardsController < ApplicationController
     reward = current_user.reward
     user   = current_user
 
-    if user.cake_amount < reward.cake_cost
-      redirect_to reward_path, alert: "ケーキが足りません。"
+    if user.stamp_amount < reward.stamp_cost
+      redirect_to reward_path, alert: "チケットが足りません。"
       return
     end
 
     ActiveRecord::Base.transaction do
-      user.update!(cake_amount: user.cake_amount - reward.cake_cost)
+      user.update!(stamp_amount: user.stamp_amount - reward.stamp_cost)
       # reward.update!(acquired: true) ← 次の一手
     end
 
@@ -53,6 +53,6 @@ class RewardsController < ApplicationController
   private
 
   def reward_params
-    params.require(:reward).permit(:title, :cake_cost, :description)
+    params.require(:reward).permit(:title, :stamp_cost, :description)
   end
 end

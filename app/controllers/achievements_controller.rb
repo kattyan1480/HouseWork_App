@@ -8,5 +8,17 @@ class AchievementsController < ApplicationController
             else
               current_user
             end
+
+    # カテゴリ別スタンプ数
+    @stamp_counts =
+      ChoreHistory
+        .joins(chore: :category)
+        .where(user_id: @user.id)
+        .group("categories.id")
+        .sum(:stamp_reward_count)
+
+    # スタンプを持っているカテゴリ
+    @categories = Category.where(id: @stamp_counts.keys)
+
   end
 end

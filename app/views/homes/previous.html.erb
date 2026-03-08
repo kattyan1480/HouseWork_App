@@ -3,8 +3,9 @@
 <% end %><br>
 
 <% if @before_yesterday_chore_dates.any? %>
-  <div class="chore-list-home">
+  <div class="chore-list">
 
+    <!-- ヘッダー -->
     <div class="chore-row-header chore-header">
       <div class="chore-title-header-homes">家事名</div>
       <div class="chore-reward-header-homes">報酬</div>
@@ -14,37 +15,57 @@
     <% @before_yesterday_chore_dates.each do |chore_date| %>
       <% chore = chore_date.chore %>
 
-      <div class="chore-row-home js-open-modal"
+      <div class="chore-row js-open-modal"
         data-chore-id="<%= chore.id %>"
         data-chore-date-id="<%= chore_date.id %>"
         data-chore-title="<%= chore.title %>">
 
-        <div class="chore-title"><%= truncate(chore.title, length: 15) %></div>
+        <!-- 左：カテゴリ＋タイトル -->
+        <div class="chore-main">
 
-        <div class="chore-cake-reward">
-          <% reward = chore.cake_reward.to_i %>
+          <!-- 丸アイコン -->
+          <div class="chore-icon">
+            <%= image_tag chore.category.stamp, class: "category-icon-home" %>
+          </div>
 
-          <% if reward <= 5 %>
-            <% reward.times do %>
-              <%= image_tag "shortcake.png", class: "cake-icon" %>
-            <% end %>
-          <% else %>
-            <%= image_tag "shortcake.png", class: "cake-icon" %>
-            <span class="cake-multiple">×<%= reward %></span>
-          <% end %>
+          <!-- テキスト -->
+          <div class="chore-text">
+            <span class="category-badge"
+                  style="background-color: <%= chore.category.color %>;">
+              <%= chore.category.name %>
+            </span>
+
+            <div class="chore-title">
+              <%= chore.title %>
+            </div>
+          </div>
+
         </div>
 
-        <div class="chore-actions-home">
+        <!-- 中央：報酬 -->
+        <div class="chore-reward-area">
+          <div class="reward-button">
+            スタンプ <%= chore.stamp_reward %> 個
+          </div>
+        </div>
+
+        <!-- 右：時間 -->
+        <div class="chore-time-area">
+          <span class="chore-date">
+            <%= chore_date.execute_at.strftime("%-m/%-d") %>(<%= %w[日 月 火 水 木 金 土][chore_date.execute_at.wday] %>)
+          </span><br>
           <span class="chore-time">
-            <%= chore_date.execute_at.strftime("%H:%M") %>
+            <%= chore_date.execute_at.in_time_zone("Tokyo").strftime("%H:%M") %>
           </span>
         </div>
 
       </div>
+
     <% end %>
-  </div>
-<% else %>
-  <p>過去やり残した家事はありません</p>
+
+  <% else %>
+
+  <p class="no-chore-message">過去やり残した家事はありません</p>
 <% end %>
 
 <% content_for :fixed_ui_left do %>

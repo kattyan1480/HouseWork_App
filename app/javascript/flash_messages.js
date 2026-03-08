@@ -13,9 +13,9 @@ function handleFlash() {
       flash.classList.add("flash-show")
     }, 100)
 
-    // 3秒後に消す
+    // 2秒後に消す
     setTimeout(() => {
       flash.classList.remove("flash-show")
-    }, 3000)
+    }, 2000)
   })
 }

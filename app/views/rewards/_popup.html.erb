@@ -19,12 +19,12 @@
     <!-- コスト表示 -->
     <div class="reward-cost">
       <div class="reward-cost-label">
-        獲得後に残るホールケーキ
+        獲得後に残るチケット
     </div>
 
     <div class="reward-cost-value">
-      <%= image_tag "holecake8.png", class: "reward-cake-icon" %>
-      × <%= user.reward.cake_cost %>
+      <%= image_tag "チケット.jpeg", class: "reward-stamp-icon" %>
+      × <%= user.reward.stamp_cost %>
     </div>
 
     <% if user == current_user %>

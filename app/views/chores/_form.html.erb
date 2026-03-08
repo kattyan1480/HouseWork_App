@@ -2,8 +2,29 @@
               local: true,
               data: { turbo: false },
               class: "form-wrapper-chore" do |f| %>
-
+    
   <div class="form-card">
+
+    <!-- カテゴリ -->
+    <div class="form-group">
+      <div class="label-row">
+        <%= f.label :category_id, "カテゴリ", class: "form-label" %>
+        <span class="required">必須</span>
+      </div>
+
+      <%= f.collection_select :category_id,
+            current_user.group.categories,
+            :id,
+            :name,
+            { prompt: "カテゴリを選択してください" },
+            class: "form-input #{'input-error' if @chore.errors[:category].any?}" %>
+
+      <% if @chore.errors[:category].any? %>
+        <div class="field-error-message">
+          <%= @chore.errors.full_messages_for(:category).first %>
+        </div>
+      <% end %>
+    </div>
 
     <!-- 家事名 -->
     <div class="form-group">
@@ -14,7 +35,7 @@
 
       <%= f.text_field :title,
             class: "form-input #{'input-error' if @chore.errors[:title].any?}",
-            placeholder: "例）洗濯、皿洗い" %>
+            placeholder: "例）朝ごはん、洗濯物干し" %>
 
       <% if @chore.errors[:title].any? %>
         <div class="field-error-message">
@@ -26,18 +47,18 @@
     <!-- 報酬 -->
     <div class="form-group">
       <div class="label-row">
-        <%= f.label :cake_reward, "貰えるショートケーキの数", class: "form-label" %>
+        <%= f.label :stamp_reward, "貰えるスタンプの数", class: "form-label" %>
         <span class="required">必須</span>
       </div>
 
-      <%= f.number_field :cake_reward,
+      <%= f.number_field :stamp_reward,
             min: 1,
-            class: "form-input #{'input-error' if @chore.errors[:cake_reward].any?}",
-            placeholder: "ショートケーキの数を入力してください" %>
+            class: "form-input #{'input-error' if @chore.errors[:stamp_reward].any?}",
+            placeholder: "スタンプの数を入力してください" %>
 
-      <% if @chore.errors[:cake_reward].any? %>
+      <% if @chore.errors[:stamp_reward].any? %>
         <div class="field-error-message">
-          <%= @chore.errors.full_messages_for(:cake_reward).first %>
+          <%= @chore.errors.full_messages_for(:stamp_reward).first %>
         </div>
       <% end %>
     </div>
@@ -60,7 +81,7 @@
         id="open-calendar-btn"
         class="calendar-btn <%= 'input-error' if @chore.errors[:execute_dates].any? %>"
         data-has-dates="<%= selected_dates.present? %>">
-        <%= selected_dates.present? ? "実行日を変更する" : "クリックして日付を選択" %>
+        <%= selected_dates.present? ? "実行日を変更する" : "実行日を選択してください" %>
       </button>
 
       <%= f.text_field :execute_dates,
@@ -100,7 +121,7 @@
     <!-- 備考 -->
     <div class="form-group">
       <div class="label-row">
-        <%= f.label :detail, "備考", class: "form-label" %>
+        <%= f.label :detail, "メモ", class: "form-label" %>
       </div>
 
       <%= f.text_area :detail,

@@ -8,34 +8,49 @@
     <div class="chore-row-header chore-header">
       <div class="chore-title-header-chores-index">家事名</div>
       <div class="chore-reward-header-chores-index">報酬</div>
-      <div class="chore-edit-header-chores-index">編集</div>
+      <div class="chore-action-header-chores-index">編集</div>
     </div>
 
     <% @chores.each do |chore| %>
       <div class="chore-row">
 
-          <span class="chore-title"><%= truncate(chore.title, length: 15) %></span>
+        <!-- 左：カテゴリ＋タイトル -->
+        <div class="chore-main">
 
-        <div class="chore-cake-reward">
-          <% reward = chore.cake_reward.to_i %>
+          <!-- 丸アイコン -->
+          <div class="chore-icon">
+            <%= image_tag chore.category.stamp, class: "category-icon-home" %>
+          </div>
 
-          <% if reward <= 5 %>
-            <% reward.times do %>
-              <%= image_tag "shortcake.png", class: "cake-icon" %>
-            <% end %>
-          <% else %>
-            <%= image_tag "shortcake.png", class: "cake-icon" %>
-            <span class="cake-multiple">×<%= reward %></span>
-          <% end %>
+          <!-- テキスト -->
+          <div class="chore-text">
+            <span class="category-badge"
+                  style="background-color: <%= chore.category.color %>;">
+              <%= chore.category.name %>
+            </span>
+
+            <div class="chore-title">
+              <%= chore.title %>
+            </div>
+          </div>
+
         </div>
 
-        <div class="chore-actions">
+        <!-- 中央：報酬 -->
+        <div class="chore-reward-area">
+          <div class="reward-button">
+            スタンプ <%= chore.stamp_reward %> 個
+          </div>
+        </div>
+
+        <!-- 右：編集・削除 -->
+        <div class="chore-action-area">
           <%= link_to edit_chore_path(chore), class: "detail-edit-link" do %>
-            <%= image_tag "詳細.png", class: "detail-icon" %>
-            <%= image_tag "編集.png", class: "edit-icon" %>
+            <%= image_tag "詳細.png", class: "detail-icon-chore-index" %>
+            <%= image_tag "編集.png", class: "edit-icon-chore-index" %>
           <% end %>
           <span class="icon-separator">|</span>
-          <%= link_to image_tag("削除.png", class: "delete-icon"),
+          <%= link_to image_tag("削除.png", class: "delete-icon-chore-index"),
                       chore_path(chore),
                       data: { turbo_method: :delete, turbo_confirm: "削除しますか？" } %>
         </div>
@@ -44,7 +59,7 @@
   </div>
 <h5>※まだ完了していない家事を、家事が作成された順に表示しています</h5><br>
 <% else %>
-  <p>まだ家事は作成されていません</p>
+  <p class="no-chore-message">まだ家事は作成されていません</p>
 <% end %>
 
 <% content_for :fixed_ui_left do %>

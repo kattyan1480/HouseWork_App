@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_02_01_064532) do
+ActiveRecord::Schema[7.0].define(version: 2026_03_03_135916) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,6 +42,15 @@ ActiveRecord::Schema[7.0].define(version: 2026_02_01_064532) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "categories", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "group_id", null: false
+    t.string "color"
+    t.index ["group_id"], name: "index_categories_on_group_id"
+  end
+
   create_table "chore_dates", force: :cascade do |t|
     t.bigint "chore_id", null: false
     t.datetime "execute_at"
@@ -56,7 +65,7 @@ ActiveRecord::Schema[7.0].define(version: 2026_02_01_064532) do
     t.bigint "chore_id", null: false
     t.bigint "user_id", null: false
     t.bigint "chore_date_id", null: false
-    t.integer "cake_reward_count", default: 0, null: false
+    t.integer "stamp_reward_count", default: 0, null: false
     t.datetime "done_at", null: false
     t.index ["chore_date_id"], name: "index_chore_histories_on_chore_date_id"
     t.index ["chore_id"], name: "index_chore_histories_on_chore_id"
@@ -66,10 +75,12 @@ ActiveRecord::Schema[7.0].define(version: 2026_02_01_064532) do
   create_table "chores", force: :cascade do |t|
     t.string "title"
     t.text "detail"
-    t.integer "cake_reward"
+    t.integer "stamp_reward"
     t.bigint "group_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "category_id", null: false
+    t.index ["category_id"], name: "index_chores_on_category_id"
     t.index ["group_id"], name: "index_chores_on_group_id"
   end
 
@@ -84,7 +95,7 @@ ActiveRecord::Schema[7.0].define(version: 2026_02_01_064532) do
     t.bigint "group_id", null: false
     t.bigint "user_id", null: false
     t.string "title", null: false
-    t.integer "cake_cost", null: false
+    t.integer "stamp_cost", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "description"
@@ -106,7 +117,7 @@ ActiveRecord::Schema[7.0].define(version: 2026_02_01_064532) do
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
     t.bigint "group_id"
-    t.integer "cake_amount", default: 0, null: false
+    t.integer "stamp_amount", default: 0, null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["group_id"], name: "index_users_on_group_id"
@@ -115,10 +126,12 @@ ActiveRecord::Schema[7.0].define(version: 2026_02_01_064532) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "categories", "groups"
   add_foreign_key "chore_dates", "chores"
   add_foreign_key "chore_histories", "chore_dates"
   add_foreign_key "chore_histories", "chores"
   add_foreign_key "chore_histories", "users"
+  add_foreign_key "chores", "categories"
   add_foreign_key "chores", "groups"
   add_foreign_key "rewards", "groups"
   add_foreign_key "rewards", "users"
