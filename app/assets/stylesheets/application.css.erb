@@ -850,7 +850,7 @@ body {
   margin:20px auto;
   padding:32px;
 
-  background-image: url("/assets/stampsheet.png");
+  background-image: url("<%= asset_path 'stampsheet.png' %>");
   background-size: contain;
   background-repeat:no-repeat;
   background-position:center;
@@ -924,6 +924,7 @@ body {
   margin-bottom: 30px;
 
   position: relative;
+  cursor: pointer;
 }
 
 .reward-box {
