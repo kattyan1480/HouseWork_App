@@ -1,6 +1,8 @@
 <header class="app-header">
   <div class="header-left">
-    <%= image_tag "logo.png", alt: "家事アプリ", class: "logo-image" %>
+    <div class="footer-item hamburger" id="menuToggle">
+      <span class="footer-icon">☰</span>
+    </div>
   </div>
 
   <div class="header-center">
@@ -9,7 +11,46 @@
     </strong>
   </div>
 
-  <div class="header-right">
-    <%= content_for?(:header_right) ? yield(:header_right) : "" %>
+  <div class="header-left">
+    <%= image_tag "logo.png", alt: "家事アプリ", class: "logo-image" %>
   </div>
 </header>
+
+
+<!-- サイドメニュー -->
+<div id="sideMenu" class="side-menu">
+  <%= link_to "#" do %>
+    <span class="menu-icon">
+      <% if user_signed_in? %>
+        <%= image_tag current_user.avatar_image_or_default, class: "menu-avatar" %>
+      <% else %>
+        <%= image_tag "default_avatar.png", class: "menu-avatar" %>
+      <% end %>
+    </span>
+    <span>プロフィール</span>
+  <% end %>
+
+  <%= link_to "#" do %>
+    <span class="menu-icon">
+      <%= image_tag "group.png", class: "menu-avatar" %>
+    </span>
+    <span>グループ</span>
+  <% end %>
+
+  <%= link_to categories_path do %>
+    <span class="menu-icon">
+      <%= image_tag "category.png", class: "menu-avatar-square" %>
+    </span>
+    <span>カテゴリー</span>
+  <% end %>
+
+  <%= link_to destroy_user_session_path, data: { turbo_method: :delete } do %>
+    <span class="menu-icon">
+      <%= image_tag "logout.png", class: "menu-avatar-square" %>
+    </span>
+    <span>ログアウト</span>
+  <% end %>
+</div>
+
+<!-- 背景オーバーレイ -->
+<div id="overlay" class="overlay"></div>

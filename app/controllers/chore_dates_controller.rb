@@ -30,7 +30,7 @@ class ChoreDatesController < ApplicationController
       chore_date.update!(status: :done)
 
       # ② ケーキを山分け
-      per_user_cake = (chore.cake_reward.to_f / user_ids.size).ceil
+      per_user_stamp = (chore.stamp_reward.to_f / user_ids.size).ceil
 
       user_ids.each do |user_id|
         user = User.find(user_id)
@@ -40,13 +40,13 @@ class ChoreDatesController < ApplicationController
           chore: chore,
           user: user,
           chore_date: chore_date,
-          cake_reward_count: per_user_cake,
+          stamp_reward_count: per_user_stamp,
           done_at: Time.current
         )
 
         # ④ ケーキを加算
         user.update!(
-          cake_amount: user.cake_amount + per_user_cake
+          stamp_amount: user.stamp_amount + per_user_stamp
         )
       end
     end
@@ -57,7 +57,15 @@ class ChoreDatesController < ApplicationController
   def reschedule
     @chore_date = current_group.chore_dates.find(params[:id])
 
-    if @chore_date.update(execute_at: params[:execute_at])
+    new_date = Date.parse(params[:execute_at])
+
+    new_execute_at = @chore_date.execute_at.change(
+      year: new_date.year,
+      month: new_date.month,
+      day: new_date.day
+    )
+
+    if @chore_date.update(execute_at: new_execute_at)
       redirect_to root_path, notice: "実施日を変更しました。"
     else
       redirect_to root_path, alert: @chore_date.errors.full_messages.join("、")

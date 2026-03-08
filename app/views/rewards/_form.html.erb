@@ -19,21 +19,21 @@
       <% end %>
     </div>
 
-    <!-- 必要なホールケーキの数 -->
+    <!-- 必要なチケットの数 -->
     <div class="form-group">
       <div class="label-row">
-        <%= f.label :cake_cost, "必要なホールケーキの数", class: "form-label" %>
+        <%= f.label :stamp_cost, "必要なチケットの数", class: "form-label" %>
         <span class="required">必須</span>
       </div>
 
-      <%= f.number_field :cake_cost,
+      <%= f.number_field :stamp_cost,
             min: 1,
-            class: "form-input #{'input-error' if @reward.errors[:cake_cost].any?}",
-            placeholder: "ホールケーキの数を入力してください" %>
+            class: "form-input #{'input-error' if @reward.errors[:stamp_cost].any?}",
+            placeholder: "チケットの数を入力してください" %>
 
-      <% if @reward.errors[:cake_cost].any? %>
+      <% if @reward.errors[:stamp_cost].any? %>
         <div class="field-error-message">
-          <%= @reward.errors.full_messages_for(:cake_cost).first %>
+          <%= @reward.errors.full_messages_for(:stamp_cost).first %>
         </div>
       <% end %>
     </div>

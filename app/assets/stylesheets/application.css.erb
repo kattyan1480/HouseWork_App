@@ -1,21 +1,4 @@
-/*
- *= require flatpickr
- */
-/*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS (and SCSS, if configured) file within this directory, lib/assets/stylesheets, or any plugin's
- * vendor/assets/stylesheets directory can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the bottom of the
- * compiled file so the styles you add here take precedence over styles defined in any other CSS
- * files in this directory. Styles in this file should be added after the last require_* statement.
- * It is generally better to create a new file per style scope.
- *
- *= require_tree .
- *= require_self
-/* flatpickr */
+
 @import "https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css";
 
 html, body {
@@ -25,38 +8,67 @@ html, body {
 
 body {
   flex-direction: column;
-  background-color: #f2f7ffdc;
+  background-color: #f5fafff8;
   overflow: hidden;
   font-family: 'Noto Sans JP', sans-serif;
   font-weight: 400;
   letter-spacing: 0.02em;
   -webkit-font-smoothing: antialiased;
+  position: relative;
 }
 
+/* ===== ヘッダー ===== */
 .app-header {
-  background: #2E2F4E;
+  background: linear-gradient(
+    to bottom,
+    #24304a 0%,
+    #1b2a49 70%,
+    #141f38 100%
+  );
+
   height: 56px;
   padding: 0 20px;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 16px 13px -12px rgba(0, 0, 0, 0), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
-  flex-shrink: 0
+
+  border-bottom: 1px solid rgba(0,0,0,0.2);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.18),
+    0 3px 6px rgba(0,0,0,0.18);
+
+  flex-shrink: 0;
 }
 
+/* ===== フッター ===== */
 .app-footer {
-  background: #2E2F4E;
+  background: linear-gradient(
+    to bottom,
+    #24304a 0%,
+    #1b2a49 70%,
+    #141f38 100%
+  );
+
   height: 48px;
-  padding: 0 600px;
+  padding: 0 40px;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 16px 13px -12px rgba(0, 0, 0, 0), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+
+  border-top: 1px solid rgba(255,255,255,0.05);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.04),
+    0 -2px 5px rgba(0,0,0,0.18);
+
   flex-shrink: 0;
 }
 
 .footer-item {
-  color: #ffffffbe;
+  color: #CCCCCC;
   text-decoration: none;
   display: flex;
   flex-direction: column;
@@ -112,171 +124,217 @@ body {
   padding-bottom: 50px;
   display: flex;
   flex-direction: column;
-  align-items: center;   /* ← ここで使う */
+  align-items: center;
 }
 
+/* 全体幅 */
 .chore-list {
-  display: flex;
-  flex-direction: column;
-  width: 45%;
-}
-
-.chore-list-history {
-  display: flex;
-  flex-direction: column;
-  width: 50%;
-}
-
-.chore-list-home {
-  display: flex;
-  flex-direction: column;
   width: 42%;
-}
-
-.chore-list-previous {
   display: flex;
   flex-direction: column;
-  width: 40%;
 }
 
+/* 全体幅 */
+.chore-list-history {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* =======================
+   ヘッダー
+======================= */
+.chore-row-header {
+  display: flex;
+  height: 34px;
+  border: 1px solid #444444;   /* 外枠 */
+  border-bottom: none;
+}
+
+.chore-row-header > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #444444;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  /* 区切り線 */
+  border-right: 2px solid #ffffff;
+}
+
+/* 一番右だけ線を消す */
+.chore-row-header > div:last-child {
+  border-right: none;
+}
+
+.chore-title-header-homes { flex: 1; }
+.chore-reward-header-homes   { width: 140px; }
+.chore-date-header-homes     { width: 80px; }
+
+.chore-title-header-chores-index { flex: 1; }
+.chore-reward-header-chores-index   { width: 140px; }
+.chore-action-header-chores-index     { width: 80px; }
+
+.chore-title-header-chores-history { flex: 1; }
+.chore-reward-header-chores-history   { width: 140px; }
+.chore-date-header-chores-history     { width: 80px; }
+.chore-user-header-chores-history     { width: 100px; }
+
+/* =======================
+   行デザイン
+======================= */
 .chore-row {
   display: flex;
   align-items: center;
-  height: 50px;
-  padding: 0 16px;
-  border: 1px solid #dddddd;
-  border-top: none;
-}
-
-.chore-row-home {
-  display: flex;
-  align-items: center;
-  height: 50px;
-  padding: 0 16px;
+  padding: 4px 0px;
   border: 1px solid #dddddd;
   border-top: none;
   cursor: pointer;
 }
 
-.chore-row-history {
-  display: flex;
-  align-items: center;
-  height: 50px;
-  padding: 0 16px;
-  border: 1px solid #dddddd;
-  border-top: none;
+.chore-row:nth-of-type(odd) {
+  background-color: #f0f1f5;
 }
 
-.chore-row-header {
-  display: flex;
-  align-items: center;
-  height: 28px;
-  gap: 2px;
-}
-
-/* 各箱 */
-.chore-row-header > div {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #595a7e;
-}
-
-.chore-row-header .chore-title-header-chores-history { flex: 1; }
-.chore-row-header .chore-reward-header-chores-history { width: 185px; }
-.chore-row-header .chore-date-header-chores-history { width: 70px; }
-.chore-row-header .chore-users-header-chores-history { width: 95px; }
-
-.chore-row-header .chore-title-header-chores-index { flex: 1; }
-.chore-row-header .chore-reward-header-chores-index { width: 195px; }
-.chore-row-header .chore-edit-header-chores-index { width: 95px; }
-
-.chore-row-header .chore-title-header-homes { flex: 1; }
-.chore-row-header .chore-reward-header-homes { width: 185px; }
-.chore-row-header .chore-date-header-homes { width: 70px; }
-
-/* ヘッダー基本 */
-.chore-header {
-  color: rgb(253, 253, 253);
-  font-size: 14px;
-  font-weight: 500;
-}
-
-.chore-row-home:not(.chore-header):nth-of-type(odd),
-.chore-row-history:not(.chore-header):nth-of-type(odd),
-.chore-row:not(.chore-header):nth-of-type(odd) {
-  background-color: #aca8a82f;
-}
-
-.chore-row-home:not(.chore-header):nth-of-type(even),
-.chore-row-history:not(.chore-header):nth-of-type(even),
-.chore-row:not(.chore-header):nth-of-type(even) {
+.chore-row:nth-of-type(even) {
   background-color: #ffffff;
 }
 
-.chore-title {
+/* 左側 */
+.chore-main {
+  flex: 1;
   display: flex;
   align-items: center;
-  flex: 1;               /* ここが超重要 */
-  min-width: 0;
-  font-size: 15px;
-  font-weight: 500;
-  margin-right: 12px;
-  white-space: nowrap;   /* 折り返さない */
+  gap: 14px;
+  margin-left: 12px;
 }
 
-.chore-cake-reward {
-  width: 80px;
-  text-align: right;
-  font-size: 16px;
-  font-weight: 500;
+.chore-icon {
+  width: 39px;
+  height: 39px;
+  border-radius: 50%;
+
+  background-color: inherit;
+  border: 1px solid rgba(0,0,0,0.05); /* うっすら縁 */
+
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
+
+  overflow: hidden;
 }
 
-.chore-actions-home {
-  width: 60px;
-  text-align: right;
+.category-icon-home {
+  width: 38px;              /* ← 少し小さく */
+  height: 38px;
+  object-fit: contain;      /* 画像比率を崩さない */
+
+  margin: 0;                /* ← これが重要 */
 }
 
-.chore-actions-previous {
-  width: 80px;
-  text-align: right;
-}
-
-.chore-actions-history {
-  width: 70px;
-  text-align: right;
+/* テキストエリア */
+.chore-text {
   display: flex;
   flex-direction: column;
-  justify-content: center; /* 上下中央寄せ（不要なら消してOK） */
 }
 
-.chore-date-history {
-  font-size: 14px;
-  line-height: 1;          /* 行間を詰める */
+/* カテゴリバッジ */
+.category-badge {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 6px;
+  font-size: 10px;
+  color: #313131;
+  font-weight: 600;
+  width: fit-content;
 }
 
-.chore-time-history {
-  font-size: 12px;
-  line-height: 1;
-  color: #777;
-}
-
-.chore-time {
+/* 家事タイトル */
+.chore-title {
   font-size: 15px;
-  line-height: 1;
-  color: #777;
+  font-weight: 700;
+  color: #383838;
 }
 
-.chore-actions {
-  display: flex;          /* ← 必須 */
-  align-items: center;    /* ← 縦中央 */
-  justify-content: flex-end;
-  gap: 8px;               /* アイコン間の余白 */
-  margin-left: 18px;
+/* =======================
+   報酬
+======================= */
+.chore-reward-area {
+  width: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;   /* ← 中央 */
+}
+
+.reward-button {
+  background-color: #ffffff;
+  border: 2px solid #444444;
+  color: #383838;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* =======================
+   時間
+======================= */
+.chore-time-area {
+  width: 80px;
+  text-align: center;
+
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+
+  border-radius: 8px;
+  color: #383838;
+}
+
+/* =======================
+    アクション
+======================= */
+.chore-action-area {
+  width: 80px;
+  text-align: center;
+
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+
+  border-radius: 8px;
+  color: #383838;
+}
+
+/* =======================
+    アクション
+======================= */
+.chore-user-area {
+  width: 100px;
+  text-align: center;
+
+  border-radius: 8px;
+  color: #383838;
+}
+
+/* =======================
+   空状態
+======================= */
+.empty-chore-card {
+  border: 1px solid #ddd;
+  padding: 30px;
+  text-align: center;
+}
+
+.empty-add-btn {
+  display: block;
+  background: #f3b769;
+  color: #333;
+  text-decoration: none;
+  padding: 8px 0;
+  border-radius: 6px;
+  font-weight: 500;
 }
 
 .edit-link {
@@ -350,9 +408,23 @@ body {
   width: 0;
 }
 
-.cake-icon {
-  width: 24px;
-  height: auto;
+.stamp-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  aspect-ratio: 1 / 1;
+
+  background: #fff;
+  border: 1px solid #595a7e;   /* 少し太めに */
+
+  box-shadow: 
+    2px 2px 0 rgba(0, 0, 0, 0.1);  /* 押した感じの影 */
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: all 0.1s ease;
 }
 
 /* 標準の file input を非表示 */
@@ -518,14 +590,6 @@ body {
   display: flex;
 }
 
-/* 詳細アイコン */
-.detail-icon {
-  width: 18px;
-  height: 18px;
-  display: block;  /* 下の余白を消す */
-  cursor: pointer;
-}
-
 #complete-form {
   margin: 0;
 }
@@ -660,12 +724,6 @@ body {
   z-index: 10;
 }
 
-.delete-icon {
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-}
-
 /* ==============================
    reward専用
 ================================ */
@@ -696,8 +754,8 @@ body {
 }
 
 /* ケーキアイコン */
-.reward-cake-icon {
-  width: 24px;
+.reward-stamp-icon {
+  width: 50px;
   height: 24px;
   display: block;
 }
@@ -730,99 +788,130 @@ body {
   display: inline-block;
 }
 
-.achievement-panel {
-  position: relative;
-  margin-bottom: 30px;
-  padding: 16px;
-  width: 400px;
+/* =========================
+   所持ステータスバー
+========================= */
+.status-bar{
+  width:360px;
+  height:50px;
+  margin:12px auto 20px;
+  padding:10px 16px;
+
+  background:#ffffff;
+  border-radius:4px;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
 
-/* 上下ライン */
-.achievement-panel::before,
-.achievement-panel::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 85%;
-  height: 2px;
-  background: linear-gradient(
-    to right,
-    transparent,
-    #c9a94f,
-    #e6d18a,
-    #c9a94f,
-    transparent
-  );
-  z-index: 1;
+.status-item{
+  display:flex;
+  align-items:center;
+  gap:8px;
 }
 
-.achievement-panel::before {
-  top: 0;
+/* アイコン */
+.status-icon{
+  width:60px;
+  height:auto;
 }
 
-.achievement-panel::after {
-  bottom: 0;
+/* ラベル */
+.status-label{
+  font-size:15px;
+  color:#555;
+  font-weight:500;
 }
 
-/* 装飾 */
-.achievement-panel .top-decor,
-.achievement-panel .bottom-decor {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  color: #c9a94f;
-  font-size: 14px;
-  background: #fff;
-  padding: 0 8px;
-  z-index: 2;
+/* 数字（ここだけ強調） */
+.status-count{
+  font-size:20px;
+  font-weight:700;
+  color:#222;
 }
 
-.achievement-panel .top-decor {
-  top: -8px;
+/* =========================
+   スタンプ帳タイトル
+========================= */
+.stampbook-title {
+  text-align: center;
+  font-size: 20px;
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: #444;
 }
 
-.achievement-panel .bottom-decor {
-  bottom: -8px;
+/* =========================
+   スタンプ帳台紙
+========================= */
+.stamp-board{
+  max-width:420px;
+  margin:20px auto;
+  padding:32px;
+
+  background-image: url("/assets/stampsheet.png");
+  background-size: contain;
+  background-repeat:no-repeat;
+  background-position:center;
+
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:16px;
 }
 
-.cake-display {
-  display: flex;
-  flex-direction: column; /* 縦並び */
-  gap: 4px;
+/* スタンプ共通 */
+.stamp{
+  width:60px;
+  height:60px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
 }
 
-.cake-row {
-  display: flex;
-  gap: 4px;
-  flex-wrap: wrap;
+/* 取得済み */
+.stamp.active{
+  background: #ffffff;
+  border:1px solid #dadada;
+  box-shadow:
+  0 3px 6px rgba(0,0,0,0.2);
 }
 
-.cake-icon {
-  height: auto;
-  width: 35px;
+/* スタンプ画像 */
+.stamp-img{
+  width:80%;
 }
 
-.cake-multiple-icon {
-  width: 40px;
-  height: 40px;
-  margin-top: 50px;
+/* 未取得 */
+.stamp.empty{
+  background: rgba(199, 199, 199, 0.35);
 }
 
-.cake-number {
-  display: flex;
+.stamp-number{
+  font-size:16px;
+  color:#ffffff;
+  font-weight:400;
+  font-family: "Noto Sans JP", "Yu Gothic", sans-serif;
 }
 
-.cake-number-icon {
-  width: 48px;
-  height: 100px;
-  margin-top: 6px;
-  margin-left: 3px;
-}
+/* =========================
+   スマホ対応
+========================= */
 
-.reward-cake-icon.whole {
-  width: 40px;
-  align-items: center;
+@media (max-width: 480px) {
+
+  .stamp-board {
+    gap: 14px;
+    padding: 18px;
+  }
+
+  .stamp {
+    width: 60px;
+    height: 60px;
+  }
+
 }
 
 .reward-container {
@@ -922,14 +1011,14 @@ body {
   font-weight: normal;
 }
 
-.cake-count {
+.stamp-count {
   display: inline-flex;
   align-items: center;
   gap: 4px;
   font-weight: bold;
 }
 
-.mini-cake-reward {
+.mini-stamp-reward {
   height: 30px;
 }
 
@@ -944,6 +1033,16 @@ body {
 .delete-icon {
   width: 17px;
   height: auto;
+  cursor: pointer;
+}
+
+.detail-icon-chore-index,
+.edit-icon-chore-index,
+.delete-icon-chore-index {
+  width: 17px;
+  height: auto;
+  cursor: pointer;
+  margin-top: 3px;
 }
 
 .detail-icon-home {
@@ -961,21 +1060,20 @@ body {
 }
 
 .icon-separator {
-  font-size: 14px;
-  line-height: 1;         /* 文字の縦ズレ防止 */
+  font-size: 16px;
 }
 
-.cake-wrapper {
+.stamp-wrapper {
   position: relative;
   display: inline-block;
 }
 
-.cake-icon.whole {
+.stamp-icon.whole {
   width: 200px;
   padding-left: 15px;
 }
 
-.cake-info {
+.stamp-info {
   position: absolute;
   background: #fff;
   width: 90px;
@@ -990,17 +1088,17 @@ body {
   text-align: center;
 }
 
-.cake-info.top-right {
+.stamp-info.top-right {
   top: 20px;
   right: 40px;
 }
 
-.cake-info .number {
+.stamp-info .number {
   font-weight: bold;
   color: #e74c3c; /* 赤系でケーキ感 */
 }
 
-.cake-count-plain {
+.stamp-count-plain {
   position: absolute;
   bottom: 10px;
   right: 25px;
@@ -1012,22 +1110,22 @@ body {
   color: #333;
 }
 
-.cake-count-label {
+.stamp-count-label {
   font-size: 13px;
 }
 
-.cake-count-body {
+.stamp-count-body {
   display: flex;
   align-items: center;
   gap: 6px;
 }
 
-.mini-cake {
+.mini-stamp {
   width: 28px;
   height: auto;
 }
 
-.cake-count-body .count {
+.stamp-count-body .count {
   font-weight: bold;
 }
 
@@ -1202,15 +1300,25 @@ body {
 /* 各ボタン */
 .home-link-item {
   display: flex;
-  align-items: center;      /* 縦中央 */
-  justify-content: center;  /* 横中央 */
+  align-items: center;
+  justify-content: center;
 
   padding: 14px 18px;
-  background-color: #f3b769;
+
+  /* グラデーションで立体感 */
+  background: #f3b769;
+
   border-radius: 6px;
 
   text-decoration: none;
   color: #333;
+
+  /* 立体感 */
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.15), /* 上の光 */
+    0 2px 4px rgba(0,0,0,0.18);           /* 下の影 */
+
+  transition: all 0.15s ease;
 }
 
 /* テキスト */
@@ -1247,7 +1355,7 @@ body {
   height: 60px;
   border-radius: 50%;
 
-  background-color: #f3b769;
+  background-color: #ffc04c;
   color: white;
 
   display: flex;
@@ -1390,17 +1498,6 @@ body {
   margin-top: 0px;
 }
 
-/* 追加ボタン */
-.empty-add-btn {
-  display: block;
-  background: #f3b769;
-  color: #333;
-  text-decoration: none;
-  padding: 8px 0;
-  border-radius: 6px;
-  font-weight: 500;
-}
-
 .form-description {
   font-size: 14px;
   color: #444444;
@@ -1458,4 +1555,227 @@ body {
   margin-top: 8px;
   font-size: 13px;
   color: #666;
+}
+
+/* =========================
+   サイドメニュー本体
+========================= */
+.side-menu {
+  position: fixed;
+  top: 0;
+  left: -260px;
+  width: 240px;
+  height: 100%;
+  background: #1e1f23;   /* 暗め背景 */
+  box-shadow: 4px 0 15px rgba(0,0,0,0.4);
+  transition: left 0.3s ease;
+  z-index: 1001;
+  padding-top: 60px;   /* 上に余白 */
+}
+
+/* 開いた状態 */
+.side-menu.active {
+  left: 0;
+}
+
+/* =========================
+   メニューリンク
+========================= */
+.side-menu a {
+  display: flex;              /* ← 横並びにする */
+  align-items: center;
+  padding: 16px 22px;
+  text-decoration: none;
+  color: #dcdcdc;
+  font-size: 15px;
+  font-weight: 500;
+  transition: 0.2s;
+  border-radius: 8px;
+  margin: 6px 12px;
+}
+
+/* アイコン部分 */
+.menu-icon {
+  margin-right: 14px;
+  font-size: 18px;
+  width: 26px;               /* 揃える */
+  text-align: center;
+}
+
+.menu-avatar {
+  width: 23px;
+  height: 23px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.menu-avatar-square {
+  width: 23px;
+  height: 23px;
+  object-fit: cover;
+}
+
+/* hover時 */
+.side-menu a:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #ffffff;
+}
+
+/* ログアウトを少し目立たせる */
+.side-menu a:last-child {
+  margin-top: 20px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 20px;
+}
+
+/* =========================
+   オーバーレイ
+========================= */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(2px);
+  display: none;
+  z-index: 1000;
+}
+
+.overlay.active {
+  display: block;
+}
+
+/* =========================
+   ハンバーガー強調
+========================= */
+.hamburger {
+  cursor: pointer;
+}
+
+.hamburger .footer-icon {
+  font-size: 20px;
+}
+
+.category-wrapper {
+  padding: 30px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.category-add-btn {
+  background: #f3b769;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 160px);
+  gap: 20px;
+}
+
+.category-card {
+  position: relative;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 25px 10px;
+  text-align: center;
+  text-decoration: none;
+  color: #333;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  transition: 0.2s ease;
+}
+
+.category-icon {
+  width: 74px;
+  height: 74px;
+  margin: 0 auto 12px;
+
+  border-radius: 50%;          /* 丸くする */
+  border: 2px solid #e0e0e0;   /* 外枠 */
+  background: #fff;            /* 背景を白に */
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;            /* はみ出し防止 */
+}
+
+.category-icon img {
+  max-width: 95%;     /* ← 少し小さめでスタンプ感 */
+  max-height: 95%;
+  object-fit: contain; /* 切らずに収める */
+}
+
+.category-name {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 8px;
+  display: inline-block;
+}
+
+.category-empty {
+  text-align: center;
+  margin-top: 40px;
+  color: #777;
+}
+
+.card-main-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.delete-link {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 10;
+}
+
+.color-options {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.color-choice {
+  position: relative;
+  cursor: pointer;
+}
+
+.color-choice input {
+  position: absolute;
+  opacity: 0;
+}
+
+.color-circle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid #ddd;
+  display: inline-block;
+  transition: 0.1s;
+}
+
+/* 選択時 */
+.color-choice input:checked + .color-circle {
+  border: 2px solid #7389c5;
+  transform: scale(1.1);
 }

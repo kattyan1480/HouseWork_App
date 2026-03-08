@@ -12,15 +12,17 @@ class ChoresController < ApplicationController
   def new
     @chore = Chore.new
     @pending_chore_dates = @chore.chore_dates.none
+    @categories = current_user.group.categories
   end
 
   def create
     @chore = current_user.group.chores.build(chore_params)
+    @categories = current_user.group.categories
 
     dates = params[:chore][:execute_dates].to_s.split(",").reject(&:blank?)
     time  = params[:chore][:execute_time]
 
-    @chore.validate  # ← これ重要
+    @chore.validate
 
     if dates.blank?
       @chore.errors.add(:execute_dates, "を入力してください")
@@ -52,9 +54,12 @@ class ChoresController < ApplicationController
 
   def edit
     # set_chore
+    @categories = current_user.group.categories
   end
 
   def update
+    @categories = current_user.group.categories
+
     dates = params[:chore][:execute_dates].to_s.split(",").reject(&:blank?)
     time  = params[:chore][:execute_time]
 
@@ -120,8 +125,9 @@ class ChoresController < ApplicationController
   def chore_params
     params.require(:chore).permit(
       :title,
-      :cake_reward,
+      :stamp_reward,
       :detail,
+      :category_id
     )
   end
 end

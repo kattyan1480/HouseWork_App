@@ -1,0 +1,96 @@
+<%= form_with model: @category,
+              local: true,
+              data: { turbo: false },
+              class: "form-wrapper-chore" do |f| %>
+  <div class="form-card">
+
+    <!-- カテゴリー名 -->
+    <div class="form-group">
+      <div class="label-row">
+        <%= f.label :name, "カテゴリー名", class: "form-label" %>
+        <span class="required">必須</span>
+      </div>
+
+      <%= f.text_field :name,
+            class: "form-input #{'input-error' if @category.errors[:name].any?}",
+            placeholder: "例）掃除、料理、洗濯" %>
+
+      <% if @category.errors[:name].any? %>
+        <div class="field-error-message">
+          <%= @category.errors.full_messages_for(:name).first %>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- 色 -->
+    <div class="form-group">
+      <div class="label-row">
+        <%= f.label :color, "カテゴリの色", class: "form-label" %>
+        <span class="required">必須</span>
+      </div>
+
+      <%= f.hidden_field :color, value: "" %>
+
+      <div class="color-options">
+        <% Category::PASTEL_COLORS.each do |name, color| %>
+          <label class="color-choice">
+            <%= f.radio_button :color, color %>
+            <span class="color-circle" style="background-color: <%= color %>;"></span>
+          </label>
+        <% end %>
+      </div>
+
+      <% if @category.errors[:color].any? %>
+        <div class="field-error-message">
+          <%= @category.errors.full_messages_for(:color).first %>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- カテゴリー画像 -->
+    <div class="form-group">
+      <div class="label-row">
+        <%= f.label :stamp, "カテゴリー画像", class: "form-label" %>
+        <span class="required">必須</span>
+      </div>
+
+      <div class="avatar-upload">
+        <%= f.file_field :stamp,
+              accept: "image/*",
+              id: "stamp_input",
+              class: "hidden-file" %>
+
+        <button type="button"
+                id="stamp_button"
+                class="calendar-btn">
+          ファイルを選択
+        </button>
+
+        <div id="stamp_filename" class="file-name">
+          選択されていません
+        </div>
+
+        <img id="stamp_preview"
+             class="user-avatar avatar-preview"
+             style="display:none;" />
+      </div>
+
+      <% if @category.errors[:stamp].any? %>
+        <div class="field-error-message">
+          画像を選択してください
+        </div>
+      <% end %>
+    </div>
+
+    <!-- ボタン -->
+    <div class="form-actions">
+      <%= f.submit (local_assigns[:submit_label] || "作成"),
+            class: "submit-btn" %>
+
+      <%= link_to (local_assigns[:back_label] || "キャンセル"),
+            (local_assigns[:back_path] || categories_path),
+            class: "back-link" %>
+    </div>
+
+  </div>
+<% end %>

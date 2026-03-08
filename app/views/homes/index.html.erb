@@ -2,18 +2,9 @@
   🏠 ホーム
 <% end %>
 
-<% content_for :header_right do %>
-  <%= link_to profile_index_path, class: "header-item" do %>
-    <span class="header-profile">
-      <span class="header-icon">
-        <%= image_tag current_user.avatar_image_or_default, class: "user-avatar-history" %>
-      </span>
-    </span>
-  <% end %>
-<% end %>
-
 <!-- ===== 今日の予定 ===== -->
-<div class="chore-list-home">
+<div class="chore-list">
+
   <span class="today-chore-schedule">
     <%= image_tag "チェックリスト.png", class: "checklist-icon" %>
     <span>今日の予定</span>
@@ -21,61 +12,73 @@
 
   <% if @today_chore_dates.any? %>
 
+    <!-- ヘッダー -->
     <div class="chore-row-header chore-header">
       <div class="chore-title-header-homes">家事名</div>
       <div class="chore-reward-header-homes">報酬</div>
-      <div class="chore-date-header-homes">日時</div>
+      <div class="chore-date-header-homes">時間</div>
     </div>
 
     <% @today_chore_dates.each do |chore_date| %>
       <% chore = chore_date.chore %>
 
-      <div class="chore-row-home js-open-modal"
+      <div class="chore-row js-open-modal"
         data-chore-id="<%= chore.id %>"
         data-chore-date-id="<%= chore_date.id %>"
         data-chore-title="<%= chore.title %>">
 
-        <div class="chore-title">
-          <%= truncate(chore.title, length: 15) %>
+        <!-- 左：カテゴリ＋タイトル -->
+        <div class="chore-main">
+
+          <!-- 丸アイコン -->
+          <div class="chore-icon">
+            <%= image_tag chore.category.stamp, class: "category-icon-home" %>
+          </div>
+
+          <!-- テキスト -->
+          <div class="chore-text">
+            <span class="category-badge"
+                  style="background-color: <%= chore.category.color %>;">
+              <%= chore.category.name %>
+            </span>
+
+            <div class="chore-title">
+              <%= chore.title %>
+            </div>
+          </div>
+
         </div>
 
-        <div class="chore-cake-reward">
-          <% reward = chore.cake_reward.to_i %>
-
-          <% if reward <= 5 %>
-            <% reward.times do %>
-              <%= image_tag "shortcake.png", class: "cake-icon" %>
-            <% end %>
-          <% else %>
-            <%= image_tag "shortcake.png", class: "cake-icon" %>
-            <span class="cake-multiple">×<%= reward %></span>
-          <% end %>
+        <!-- 中央：報酬 -->
+        <div class="chore-reward-area">
+          <div class="reward-button">
+            スタンプ <%= chore.stamp_reward %> 個
+          </div>
         </div>
 
-        <div class="chore-actions-home">
-          <span class="chore-time">
-            <%= chore_date.execute_at.strftime("%H:%M") %>
-          </span>
+        <!-- 右：時間 -->
+        <div class="chore-time-area">
+          <%= chore_date.execute_at.strftime("%H:%M") %>
         </div>
 
       </div>
+
     <% end %>
 
   <% else %>
 
-    <!-- ★ 空状態カード -->
     <div class="empty-chore-card">
       <p class="empty-message">今日のやる家事はありません</p>
-
       <%= link_to "予定を追加", new_chore_path, class: "empty-add-btn" %>
     </div>
 
   <% end %>
+
 </div>
 
 
 <!-- ===== 昨日のやり残し ===== -->
-<div class="chore-list-home">
+<div class="chore-list">
 
   <span class="yesterday-chore-schedule">
     <%= image_tag "チェックリスト.png", class: "checklist-icon" %>
@@ -84,47 +87,61 @@
 
   <% if @yesterday_chore_dates.any? %>
 
+    <!-- ヘッダー -->
     <div class="chore-row-header chore-header">
       <div class="chore-title-header-homes">家事名</div>
       <div class="chore-reward-header-homes">報酬</div>
-      <div class="chore-date-header-homes">日時</div>
+      <div class="chore-date-header-homes">時間</div>
     </div>
 
     <% @yesterday_chore_dates.each do |chore_date| %>
       <% chore = chore_date.chore %>
 
-      <div class="chore-row-home js-open-modal"
+      <div class="chore-row js-open-modal"
         data-chore-id="<%= chore.id %>"
         data-chore-date-id="<%= chore_date.id %>"
         data-chore-title="<%= chore.title %>">
 
-        <div class="chore-title">
-          <%= truncate(chore.title, length: 15) %>
+        <!-- 左：カテゴリ＋タイトル -->
+        <div class="chore-main">
+
+          <!-- 丸アイコン -->
+          <div class="chore-icon">
+            <%= image_tag chore.category.stamp, class: "category-icon-home" %>
+          </div>
+
+          <!-- テキスト -->
+          <div class="chore-text">
+            <span class="category-badge"
+                  style="background-color: <%= chore.category.color %>;">
+              <%= chore.category.name %>
+            </span>
+
+            <div class="chore-title">
+              <%= chore.title %>
+            </div>
+          </div>
+
         </div>
 
-        <div class="chore-cake-reward">
-          <% reward = chore.cake_reward.to_i %>
-
-          <% if reward <= 5 %>
-            <% reward.times do %>
-              <%= image_tag "shortcake.png", class: "cake-icon" %>
-            <% end %>
-          <% else %>
-            <%= image_tag "shortcake.png", class: "cake-icon" %>
-            <span class="cake-multiple">×<%= reward %></span>
-          <% end %>
+        <!-- 中央：報酬 -->
+        <div class="chore-reward-area">
+          <div class="reward-button">
+            スタンプ <%= chore.stamp_reward %> 個
+          </div>
         </div>
 
-        <div class="chore-actions-home">
-          <span class="chore-time">
-            <%= chore_date.execute_at.strftime("%H:%M") %>
-          </span>
+        <!-- 右：時間 -->
+        <div class="chore-time-area">
+          <%= chore_date.execute_at.strftime("%H:%M") %>
         </div>
 
       </div>
+
     <% end %>
 
   <% else %>
+
     <p class="no-chore-message">昨日やり残した家事はありません</p>
   <% end %>
 

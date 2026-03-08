@@ -1,5 +1,5 @@
 <% content_for :header_title do %>
-  💪 成果
+  🏆 成果
 <% end %>
 
 <div class="member-tabs">
@@ -11,45 +11,50 @@
   <% end %>
 </div>
 
-<h3>今の保有ケーキ</h3>
+<div class="status-bar">
+  <div class="status-item">
+    <%= image_tag "チケット.jpeg", class: "status-icon" %>
+    <span class="status-label">チケット</span>
+    <span class="status-count"><%= @user.stamp_amount / 15 %></span>
+    <span class="status-label">枚</span>
+  </div>
+</div>
 
-<div class="achievement-panel">
+<% total_slots = 15 %>
 
-  <div class="top-decor">✦</div>
+<% stamps = [] %>
 
-  <div class="cake-display">
+<% @categories.each do |category| %>
+  <% count = @stamp_counts[category.id] || 0 %>
 
-    <% remainder = @user.cake_amount % 8 %>
-    <% completed = @user.cake_amount / 8 %>
-    <% remaining = remainder.zero? ? 0 : 8 - remainder %>
+  <% count.times do %>
+    <% stamps << category.stamp %>
+  <% end %>
+<% end %>
 
-    <div class="cake-wrapper">
-      <%= image_tag "holecake#{remainder.zero? ? 8 : remainder}.png",
-            class: "cake-icon whole" %>
+<div class="achievement-container">
 
-      <!-- 右上：完成まで -->
-      <div class="cake-info top-right">
-        完成まで <span class="number"><%= remaining %>ピース</span>
-      </div>
+  <div class="stamp-board">
 
-      <!-- 右下：完成ホール数 -->
-      <div class="cake-count-plain">
-        <div class="cake-count-label">
-          完成したホールケーキ
+    <% total_slots.times do |i| %>
+
+      <% if stamps[i] %>
+
+        <div class="stamp active">
+          <%= image_tag stamps[i], class: "stamp-img" %>
         </div>
 
-        <div class="cake-count-body">
-          <%= image_tag "holecake8.png", class: "mini-cake" %>
-          <span class="count">× <%= completed %> 個</span>
+      <% else %>
+
+        <div class="stamp empty">
+          <span class="stamp-number"><%= i + 1 %></span>
         </div>
-      </div>
 
-    </div> <!-- cake-wrapper -->
+      <% end %>
 
-  </div> <!-- ★ cake-display を閉じる -->
+    <% end %>
 
-  <div class="bottom-decor">✦</div>
-
+  </div>
 </div>
 
 <%= render "rewards/index" %>

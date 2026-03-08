@@ -78,3 +78,5 @@ gem "devise", "~> 4.9"
 gem 'kaminari'
 
 gem 'sendgrid-ruby'
+
+gem "image_processing", "~> 1.2"

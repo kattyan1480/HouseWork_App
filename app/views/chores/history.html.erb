@@ -1,5 +1,5 @@
 <% content_for :header_title do %>
-  📜 家事履歴
+  🕒 家事履歴
 <% end %><br>
 
 <% if @chore_dates.any? { |cd| cd.chore_histories.exists? } %>
@@ -9,7 +9,7 @@
       <div class="chore-title-header-chores-history">家事名</div>
       <div class="chore-reward-header-chores-history">報酬</div>
       <div class="chore-date-header-chores-history">日時</div>
-      <div class="chore-users-header-chores-history">実施者</div>
+      <div class="chore-user-header-chores-history">実施者</div>
     </div>
 
     <% @chore_dates.each do |chore_date| %>
@@ -17,37 +17,50 @@
       <% histories = chore_date.chore_histories.order(done_at: :desc) %>
       <% next if histories.empty? %>
 
-      <div class="chore-row-history">
+      <div class="chore-row">
 
-        <!-- 家事タイトル・備考 -->
-        <div  class="chore-title"><%= truncate(chore.title, length: 15) %></div>
+        <!-- 左：カテゴリ＋タイトル -->
+        <div class="chore-main">
 
-        <!-- ケーキ報酬（合計） -->
-        <div class="chore-cake-reward">
-          <% total_cake = histories.sum(&:cake_reward_count) %>
-          <% if total_cake <= 5 %>
-            <% total_cake.times do %>
-              <%= image_tag "shortcake.png", class: "cake-icon" %>
-            <% end %>
-          <% else %>
-            <%= image_tag "shortcake.png", class: "cake-icon" %>
-            <span class="cake-multiple">×<%= total_cake %></span>
-          <% end %>
+          <!-- 丸アイコン -->
+          <div class="chore-icon">
+            <%= image_tag chore.category.stamp, class: "category-icon-home" %>
+          </div>
+
+          <!-- テキスト -->
+          <div class="chore-text">
+            <span class="category-badge"
+                  style="background-color: <%= chore.category.color %>;">
+              <%= chore.category.name %>
+            </span>
+
+            <div class="chore-title">
+              <%= chore.title %>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 中央：報酬 -->
+        <div class="chore-reward-area">
+          <div class="reward-button">
+            スタンプ <%= chore.stamp_reward %> 個
+          </div>
         </div>
 
         <!-- 完了日時（代表者） -->
-        <div class="chore-actions-history">
+        <div class="chore-time-area">
           <% first_history = histories.first %>
-          <span class="chore-date-history">
-            <%= first_history.done_at.strftime("%-m月%-d日") %>
-          </span>
-          <span class="chore-time-history">
-            <%= first_history.done_at.in_time_zone("Tokyo").strftime("%H時%M分") %>
+          <span class="chore-date">
+            <%= first_history.done_at.strftime("%-m/%-d") %>(<%= %w[日 月 火 水 木 金 土][first_history.done_at.wday] %>)
+          </span><br>
+          <span class="chore-time">
+            <%= first_history.done_at.in_time_zone("Tokyo").strftime("%H:%M") %>
           </span>
         </div>
 
         <!-- 実施者アイコン -->
-        <div class="chore-users-history">
+        <div class="chore-user-area">
           <% if histories.size >= 3 %>
             <%= image_tag "group.png", class: "user-avatar-history" %>
           <% else %>
@@ -65,5 +78,5 @@
     <% end %>
   </div>
 <% else %>
-  <p>まだ家事の履歴はありません</p>
+  <p class="no-chore-message">まだ家事の履歴はありません</p>
 <% end %>

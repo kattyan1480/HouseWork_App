@@ -26,7 +26,8 @@ class ApplicationController < ActionController::Base
       "chores" => %w[index history new],
       "achievements" => %w[index],
       "rewards" => %w[new edit],
-      "profile" => %w[index]
+      "profile" => %w[index],
+      "categories" => %w[index new edit]
     }
 
     footer_pages[controller_name]&.include?(action_name)
