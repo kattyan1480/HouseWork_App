@@ -1,12 +1,8 @@
 <% content_for :header_title do %>
-  カテゴリー
+  カテゴリ
 <% end %><br>
 
 <div class="category-wrapper">
-  <div class="category-header">
-
-    <%= link_to "＋ 追加", new_category_path, class: "category-add-btn" %>
-  </div>
 
   <% if @categories.any? %>
     <div class="category-grid">
@@ -39,4 +35,13 @@
       カテゴリーがまだありません
     </div>
   <% end %>
+
+  <div class="category-header">
+    <%= link_to "＋カテゴリを追加", new_category_path, class: "category-add-btn" %>
+  </div>
+
 </div>
+
+<% content_for :fixed_ui_left do %>
+  <%= link_to "戻る", homes_index_path, class: "fixed-link" %>
+<% end %>

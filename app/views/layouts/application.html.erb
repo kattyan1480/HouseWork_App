@@ -21,7 +21,7 @@
       <% end %>
     </div>
 
-    <main class="content">
+    <main class="<%= content_for?(:main_class) ? yield(:main_class) : 'content' %>">
       <div class="content-inner">
         <%= yield %>
       </div>

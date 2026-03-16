@@ -1,5 +1,8 @@
 <% content_for :header_title do %>
-  🕒 家事履歴
+  <div class="header-title-with-icon">
+     <%= image_tag "アイアンマン.png", class: "header-icon" %>
+     履歴
+  </div>
 <% end %><br>
 
 <% if @chore_dates.any? { |cd| cd.chore_histories.exists? } %>

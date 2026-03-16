@@ -8,7 +8,6 @@ html, body {
 
 body {
   flex-direction: column;
-  background-color: #f5fafff8;
   overflow: hidden;
   font-family: 'Noto Sans JP', sans-serif;
   font-weight: 400;
@@ -17,16 +16,31 @@ body {
   position: relative;
 }
 
+/* 背景画像 */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+
+  background-image: url("<%= asset_path 'marvel.jpg' %>");
+  background-size: cover;
+  background-position: center;
+
+  opacity: 0.03; /* ← 薄さ（調整ポイント） */
+
+  z-index: -1;
+}
+
 /* ===== ヘッダー ===== */
 .app-header {
   background: linear-gradient(
     to bottom,
-    #24304a 0%,
-    #1b2a49 70%,
-    #141f38 100%
+    #b71a31 0%,
+    #9f1022 55%,
+    #870d1c 100%
   );
 
-  height: 56px;
+  height: 80px;
   padding: 0 20px;
 
   display: flex;
@@ -51,7 +65,7 @@ body {
     #141f38 100%
   );
 
-  height: 48px;
+  height: 110px;
   padding: 0 40px;
 
   display: flex;
@@ -73,11 +87,11 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: 12px;
+  font-size: 24px;
 }
 
 .footer-icon {
-  width: 18px;
+  width: 60px;
   height: auto;
   padding-top: 2px;
 }
@@ -92,6 +106,7 @@ body {
   left: 50%;
   transform: translateX(-50%);
   color: #ffffffda;
+  font-size: 28px;
 }
 
 .avatar-upload {
@@ -117,9 +132,19 @@ body {
   overflow-y: auto;        /* 縦スクロール */
 }
 
+/* 画面全体の中央寄せ用 */
+.content-achievement {
+  flex: 1;
+  display: flex;
+  flex-direction: column;   /* 横中央 */
+  align-items: center;
+  width: 100%;
+  overflow-y: auto;        /* 縦スクロール */
+}
+
 .content-inner {
   width: 100%;
-  max-width: 1200px;
+  max-width: 980px;
   margin: 0 auto;
   padding-bottom: 50px;
   display: flex;
@@ -129,14 +154,14 @@ body {
 
 /* 全体幅 */
 .chore-list {
-  width: 42%;
+  width: 90%;
   display: flex;
   flex-direction: column;
 }
 
 /* 全体幅 */
 .chore-list-history {
-  width: 50%;
+  width: 90%;
   display: flex;
   flex-direction: column;
 }
@@ -146,7 +171,7 @@ body {
 ======================= */
 .chore-row-header {
   display: flex;
-  height: 34px;
+  height: 50px;
   border: 1px solid #444444;   /* 外枠 */
   border-bottom: none;
 }
@@ -157,7 +182,7 @@ body {
   justify-content: center;
   background-color: #444444;
   color: white;
-  font-size: 14px;
+  font-size: 26px;
   font-weight: 600;
   /* 区切り線 */
   border-right: 2px solid #ffffff;
@@ -169,17 +194,17 @@ body {
 }
 
 .chore-title-header-homes { flex: 1; }
-.chore-reward-header-homes   { width: 140px; }
-.chore-date-header-homes     { width: 80px; }
+.chore-reward-header-homes   { width: 220px; }
+.chore-date-header-homes     { width: 140px; }
 
 .chore-title-header-chores-index { flex: 1; }
-.chore-reward-header-chores-index   { width: 140px; }
-.chore-action-header-chores-index     { width: 80px; }
+.chore-reward-header-chores-index   { width: 220px; }
+.chore-action-header-chores-index     { width: 140px; }
 
 .chore-title-header-chores-history { flex: 1; }
-.chore-reward-header-chores-history   { width: 140px; }
-.chore-date-header-chores-history     { width: 80px; }
-.chore-user-header-chores-history     { width: 100px; }
+.chore-reward-header-chores-history   { width: 220px; }
+.chore-date-header-chores-history     { width: 140px; }
+.chore-user-header-chores-history     { width: 140px; }
 
 /* =======================
    行デザイン
@@ -206,13 +231,13 @@ body {
   flex: 1;
   display: flex;
   align-items: center;
-  gap: 14px;
-  margin-left: 12px;
+  gap: 16px;
+  margin-left: 16px;
 }
 
 .chore-icon {
-  width: 39px;
-  height: 39px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
 
   background-color: inherit;
@@ -226,8 +251,8 @@ body {
 }
 
 .category-icon-home {
-  width: 38px;              /* ← 少し小さく */
-  height: 38px;
+  width: 60px;              /* ← 少し小さく */
+  height: 60px;
   object-fit: contain;      /* 画像比率を崩さない */
 
   margin: 0;                /* ← これが重要 */
@@ -244,7 +269,7 @@ body {
   display: inline-block;
   padding: 1px 6px;
   border-radius: 6px;
-  font-size: 10px;
+  font-size: 20px;
   color: #313131;
   font-weight: 600;
   width: fit-content;
@@ -252,7 +277,7 @@ body {
 
 /* 家事タイトル */
 .chore-title {
-  font-size: 15px;
+  font-size: 30px;
   font-weight: 700;
   color: #383838;
 }
@@ -261,7 +286,7 @@ body {
    報酬
 ======================= */
 .chore-reward-area {
-  width: 140px;
+  width: 220px;
   display: flex;
   align-items: center;
   justify-content: center;   /* ← 中央 */
@@ -273,7 +298,7 @@ body {
   color: #383838;
   padding: 5px 10px;
   border-radius: 5px;
-  font-size: 12px;
+  font-size: 26px;
   font-weight: 600;
 }
 
@@ -281,10 +306,10 @@ body {
    時間
 ======================= */
 .chore-time-area {
-  width: 80px;
+  width: 140px;
   text-align: center;
 
-  font-size: 14px;
+  font-size: 26px;
   font-weight: 700;
   letter-spacing: 1px;
 
@@ -296,11 +321,9 @@ body {
     アクション
 ======================= */
 .chore-action-area {
-  width: 80px;
+  width: 140px;
   text-align: center;
 
-  font-size: 14px;
-  font-weight: 700;
   letter-spacing: 1px;
 
   border-radius: 8px;
@@ -308,23 +331,32 @@ body {
 }
 
 /* =======================
-    アクション
+    ユーザー
 ======================= */
 .chore-user-area {
-  width: 100px;
+  width: 140px;
   text-align: center;
 
   border-radius: 8px;
   color: #383838;
 }
 
-/* =======================
-   空状態
-======================= */
+/* 空状態カード */
 .empty-chore-card {
-  border: 1px solid #ddd;
-  padding: 30px;
+  background: #ffffff;
+  border-radius: 4px;
+  padding: 20px;
+  margin-top: 4px;
   text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+/* メッセージ */
+.empty-message {
+  font-size: 30px;
+  color: #464646;
+  margin-bottom: 16px;
+  margin-top: 0px;
 }
 
 .empty-add-btn {
@@ -335,6 +367,7 @@ body {
   padding: 8px 0;
   border-radius: 6px;
   font-weight: 500;
+  font-size: 30px;
 }
 
 .edit-link {
@@ -343,12 +376,16 @@ body {
 
 .delete-link {
   text-decoration: none;
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 10;
 }
 
 /* フォーム＋エラーをまとめる箱 */
 .form-wrapper {
-  width: 360px;          /* 基準幅（重要） */
-  max-width: 90%;
+  max-width: 420px;
+  max-width: 100%;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -395,7 +432,7 @@ body {
 }
 
 .logo-image {
-  height: 30px;
+  height: 50px;
   width: auto;
   margin: 0px 0;   /* ← 上下余白 */
 }
@@ -470,8 +507,8 @@ body {
 
 /* アイコン自体 */
 .user-avatar-history {
-  width: 34px;
-  height: 34px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   object-fit: cover;
   line-height: 1;
@@ -491,19 +528,10 @@ body {
   gap: 6px;
 }
 
-.fixed-bottom-right {
-  position: fixed;
-  right: 40px;
-  bottom: 80px;
-  display: flex;
-  gap: 12px;          /* ボタン間の隙間 */
-  align-items: center;
-}
-
 .fixed-bottom-left {
   position: fixed;
   left: 40px;
-  bottom: 80px;
+  bottom: 130px;
   display: flex;
   gap: 12px;          /* ボタン間の隙間 */
   align-items: center;
@@ -511,7 +539,7 @@ body {
 }
 
 .fixed-link {
-  width: 110px;
+  width: 130px;
   appearance: none;
   -webkit-appearance: none;
 
@@ -519,12 +547,12 @@ body {
   align-items: center;
   justify-content: center;
 
-  height: 50px;
-  padding: 0 10px;
+  height: 70px;
+  padding: 10px 10px;
 
   border-radius: 5px;
 
-  font-size: 15px;
+  font-size: 30px;
   font-weight: 500;
   font-family: inherit;
   line-height: 1;
@@ -559,10 +587,10 @@ body {
   position: relative;
   background: #ffffff;
   border: 1px solid #535353;   /* ← 枠線を明示 */
-  width: 230px;
+  width: 500px;
   padding-top: 25px;
-  padding-bottom: 5px;
-  margin: 100px auto;      /* 画面中央に配置 */
+  padding-bottom: 15px;
+  margin: 300px auto;      /* 画面中央に配置 */
   border-radius: 8px;
 
   display: flex;
@@ -582,7 +610,7 @@ body {
 
 /* タイトル */
 .modal-chore-title {
-  font-size: 15px;
+  font-size: 30px;
   font-weight: 500;
   font-weight: bold;
   margin: 0;      /* 余計なズレ防止 */
@@ -596,19 +624,21 @@ body {
 
 .member-select {
   position: relative;
-  width: 170px;
-  padding-top: 20px;
+  width: 300px;
+  padding-top: 30px;
 }
 
 /* 上のボックス */
 .member-select-header {
+  height: 55px;
   background: #d1d1d165;
   border: 1px solid #2e2e2e;
   padding: 5px 7px;
   cursor: pointer;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  font-size: 26px;
 }
 
 /* 下の一覧 */
@@ -617,12 +647,14 @@ body {
   top: 100%;
   box-sizing: border-box;
   width: 100%;
+  height: auto;
   background: #ffffff;
   border: 1px solid #a5a5a59a;
   box-shadow: 0 8px 20px rgba(0,0,0,0.1);
   max-height: 180px;   /* ← 高さ固定 */
   overflow-y: auto;    /* ← スクロール */
   display: none;
+  font-size: 26px;
 }
 
 .member-checkbox {
@@ -630,6 +662,12 @@ body {
   padding: 8px 8px;
   border-bottom: 1px solid #c7c7c7;
   cursor: pointer;
+}
+
+/* チェックボックスサイズ */
+.member-checkbox input[type="checkbox"]{
+  transform: scale(1.5);
+  margin-right: 8px;
 }
 
 .member-checkbox:last-child {
@@ -643,50 +681,72 @@ body {
 /* ボタン全体 */
 .modal-buttons {
   display: flex;
-  flex-direction: column; 
-  align-items: stretch;   /* ← 中身を横幅いっぱいに伸ばす */
-  width: 100%;         /* モーダル幅いっぱい */
-  padding-top: 20px;
-  padding-bottom: 4px;
+  justify-content: center;
+  width: 100%;
+  margin-top: 30px;
 }
 
 .modal-buttons-gain {
   display: flex;
-  flex-direction: column; 
-  align-items: stretch;   /* ← 中身を横幅いっぱいに伸ばす */
-  width: 100%;         /* モーダル幅いっぱい */
+  justify-content: center;
+  width: 100%;
+}
+
+.modal-buttons-complete {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* 1行目：完了ボタンを横いっぱいに */
-.modal-buttons-complete button {
-  width: 100%;            /* 親に合わせて横いっぱい */
-  margin: 0px;
-  padding: 3px 0;
-  border-radius: 4px;
+.modal-buttons-gain button{
+  width: 250px;
+  height: 55px;
+  padding: 3px 50px;
+  border-radius: 8px;
   box-sizing: border-box; /* パディング込みで幅いっぱい */
   background-color: #57587e;
   color: #ffffff;
+  margin-bottom: 4px;
+  cursor: pointer;        /* 活性時はマウスカーソルを手に */
+  transition: background 0.2s, color 0.2s; /* スムーズ切替 */
+  font-size: 26px;
+}
+
+.modal-buttons-complete button {
+  width: 100%;
+  height: 55px;
+  padding: 3px 50px;
+  border-radius: 8px;
+  box-sizing: border-box; /* パディング込みで幅いっぱい */
+  background-color: #57587e;
+  color: #ffffff;
+  margin-bottom: 4px;
+  cursor: pointer;        /* 活性時はマウスカーソルを手に */
+  transition: background 0.2s, color 0.2s; /* スムーズ切替 */
+  font-size: 26px;
 }
 
 /* ボタン全体 */
 .modal-buttons-sub {
   display: flex;
-  flex-direction: column;  /* 縦並び */
-  align-items: center;     /* 横方向の中央揃え */
-  width: 100%;             /* 親の幅いっぱいに */
+  justify-content: center;
+  width: 100%;
 }
 
-/* ボタン全体 */
-.modal-buttons-sub {
+.modal-buttons-reschedule {
   display: flex;
-  flex-direction: column;  /* 縦並び */
-  align-items: center;     /* 横方向の中央揃え */
-  width: 100%;             /* 親の幅いっぱいに */
+  flex-direction: column;
+  align-items: center;
+  width: 300px;
+  margin-top: 30px;
 }
 
 /* リスケボタン / 変更ボタンの共通スタイル */
 .modal-buttons-reschedule button {
-  width: 74%;            /* 親に合わせて横いっぱい */
+  width: 100%;
+  height: 55px;
   margin: 0px;
   padding: 3px 50px;
   border-radius: 4px;
@@ -697,6 +757,7 @@ body {
   margin-bottom: 4px;
   cursor: pointer;        /* 活性時はマウスカーソルを手に */
   transition: background 0.2s, color 0.2s; /* スムーズ切替 */
+  font-size: 26px;
 }
 
 /* ボタンが非活性（disabled）の時 */
@@ -730,7 +791,7 @@ body {
 
 /* タイトル（choreと同じ見た目） */
 .modal-reward-title {
-  font-size: 15px;
+  font-size: 30px;
   font-weight: 500;
   font-weight: bold;
   margin: 0;
@@ -743,7 +804,8 @@ body {
   flex-direction: column;  /* ← 縦並びにする */
   align-items: center;
   gap: 4px;
-  font-size: 14px;
+  font-size: 26px;
+  padding-top: 8px;
 }
 
 .reward-cost-value {
@@ -753,122 +815,187 @@ body {
   padding-bottom: 15px;
 }
 
-/* ケーキアイコン */
 .reward-stamp-icon {
   width: 50px;
-  height: 24px;
+  height: 50px;
   display: block;
 }
 
+/* =========================
+   タブ全体
+========================= */
 .member-tabs {
   display: flex;
-  margin-bottom: 16px;
-  padding: 6px 12px;
-  background: #ffffffdc;
-  text-decoration: none;
-  border-radius: 8px;
-}
-
-.member-tab.active {
-  background: #3030304b;
-}
-
-.member-tabs::-webkit-scrollbar {
-  display: none;
-}
-
-.user-avatar-achievement {
-  width: 34px;
-  height: 34px;
-  padding: 6px 6px;
-  border-radius: 50%;
-  object-fit: cover;
-  line-height: 1;
-  margin: 0;
-  display: inline-block;
+  border-bottom: 1px solid #ddd;
+  background: #ffffff;
+  width: 970px;
+  height: 70px;
 }
 
 /* =========================
-   所持ステータスバー
+   タブ
 ========================= */
-.status-bar{
-  width:360px;
-  height:50px;
-  margin:12px auto 20px;
-  padding:10px 16px;
-
-  background:#ffffff;
-  border-radius:4px;
-
-  display:flex;
-  justify-content:center;
-  align-items:center;
+.member-tab {
+  width: 200px;
+  text-decoration: none;
+  padding: 10px 20px;
+  position: relative;
+  display: flex;
+  justify-content: center;
 }
 
+/* 中身（アイコン＋名前） */
+.member-tab-inner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 名前 */
+.member-name {
+  font-size: 28px;
+  color: #111111;
+  font-weight: 500;
+}
+
+/* アクティブタブ */
+.member-tab.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 100%;
+  height: 4px;
+  background: #f3a13b;
+}
+
+/* アバター */
+.user-avatar-achievement {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* =========================
+   ステータスエリア
+========================= */
+.status-bar{
+  width:100%;
+  display:flex;
+  justify-content:center;
+  margin-top:20px;
+}
+
+/* カード */
 .status-item{
+  width:84%;
+  height:100px;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+
+  padding:18px 30px;
+
+  background:rgba(255,255,255,0.95);
+  border-radius:8px;
+
+  box-shadow:
+    0 8px 20px rgba(0,0,0,0.12),
+    0 2px 6px rgba(0,0,0,0.08);
+
+  border:1px solid rgba(0,0,0,0.05);
+}
+
+/* 各ブロック */
+.status-block{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+}
+
+/* スタンプ表示部分 */
+.status-stamp{
   display:flex;
   align-items:center;
-  gap:8px;
+  gap:6px;
+  font-size:26px;
+  font-weight:600;
+}
+
+/* 区切り線 */
+.status-divider{
+  width:1px;
+  height:60px;
+  background:#ddd;
 }
 
 /* アイコン */
 .status-icon{
-  width:60px;
-  height:auto;
+  width:55px;
+  height:55px;
 }
 
 /* ラベル */
 .status-label{
-  font-size:15px;
-  color:#555;
-  font-weight:500;
+  font-size:24px;
+  color:#666;
 }
 
-/* 数字（ここだけ強調） */
-.status-count{
+.multiplication{
   font-size:20px;
-  font-weight:700;
-  color:#222;
-}
-
-/* =========================
-   スタンプ帳タイトル
-========================= */
-.stampbook-title {
-  text-align: center;
-  font-size: 20px;
-  margin-bottom: 10px;
-  font-weight: 600;
-  color: #444;
 }
 
 /* =========================
    スタンプ帳台紙
 ========================= */
 .stamp-board{
-  max-width:420px;
-  margin:20px auto;
-  padding:32px;
+  width:980px;
+  height:780px;
 
-  background-image: url("<%= asset_path 'stampsheet.png' %>");
-  background-size: contain;
+  background-image:url("<%= asset_path 'stampsheet.jpg' %>");
+  background-size:100% auto;
   background-repeat:no-repeat;
-  background-position:center;
+  background-position:top center;
+
+  position:relative;
 
   display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:16px;
+  grid-template-columns:repeat(5,140px);
+  justify-content:center;
+  align-content:start;
+  gap:25px;
+  padding-top:100px;
+}
+
+/* 薄い白レイヤー */
+.stamp-board::before{
+  width:90%;
+  height:61%;
+  content:"";
+  position:absolute;
+  inset:0;
+  margin-top:70px;
+
+  left:50%;
+  transform:translateX(-50%);  /* 横中央 */
+  background:rgba(255,255,255,0.6);  /* 白の透明 */
+
+  border-radius:12px;
+  z-index:1;
 }
 
 /* スタンプ共通 */
 .stamp{
-  width:60px;
-  height:60px;
+  width:140px;
+  height:140px;
   border-radius:50%;
   display:flex;
   align-items:center;
   justify-content:center;
   position:relative;
+  z-index:2;
 }
 
 /* 取得済み */
@@ -890,28 +1017,10 @@ body {
 }
 
 .stamp-number{
-  font-size:16px;
+  font-size:30px;
   color:#ffffff;
   font-weight:400;
   font-family: "Noto Sans JP", "Yu Gothic", sans-serif;
-}
-
-/* =========================
-   スマホ対応
-========================= */
-
-@media (max-width: 480px) {
-
-  .stamp-board {
-    gap: 14px;
-    padding: 18px;
-  }
-
-  .stamp {
-    width: 60px;
-    height: 60px;
-  }
-
 }
 
 .reward-container {
@@ -928,8 +1037,8 @@ body {
 }
 
 .reward-box {
-  width: 420px;
-  height: 130px;
+  width: 900px;
+  height: 200px;
   padding: 14px 40px;
 
   box-sizing: border-box; /* ← これが肝 */
@@ -938,15 +1047,24 @@ body {
   align-items: center;
 
   color: #ffffff;
-
-
-  background-image: url("<%= asset_path 'thankyou.jpg' %>"); /* 画像パス */
   background-size: cover;
   background-position: center;
 
   border-radius: 12px;
   border: 1px solid #e0e0e0;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.reward-bg-0 {
+    background-image: url("<%= asset_path 'ご褒美背景1.jpg' %>"); /* 画像パス */
+}
+
+.reward-bg-1 {
+    background-image: url("<%= asset_path 'ご褒美背景2.jpg' %>"); /* 画像パス */
+}
+
+.reward-bg-2 {
+    background-image: url("<%= asset_path 'ご褒美背景3.jpg' %>"); /* 画像パス */
 }
 
 /* 左側 */
@@ -957,13 +1075,13 @@ body {
 }
 
 .reward-title {
-  font-size: 19px;
+  font-size: 30px;
   font-weight: 700;
   padding-bottom: 8px;
 }
 
 .reward-need {
-  font-size: 14px;
+  font-size: 26px;
   color: #ffffff;
 }
 
@@ -975,8 +1093,8 @@ body {
 
 /* 丸表示 */
 .reward-circle {
-  width: 70px;
-  height: 70px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
 
   display: flex;
@@ -984,7 +1102,7 @@ body {
   justify-content: center;
   align-items: center;
 
-  font-size: 14px;
+  font-size: 26px;
   font-weight: 600;
   text-align: center;
 }
@@ -994,7 +1112,7 @@ body {
   background: #fff3f3;
   color: #e05353;
   border: 2px solid #d32f2f;
-  font-size: 12px;
+  font-size: 26px;
   font-weight: 600;
 }
 
@@ -1008,7 +1126,7 @@ body {
 /* 「達成まで」だけ黒文字 */
 .reward-circle.ng .reward-label {
   color: #000000;
-  font-size: 12px;
+  font-size: 24px;
   font-weight: normal;
 }
 
@@ -1020,48 +1138,41 @@ body {
 }
 
 .mini-stamp-reward {
-  height: 30px;
+  width:  65px;
+  height: 65px;
 }
 
 .detail-edit-link {
-  display: inline-flex;   /* ← 中の詳細・編集を中央揃え */
-  align-items: center;
   text-decoration: none;
 }
 
 .detail-icon,
 .edit-icon,
 .delete-icon {
-  width: 17px;
+  width: 30px;
   height: auto;
   cursor: pointer;
 }
 
-.detail-icon-chore-index,
-.edit-icon-chore-index,
-.delete-icon-chore-index {
-  width: 17px;
+.edit-icon-chore-index {
+  width: 30px;
   height: auto;
   cursor: pointer;
-  margin-top: 3px;
+  margin-right: 14px;
 }
 
 .detail-icon-home {
-  width: 16px;
-  height: 16px;
+  width: 30px;
+  height: 30px;
   display: block;
   padding-top: 4px;
 }
 
 .edit-icon-reward {
-  width: 16px;
-  height: 16px;
+  width: 30px;
+  height: 30px;
   display: block;
   padding-bottom: 5px;
-}
-
-.icon-separator {
-  font-size: 16px;
 }
 
 .stamp-wrapper {
@@ -1139,15 +1250,16 @@ body {
 
 .form-card {
   background: #ffffff;
-  width: 420px;                /* 少し広げる */
+  width: 700px;                /* 少し広げる */
   padding: 36px 32px;
   border-radius: 12px;         /* 角丸を少し大きく */
   border: 1px solid #dcdfe3;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06); /* うっすら影 */
+  font-size: 30px;
 }
 
 .form-title {
-  font-size: 18px;
+  font-size: 30px;
   font-weight: 600;
   margin-bottom: 28px;
   padding-bottom: 12px;
@@ -1162,7 +1274,7 @@ body {
 
 .form-label {
   display: inline-block;
-  font-size: 12px;
+  font-size: 30px;
   font-weight: 600;
   margin-bottom: 8px;
   color: #6b7280; /* 少し薄く */
@@ -1192,7 +1304,7 @@ body {
   border-radius: 4px;
   border: 1px solid #cfd3d8;
   background: #ffffff;
-  font-size: 14px;
+  font-size: 30px;
   box-sizing: border-box;   /* ← これを追加 */
 }
 
@@ -1214,7 +1326,7 @@ body {
   padding: 12px 14px;
   border-radius: 8px;
   border: 1px solid #e5e7eb;
-  font-size: 15px;
+  font-size: 30px;
   color: #111827;
   pointer-events: none;
 }
@@ -1227,11 +1339,12 @@ body {
 
 .calendar-btn {
   width: 100%;
+  height: 55px;
   padding: 9px 10px;
   border-radius: 4px;
   border: 1px solid #cfd3d8;
   background: #ffffff;
-  font-size: 14px;
+  font-size: 30px;
   color: #333;
   cursor: pointer;
   text-align: left;
@@ -1259,7 +1372,7 @@ body {
   border: none;
   background: #f3b769;
   color: #313131;
-  font-size: 14px;
+  font-size: 30px;
   font-weight: 600;
   cursor: pointer;
 }
@@ -1274,7 +1387,7 @@ body {
   border-radius: 6px;
   border: 1px solid #d1d5db;
   background: #ffffff;
-  font-size: 14px;
+  font-size: 30px;
   color: #374151;
   text-decoration: none;
   transition: all 0.2s ease;
@@ -1286,16 +1399,11 @@ body {
 
 /* 外側の箱 */
 .home-links-box {
-  position: fixed;       /* ← 位置固定 */
-  bottom: 80px;          /* 下からの距離 */
-  left: 50%;
-  transform: translateX(-50%);  /* 中央寄せ */
-
-  width: 300px;
-
+  width: 500px;
   display: flex;
   flex-direction: column;
-  gap: 12px;             /* ← ボタン間の隙間 */
+  gap: 20px;             /* ← ボタン間の隙間 */
+  margin-top: 50px;
 }
 
 /* 各ボタン */
@@ -1314,7 +1422,6 @@ body {
   text-decoration: none;
   color: #333;
 
-  /* 立体感 */
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,0.15), /* 上の光 */
     0 2px 4px rgba(0,0,0,0.18);           /* 下の影 */
@@ -1324,36 +1431,18 @@ body {
 
 /* テキスト */
 .link-text {
-  font-size: 16px;
+  font-size: 30px;
   font-weight: 500;
   margin-right: 10px;
 }
 
-/* 右の丸 */
-.link-arrow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-
-  background-color: #f1f1f1;
-  color: #333;
-
-  font-size: 14px;
-  font-weight: bold;
-  line-height: 1;
-}
-
 .chore-create-btn {
   position: fixed;      /* 画面固定 */
-  right: 40px;          /* 右から */
-  bottom: 70px;         /* 下から */
+  right: 20px;          /* 右から */
+  bottom: 120px;         /* 下から */
 
-  width: 60px;
-  height: 60px;
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
 
   background-color: #ffc04c;
@@ -1373,7 +1462,7 @@ body {
 
 .field-error-message {
   color: #e53935;
-  font-size: 13px;
+  font-size: 26px;
   margin-top: 6px;
 }
 
@@ -1400,7 +1489,7 @@ body {
   padding: 10px;
   border-radius: 8px;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 30px;
   background-color: #d6d6d6;
   color: #333;
   transition: 0.2s ease;
@@ -1444,32 +1533,22 @@ body {
   color: #a02632;
 }
 
+.yesterday-chore-schedule,
 .today-chore-schedule {
   display: flex;         
   align-items: center;
   gap: 6px;
-  font-size: 16px;
+  font-size: 30px;
   margin-bottom: 6px;
   align-self: flex-start; 
   font-weight: 500;
   color: #333;
-}
-
-.yesterday-chore-schedule {
-  display: flex;          
-  align-items: center;
-  gap: 6px;
-  font-size: 16px;
-  margin-bottom: 6px;
-  align-self: flex-start;  
-  font-weight: 500;
-  color: #333;
-  margin-top: 26px;
+  margin-top: 40px;
 }
 
 .checklist-icon {
-  width: 26px;
-  height: 26px;
+  width: 32px;
+  height: 32px;
   object-fit: contain;   /* ← 形を崩さない */
   flex-shrink: 0;
 }
@@ -1477,30 +1556,12 @@ body {
 .no-chore-message {
   text-align: center;
   margin-top: 20px;
-  font-size: 15px;
+  font-size: 30px;
   color: #464646;
-}
-
-/* 空状態カード */
-.empty-chore-card {
-  background: #ffffff;
-  border-radius: 4px;
-  padding: 20px;
-  margin-top: 4px;
-  text-align: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-}
-
-/* メッセージ */
-.empty-message {
-  font-size: 14px;
-  color: #464646;
-  margin-bottom: 16px;
-  margin-top: 0px;
 }
 
 .form-description {
-  font-size: 14px;
+  font-size: 28px;
   color: #444444;
   margin-top: 4px;
   margin-left: 57px;
@@ -1540,13 +1601,8 @@ body {
   margin-top: 40px;
 }
 
-.user-avatar {
-  width: 30px;
-  height: 30px;
-}
-
 .form-selection-title {
-  font-size: 16px;
+  font-size: 30px;
   font-weight: bold;
   color: #333;
   margin: 0;   /* ← 余計なズレ防止 */
@@ -1554,7 +1610,7 @@ body {
 
 .file-name {
   margin-top: 8px;
-  font-size: 13px;
+  font-size: 30px;
   color: #666;
 }
 
@@ -1564,8 +1620,8 @@ body {
 .side-menu {
   position: fixed;
   top: 0;
-  left: -260px;
-  width: 240px;
+  left: -510px;
+  width: 500px;
   height: 100%;
   background: #1e1f23;   /* 暗め背景 */
   box-shadow: 4px 0 15px rgba(0,0,0,0.4);
@@ -1588,7 +1644,7 @@ body {
   padding: 16px 22px;
   text-decoration: none;
   color: #dcdcdc;
-  font-size: 15px;
+  font-size: 30px;
   font-weight: 500;
   transition: 0.2s;
   border-radius: 8px;
@@ -1597,22 +1653,21 @@ body {
 
 /* アイコン部分 */
 .menu-icon {
-  margin-right: 14px;
-  font-size: 18px;
+  margin-right: 30px;
   width: 26px;               /* 揃える */
   text-align: center;
 }
 
 .menu-avatar {
-  width: 23px;
-  height: 23px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   object-fit: cover;
 }
 
 .menu-avatar-square {
-  width: 23px;
-  height: 23px;
+  width: 40px;
+  height: 40px;
   object-fit: cover;
 }
 
@@ -1656,7 +1711,7 @@ body {
 }
 
 .hamburger .footer-icon {
-  font-size: 20px;
+  font-size: 40px;
 }
 
 .category-wrapper {
@@ -1669,26 +1724,30 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 25px;
+  margin-top: 30px;
+  width: 290px;       /* 必要に応じて */
+  margin-left: auto;  /* 右寄せ */
 }
 
 .category-add-btn {
   background: #f3b769;
-  color: white;
-  padding: 8px 16px;
-  border-radius: 20px;
+  color: #333;
+  padding: 12px 20px;
+  border-radius: 8px;
   text-decoration: none;
-  font-size: 15px;
+  font-size: 30px;
   font-weight: 600;
 }
 
 .category-grid {
   display: grid;
-  grid-template-columns: repeat(3, 160px);
+  grid-template-columns: repeat(3, 260px);
   gap: 20px;
 }
 
 .category-card {
+  width: 250px;
+  height: 200px;
   position: relative;
   background: #ffffff;
   border-radius: 16px;
@@ -1701,8 +1760,8 @@ body {
 }
 
 .category-icon {
-  width: 74px;
-  height: 74px;
+  width: 124px;
+  height: 124px;
   margin: 0 auto 12px;
 
   border-radius: 50%;          /* 丸くする */
@@ -1723,7 +1782,7 @@ body {
 }
 
 .category-name {
-  font-size: 14px;
+  font-size: 30px;
   font-weight: 600;
   padding: 4px 8px;
   border-radius: 8px;
@@ -1740,13 +1799,6 @@ body {
   display: block;
   text-decoration: none;
   color: inherit;
-}
-
-.delete-link {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  z-index: 10;
 }
 
 .color-options {
@@ -1779,4 +1831,15 @@ body {
 .color-choice input:checked + .color-circle {
   border: 2px solid #7389c5;
   transform: scale(1.1);
+}
+
+.header-title-with-icon {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.header-icon {
+  width: 50px;
+  height: 50px;
 }

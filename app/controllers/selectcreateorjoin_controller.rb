@@ -47,12 +47,19 @@ class SelectcreateorjoinController < ApplicationController
         @user.group = @group
         @user.save!
 
-        Reward.create!(
-          user: @user,
-          group: @group,
-          title: "ごほうびを設定して下さい",
-          stamp_cost: 1
-        )
+        # 初期ごほうび3つ作成
+        [
+          { title: "ごほうびを設定して下さい①", stamp_cost: 15 },
+          { title: "ごほうびを設定して下さい②", stamp_cost: 30 },
+          { title: "ごほうびを設定して下さい③", stamp_cost: 45 }
+        ].each do |reward|
+          Reward.create!(
+            user: @user,
+            group: @group,
+            title: reward[:title],
+            stamp_cost: reward[:stamp_cost]
+          )
+        end
       end
 
       Category.create_defaults_for(@group) if @mode == "create"
@@ -90,7 +97,7 @@ class SelectcreateorjoinController < ApplicationController
 
       return group if group
 
-      # 🔥 一致しない場合は base に追加（フォーム上部表示用）
+      # 一致しない場合は base に追加（フォーム上部表示用）
       g.errors.add(:base, "グループ名または合言葉が正しくありません")
 
       g

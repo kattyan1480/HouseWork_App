@@ -23,8 +23,8 @@ Rails.application.routes.draw do
 
   resources :achievements, only: [:index]
 
-  resource :reward, only: [:index, :new, :create, :edit, :update] do
-    post :expend
+  resources :rewards, only: [:index, :new, :create, :edit, :update] do
+    post :expend, on: :member
   end
 
   resources :chore_dates, only: [:destroy, :show] do

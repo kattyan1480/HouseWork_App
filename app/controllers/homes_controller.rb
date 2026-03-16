@@ -20,6 +20,10 @@ class HomesController < ApplicationController
                   .chore_dates
                   .where(execute_at: yesterday_range, status: :pending)
                   .includes(:chore)
+        
+    @this_week_stamps = current_user.chore_histories
+                                    .where(done_at: Time.current.beginning_of_week..Time.current.end_of_week)
+                                    .sum(:stamp_reward_count)
   end
 
   def previous

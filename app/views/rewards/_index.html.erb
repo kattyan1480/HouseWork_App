@@ -1,40 +1,51 @@
 <div class="reward-container">
-  <div class="reward-box js-open-reward-popup">
-    <% if @user.reward.present? %>
-      <% 
-        stamp_cost   = @user.reward.stamp_cost.to_i
-        stamp_amount = @user.stamp_amount.to_i
-        remain      = stamp_cost - stamp_amount / 15
-      %>
-      
+
+  <% @rewards.each_with_index do |reward, i| %>
+
+    <div class="reward-box reward-bg-<%= i %> js-open-reward-popup"
+         data-reward-id="<%= reward.id %>">
+
       <div class="reward-left">
-        <!-- 左上：ご褒美タイトル -->
+
         <div class="reward-title">
-          🎁<%= @user.reward.title %>
+          🎁<%= reward.title %>
         </div>
 
-        <!-- 左下：必要なホールケーキ数 -->
         <div class="reward-need">
-          必要なチケット<br>
+          必要なガントレット<br>
+
           <span class="stamp-count">
-            <%= image_tag "チケット.jpeg", class: "mini-stamp-reward" %>
-            ×<%= stamp_cost %>枚
+            <%= image_tag "ガントレット.png", class: "mini-stamp-reward" %>
+            ×<%= reward.special_cost %>
           </span>
+
         </div>
+
       </div>
 
-      <!-- 右：残り数を丸で表示 -->
       <div class="reward-right">
-        <div class="reward-circle <%= remain <= 0 ? "ok" : "ng" %>">
-          <% if remain <= 0 %>
-             達成!
+
+        <div class="reward-circle <%= reward.achieved?(current_user) ? "ok" : "ng" %>">
+
+          <% if reward.achieved?(current_user) %>
+
+            達成!
+
           <% else %>
+
             <span class="reward-label">達成まで</span>
-            <strong><%= remain %>枚</strong>
+            <strong><%= reward.until_special(current_user) %>個</strong>
+
           <% end %>
+
         </div>
+
       </div>
-    <% end %>
-  </div>
-  <%= render "rewards/popup", user: @user %>
+
+    </div>
+
+  <% end %>
+
+  <%= render "rewards/popup", user: current_user %>
+
 </div>
