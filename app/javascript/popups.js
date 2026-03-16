@@ -1,21 +1,40 @@
 document.addEventListener("turbo:load", () => {
-  const wrapper = document.querySelector(".member-select");
-  if (!wrapper) return;
 
-  const toggle = wrapper.querySelector(".js-toggle-member");
-  const dropdown = wrapper.querySelector(".member-select-dropdown");
+  console.log("rewards.js loaded");
 
-  if (!toggle || !dropdown) return;
+  const cards = document.querySelectorAll(".js-open-reward-popup");
+  const popups = document.querySelectorAll(".js-reward-popup");
 
-  toggle.onclick = (e) => {
-    e.stopPropagation();
-    dropdown.style.display =
-      dropdown.style.display === "block" ? "none" : "block";
-  };
+  cards.forEach(card => {
+    card.addEventListener("click", () => {
 
-  document.onclick = (e) => {
-    if (!e.target.closest(".member-select")) {
-      dropdown.style.display = "none";
-    }
-  };
+      const rewardId = card.dataset.rewardId;
+
+      const popup = document.querySelector(
+        `.js-reward-popup[data-reward-id="${rewardId}"]`
+      );
+
+      if (!popup) {
+        console.log("popup not found");
+        return;
+      }
+
+      popup.classList.remove("hidden");
+
+    });
+  });
+
+  popups.forEach(popup => {
+
+    const closeBtn = popup.querySelector(".js-close-modal");
+    const overlay = popup.querySelector(".modal-overlay");
+
+    [closeBtn, overlay].forEach(el => {
+      el?.addEventListener("click", () => {
+        popup.classList.add("hidden");
+      });
+    });
+
+  });
+
 });

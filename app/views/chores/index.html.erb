@@ -46,18 +46,18 @@
         <!-- 右：編集・削除 -->
         <div class="chore-action-area">
           <%= link_to edit_chore_path(chore), class: "detail-edit-link" do %>
-            <%= image_tag "詳細.png", class: "detail-icon-chore-index" %>
+            <%= image_tag "詳細.png", class: "detail-icon" %>
             <%= image_tag "編集.png", class: "edit-icon-chore-index" %>
           <% end %>
-          <span class="icon-separator">|</span>
-          <%= link_to image_tag("削除.png", class: "delete-icon-chore-index"),
+
+          <%= link_to image_tag("削除.png", class: "delete-icon"),
                       chore_path(chore),
                       data: { turbo_method: :delete, turbo_confirm: "削除しますか？" } %>
         </div>
       </div>
     <% end %>
   </div>
-<h5>※まだ完了していない家事を、家事が作成された順に表示しています</h5><br>
+<h2>※まだ完了していない家事を、家事が作成された順に表示しています</h2><br>
 <% else %>
   <p class="no-chore-message">まだ家事は作成されていません</p>
 <% end %>

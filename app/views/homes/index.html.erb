@@ -1,6 +1,37 @@
 <% content_for :header_title do %>
-  🏠 ホーム
+  <div class="header-title-with-icon">
+     <%= image_tag "スパイダーマン.png", class: "header-icon" %>
+     ホーム
+  </div>
 <% end %>
+
+<div class="status-bar">
+  <div class="status-item">
+
+    <!-- 今週 -->
+    <div class="status-block">
+      <span class="status-label">今週</span>
+      <div class="reward-button">
+        スタンプ <%= @this_week_stamps %> 個
+      </div>
+    </div>
+
+    <div class="status-divider"></div>
+
+    <!-- 保有 -->
+    <div class="status-block">
+      <span class="status-label">保有</span>
+
+      <div class="status-stamp">
+        <%= image_tag "ガントレット.png", class: "status-icon" %>
+        <span class="multiplication"> ×</span>
+        <%= current_user.stamp_amount / 15 %> 個
+      </div>
+
+    </div>
+
+  </div>
+</div>
 
 <!-- ===== 今日の予定 ===== -->
 <div class="chore-list">
@@ -152,12 +183,10 @@
 <div class="home-links-box">
   <%= link_to homes_previous_path, class: "home-link-item" do %>
     <span class="link-text">過去のやり残しを見る</span>
-    <span class="link-arrow">></span>
   <% end %>
 
   <%= link_to chores_path, class: "home-link-item" do %>
     <span class="link-text">すべての家事を見る</span>
-    <span class="link-arrow">></span>
   <% end %>
 </div>
 

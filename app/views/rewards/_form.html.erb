@@ -19,17 +19,18 @@
       <% end %>
     </div>
 
-    <!-- 必要なチケットの数 -->
+    <!-- 必要なガントレットの数 -->
     <div class="form-group">
       <div class="label-row">
-        <%= f.label :stamp_cost, "必要なチケットの数", class: "form-label" %>
+        <%= f.label :special_cost, "必要なガントレットの数", class: "form-label" %>
         <span class="required">必須</span>
       </div>
 
-      <%= f.number_field :stamp_cost,
+      <%= f.number_field :special_cost,
+            value: @reward.special_cost || (@reward.stamp_cost.to_i / 15),
             min: 1,
             class: "form-input #{'input-error' if @reward.errors[:stamp_cost].any?}",
-            placeholder: "チケットの数を入力してください" %>
+            placeholder: "ガントレットの数を入力してください" %>
 
       <% if @reward.errors[:stamp_cost].any? %>
         <div class="field-error-message">

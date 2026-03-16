@@ -1,47 +1,47 @@
 <% content_for :header_title do %>
-  🏆 成果
+  <div class="header-title-with-icon">
+     <%= image_tag "キャプテン.png", class: "header-icon" %>
+     成果
+  </div>
 <% end %>
+
+<% content_for :main_class, "content-achievement" %>
 
 <div class="member-tabs">
   <% @users.each do |user| %>
+
     <%= link_to achievements_path(user_id: user.id),
-                class: "member-tab #{'active' if user == @user}" do %>
-      <%= image_tag user.avatar_image_or_default, class: "user-avatar-achievement" %>
+        class: "member-tab #{'active' if user == @user}" do %>
+
+      <div class="member-tab-inner">
+
+        <%= image_tag user.avatar_image_or_default,
+            class: "user-avatar-achievement" %>
+
+        <span class="member-name">
+          <%= user.name %>
+        </span>
+
+      </div>
+
     <% end %>
+
   <% end %>
 </div>
 
-<div class="status-bar">
-  <div class="status-item">
-    <%= image_tag "チケット.jpeg", class: "status-icon" %>
-    <span class="status-label">チケット</span>
-    <span class="status-count"><%= @user.stamp_amount / 15 %></span>
-    <span class="status-label">枚</span>
-  </div>
-</div>
-
-<% total_slots = 15 %>
-
-<% stamps = [] %>
-
-<% @categories.each do |category| %>
-  <% count = @stamp_counts[category.id] || 0 %>
-
-  <% count.times do %>
-    <% stamps << category.stamp %>
-  <% end %>
-<% end %>
 
 <div class="achievement-container">
 
   <div class="stamp-board">
 
+    <% total_slots = 15 %>
+
     <% total_slots.times do |i| %>
 
-      <% if stamps[i] %>
+      <% if @stamps[i] %>
 
         <div class="stamp active">
-          <%= image_tag stamps[i], class: "stamp-img" %>
+          <%= image_tag @stamps[i], class: "stamp-img" %>
         </div>
 
       <% else %>
