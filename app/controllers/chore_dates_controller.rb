@@ -29,7 +29,7 @@ class ChoreDatesController < ApplicationController
       # ① ステータスを完了に
       chore_date.update!(status: :done)
 
-      # ② ケーキ（スタンプ）を山分け
+      # ② スタンプを山分け
       per_user_stamp = (chore.stamp_reward.to_f / user_ids.size).ceil
 
       user_ids.each do |user_id|
@@ -44,20 +44,21 @@ class ChoreDatesController < ApplicationController
           done_at: Time.current
         )
 
-        # ④ ケーキを加算
+        # ④ スタンプを加算
         user.update!(
           stamp_amount: user.stamp_amount + per_user_stamp
         )
 
-        # ⑤ ランダムでスタンプ決定
-        stamp = Stamp.order("RANDOM()").first
+        # ⑤ スタンプ付与
+        per_user_stamp.times do
+          stamp = Stamp.order("RANDOM()").first
 
-        # ⑥ 獲得スタンプ保存
-        UserStamp.create!(
-          user: user,
-          stamp: stamp,
-          chore_history: history
-        )
+          UserStamp.create!(
+            user: user,
+            stamp: stamp,
+            chore_history: history
+          )
+        end
       end
     end
 
