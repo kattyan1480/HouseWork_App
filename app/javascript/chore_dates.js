@@ -50,12 +50,7 @@ document.addEventListener("turbo:load", () => {
           clickOpens: false,
           allowInput: true,
           onChange: () => {
-            // 日付が選択されたらボタンを活性化
-            if (rescheduleInput.value) {
-              rescheduleSubmit.disabled = false
-            } else {
-              rescheduleSubmit.disabled = true
-            }
+            rescheduleSubmit.disabled = !rescheduleInput.value
           }
         })
       }
@@ -71,12 +66,27 @@ document.addEventListener("turbo:load", () => {
   if (overlay) {
     overlay.addEventListener("click", () => {
       modal.classList.add("hidden")
+
       if (picker) picker.clear()
+
       rescheduleInput.value = ""
       rescheduleId.value = ""
       rescheduleBtn.textContent = "リスケ"
-      // ボタンを非活性に戻す
       rescheduleSubmit.disabled = true
     })
   }
+
+  // ===== 完了者選択ドロップダウン =====
+  const memberHeaders = document.querySelectorAll(".js-toggle-member")
+
+  memberHeaders.forEach(header => {
+    header.addEventListener("click", () => {
+      const dropdown = header.nextElementSibling
+      if (!dropdown) return
+
+      dropdown.style.display =
+        dropdown.style.display === "block" ? "none" : "block"
+    })
+  })
+
 })
