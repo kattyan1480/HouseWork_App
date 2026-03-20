@@ -8,3 +8,8 @@ import "popups"
 import "flash_messages"
 import "hamburger_menus"
 import "categories"
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/service-worker.js')
+    .then(() => console.log('登録成功'));
+}
