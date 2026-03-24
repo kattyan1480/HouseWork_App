@@ -2,23 +2,31 @@
 @import "https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css";
 
 .flatpickr-calendar {
-  transform: scale(2);
+  transform: scale(1.15);
   transform-origin: top right;
 }
 
 html, body {
   height: 100%;
   margin: 0;
+  overflow-y: scroll;     /* 縦スクロールは有効 */
+  overflow-x: hidden;     /* 横は非表示 */
+  scrollbar-width: none;  /* Firefox */
 }
 
 body {
+  display: flex;
   flex-direction: column;
-  overflow: hidden;
   font-family: 'Noto Sans JP', sans-serif;
-  font-weight: 400;
   letter-spacing: 0.02em;
   -webkit-font-smoothing: antialiased;
   position: relative;
+}
+
+/* Chrome, Edge, Safari */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
 }
 
 /* 背景画像 */
@@ -31,7 +39,7 @@ body::before {
   background-size: cover;
   background-position: center;
 
-  opacity: 0.03; /* ← 薄さ（調整ポイント） */
+  opacity: 0.06; /* ← 薄さ（調整ポイント） */
 
   z-index: -1;
 }
@@ -45,12 +53,13 @@ body::before {
     #870d1c 100%
   );
 
-  height: 80px;
+  height: 50px;
   padding: 0 20px;
 
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-sizing: border-box;
 
   border-bottom: 1px solid rgba(0,0,0,0.2);
 
@@ -59,6 +68,12 @@ body::before {
     0 3px 6px rgba(0,0,0,0.18);
 
   flex-shrink: 0;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
 }
 
 /* ===== フッター ===== */
@@ -70,8 +85,15 @@ body::before {
     #141f38 100%
   );
 
-  height: 110px;
-  padding: 0 40px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+
+  padding: 0 10px;
+  box-sizing: border-box;
+  padding-bottom: calc(10px + env(safe-area-inset-bottom));
 
   display: flex;
   justify-content: space-between;
@@ -83,7 +105,7 @@ body::before {
     inset 0 1px 0 rgba(255,255,255,0.04),
     0 -2px 5px rgba(0,0,0,0.18);
 
-  flex-shrink: 0;
+  z-index: 1000;
 }
 
 .footer-item {
@@ -92,11 +114,11 @@ body::before {
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: 24px;
+  font-size: 14px;
 }
 
 .footer-icon {
-  width: 60px;
+  width: 30px;
   height: auto;
   padding-top: 2px;
 }
@@ -111,7 +133,7 @@ body::before {
   left: 50%;
   transform: translateX(-50%);
   color: #ffffffda;
-  font-size: 28px;
+  font-size: 16px;
 }
 
 .avatar-upload {
@@ -131,7 +153,6 @@ body::before {
   flex: 1;
   display: flex;
   flex-direction: column;   /* 横中央 */
-  padding-top: 20px;
   align-items: center;
   width: 100%;
   overflow-y: auto;        /* 縦スクロール */
@@ -149,9 +170,10 @@ body::before {
 
 .content-inner {
   width: 100%;
-  max-width: 980px;
+  max-width: 420px;
   margin: 0 auto;
-  padding-bottom: 50px;
+  padding-top: 50px;   /* ヘッダーの高さ */
+  padding-bottom: 100px; /* フッターの高さ */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -159,9 +181,10 @@ body::before {
 
 /* 全体幅 */
 .chore-list {
-  width: 90%;
+  width: 95%;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 /* 全体幅 */
@@ -172,63 +195,24 @@ body::before {
 }
 
 /* =======================
-   ヘッダー
-======================= */
-.chore-row-header {
-  display: flex;
-  height: 50px;
-  border: 1px solid #444444;   /* 外枠 */
-  border-bottom: none;
-}
-
-.chore-row-header > div {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #444444;
-  color: white;
-  font-size: 26px;
-  font-weight: 600;
-  /* 区切り線 */
-  border-right: 2px solid #ffffff;
-}
-
-/* 一番右だけ線を消す */
-.chore-row-header > div:last-child {
-  border-right: none;
-}
-
-.chore-title-header-homes { flex: 1; }
-.chore-reward-header-homes   { width: 220px; }
-.chore-date-header-homes     { width: 140px; }
-
-.chore-title-header-chores-index { flex: 1; }
-.chore-reward-header-chores-index   { width: 220px; }
-.chore-action-header-chores-index     { width: 140px; }
-
-.chore-title-header-chores-history { flex: 1; }
-.chore-reward-header-chores-history   { width: 220px; }
-.chore-date-header-chores-history     { width: 140px; }
-.chore-user-header-chores-history     { width: 140px; }
-
-/* =======================
    行デザイン
 ======================= */
 .chore-row {
   display: flex;
+  width: 100%;
   align-items: center;
-  padding: 4px 0px;
+  padding: 2px 0px;
   border: 1px solid #dddddd;
-  border-top: none;
   cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 
 .chore-row:nth-of-type(odd) {
-  background-color: #f0f1f5;
+  background-color: #ffffff;
 }
 
 .chore-row:nth-of-type(even) {
-  background-color: #ffffff;
+  background-color: #f0f1f5;
 }
 
 /* 左側 */
@@ -236,17 +220,15 @@ body::before {
   flex: 1;
   display: flex;
   align-items: center;
-  gap: 16px;
-  margin-left: 16px;
+  gap: 6px;
+  margin-left: 4px;
 }
 
 .chore-icon {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
+  width: 50px;
+  height: 50px;
 
   background-color: inherit;
-  border: 1px solid rgba(0,0,0,0.05); /* うっすら縁 */
 
   display: flex;
   align-items: center;
@@ -256,8 +238,8 @@ body::before {
 }
 
 .category-icon-home {
-  width: 60px;              /* ← 少し小さく */
-  height: 60px;
+  width: 50px;              /* ← 少し小さく */
+  height: 50px;
   object-fit: contain;      /* 画像比率を崩さない */
 
   margin: 0;                /* ← これが重要 */
@@ -267,14 +249,15 @@ body::before {
 .chore-text {
   display: flex;
   flex-direction: column;
+  gap: 0px;
 }
 
 /* カテゴリバッジ */
 .category-badge {
   display: inline-block;
   padding: 1px 6px;
-  border-radius: 6px;
-  font-size: 20px;
+  border-radius: 4px;
+  font-size: 9px;
   color: #313131;
   font-weight: 600;
   width: fit-content;
@@ -282,8 +265,8 @@ body::before {
 
 /* 家事タイトル */
 .chore-title {
-  font-size: 30px;
-  font-weight: 700;
+  font-size: 16px;
+  font-weight: 600;
   color: #383838;
 }
 
@@ -291,7 +274,7 @@ body::before {
    報酬
 ======================= */
 .chore-reward-area {
-  width: 220px;
+  width: 32%;
   display: flex;
   align-items: center;
   justify-content: center;   /* ← 中央 */
@@ -301,9 +284,9 @@ body::before {
   background-color: #ffffff;
   border: 2px solid #444444;
   color: #383838;
-  padding: 5px 10px;
+  padding: 3px 5px;
   border-radius: 5px;
-  font-size: 26px;
+  font-size: 14px;
   font-weight: 600;
 }
 
@@ -311,10 +294,10 @@ body::before {
    時間
 ======================= */
 .chore-time-area {
-  width: 140px;
+  width: 17%;
   text-align: center;
 
-  font-size: 26px;
+  font-size: 16px;
   font-weight: 700;
   letter-spacing: 1px;
 
@@ -348,9 +331,10 @@ body::before {
 
 /* 空状態カード */
 .empty-chore-card {
+  width:90%;
   background: #ffffff;
   border-radius: 4px;
-  padding: 20px;
+  padding: 10px 20px;
   margin-top: 4px;
   text-align: center;
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
@@ -358,21 +342,21 @@ body::before {
 
 /* メッセージ */
 .empty-message {
-  font-size: 30px;
+  font-size: 16px;
   color: #464646;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
   margin-top: 0px;
 }
 
 .empty-add-btn {
   display: block;
-  background: #f3b769;
+  background: #ffba3b;
   color: #333;
   text-decoration: none;
   padding: 8px 0;
   border-radius: 6px;
   font-weight: 500;
-  font-size: 30px;
+  font-size: 16px;
 }
 
 .edit-link {
@@ -389,7 +373,6 @@ body::before {
 
 /* フォーム＋エラーをまとめる箱 */
 .form-wrapper {
-  max-width: 420px;
   max-width: 100%;
   display: flex;
   flex-direction: column;
@@ -411,7 +394,7 @@ body::before {
 }
 
 .form-group.remember-me input[type="checkbox"] {
-  transform: scale(2);
+  transform: scale(1);
 }
 
 .form-group.remember-me {
@@ -419,6 +402,7 @@ body::before {
   flex-direction: row;
   align-items: center;
   gap: 12px;
+  font-size: 16px;
 }
 
 .content.selectorjoin {
@@ -436,17 +420,19 @@ body::before {
 }
 
 .logo-image {
-  height: 50px;
+  height: 30px;
   width: auto;
   margin: 0px 0;   /* ← 上下余白 */
 }
 
-.hidden-calendar-input {
+.hidden-calendar-input,
+.hidden-calendar-input-reschedule {
   position: absolute;
   opacity: 0;
   pointer-events: none;
   height: 0;
   width: 0;
+  font-size: 16px;
 }
 
 .stamp-icon {
@@ -476,8 +462,9 @@ body::before {
 /* ファイル選択ボタン */
 #avatar_button {
   cursor: pointer;
+  height: 40px;          /* ボタンの高さ */
   padding: 4px 10px;      /* ボタンの大きさ */
-  font-size: 12px;          /* ボタン文字の大きさ */
+  font-size: 14px;          /* ボタン文字の大きさ */
   background-color: #ebe8e8; /* お好みの背景色 */
   border: 1px solid #555;
   border-radius: 6px;
@@ -534,8 +521,8 @@ body::before {
 
 .fixed-bottom-left {
   position: fixed;
-  left: 40px;
-  bottom: 130px;
+  left: 10px;
+  bottom: 110px;
   display: flex;
   gap: 12px;          /* ボタン間の隙間 */
   align-items: center;
@@ -543,7 +530,7 @@ body::before {
 }
 
 .fixed-link {
-  width: 130px;
+  width: 90px;
   appearance: none;
   -webkit-appearance: none;
 
@@ -551,12 +538,12 @@ body::before {
   align-items: center;
   justify-content: center;
 
-  height: 70px;
+  height: 50px;
   padding: 10px 10px;
 
   border-radius: 5px;
 
-  font-size: 30px;
+  font-size: 16px;
   font-weight: 500;
   font-family: inherit;
   line-height: 1;
@@ -591,10 +578,11 @@ body::before {
   position: relative;
   background: #ffffff;
   border: 1px solid #535353;   /* ← 枠線を明示 */
-  width: 500px;
+  width: 80%;
+  max-width: 420px;
   padding-top: 25px;
   padding-bottom: 15px;
-  margin: 300px auto;      /* 画面中央に配置 */
+  margin: 150px auto;      /* 画面中央に配置 */
   border-radius: 8px;
 
   display: flex;
@@ -614,7 +602,7 @@ body::before {
 
 /* タイトル */
 .modal-chore-title {
-  font-size: 30px;
+  font-size: 16px;
   font-weight: 500;
   font-weight: bold;
   margin: 0;      /* 余計なズレ防止 */
@@ -623,26 +611,37 @@ body::before {
 }
 
 #complete-form {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin: 0;
+}
+
+.modal-members {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 82%;
 }
 
 .member-select {
   position: relative;
-  width: 300px;
-  padding-top: 30px;
+  width: 100%;
+  padding-top: 20px;
 }
 
 /* 上のボックス */
 .member-select-header {
-  height: 55px;
+  height: 40px;
   background: #d1d1d165;
   border: 1px solid #2e2e2e;
-  padding: 5px 7px;
+  padding: 3px 15px;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 26px;
+  font-size: 14px;
 }
 
 /* 下の一覧 */
@@ -651,14 +650,15 @@ body::before {
   top: 100%;
   box-sizing: border-box;
   width: 100%;
-  height: auto;
+  height: 50px;
   background: #ffffff;
   border: 1px solid #a5a5a59a;
   box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-  max-height: 180px;   /* ← 高さ固定 */
   overflow-y: auto;    /* ← スクロール */
+  font-size: 14px;
+  padding-top: 5px;
+  text-align: left;
   display: none;
-  font-size: 26px;
 }
 
 .member-checkbox {
@@ -670,8 +670,9 @@ body::before {
 
 /* チェックボックスサイズ */
 .member-checkbox input[type="checkbox"]{
-  transform: scale(1.5);
-  margin-right: 8px;
+  transform: scale(1.2);
+  margin-right: 4px;
+  margin-left: 8px;
 }
 
 .member-checkbox:last-child {
@@ -687,7 +688,7 @@ body::before {
   display: flex;
   justify-content: center;
   width: 100%;
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
 .modal-buttons-gain {
@@ -706,30 +707,30 @@ body::before {
 /* 1行目：完了ボタンを横いっぱいに */
 .modal-buttons-gain button{
   width: 250px;
-  height: 55px;
+  height: 40px;
   padding: 3px 50px;
-  border-radius: 8px;
+  border-radius: 4px;
   box-sizing: border-box; /* パディング込みで幅いっぱい */
   background-color: #57587e;
   color: #ffffff;
   margin-bottom: 4px;
   cursor: pointer;        /* 活性時はマウスカーソルを手に */
   transition: background 0.2s, color 0.2s; /* スムーズ切替 */
-  font-size: 26px;
+  font-size: 14px;
 }
 
 .modal-buttons-complete button {
   width: 100%;
-  height: 55px;
+  height: 40px;
   padding: 3px 50px;
-  border-radius: 8px;
+  border-radius: 4px;
   box-sizing: border-box; /* パディング込みで幅いっぱい */
   background-color: #57587e;
   color: #ffffff;
   margin-bottom: 4px;
   cursor: pointer;        /* 活性時はマウスカーソルを手に */
   transition: background 0.2s, color 0.2s; /* スムーズ切替 */
-  font-size: 26px;
+  font-size: 14px;
 }
 
 /* ボタン全体 */
@@ -743,16 +744,16 @@ body::before {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 300px;
-  margin-top: 30px;
+  width: 100%;
+  margin-top: 20px;
 }
 
 /* リスケボタン / 変更ボタンの共通スタイル */
 .modal-buttons-reschedule button {
   width: 100%;
-  height: 55px;
+  height: 40px;
   margin: 0px;
-  padding: 3px 50px;
+  padding: 3px 100px;
   border-radius: 4px;
   box-sizing: border-box; /* パディング込みで幅いっぱい */
   border: 1px solid #000000;
@@ -761,7 +762,7 @@ body::before {
   margin-bottom: 4px;
   cursor: pointer;        /* 活性時はマウスカーソルを手に */
   transition: background 0.2s, color 0.2s; /* スムーズ切替 */
-  font-size: 26px;
+  font-size: 14px;
 }
 
 /* ボタンが非活性（disabled）の時 */
@@ -795,7 +796,7 @@ body::before {
 
 /* タイトル（choreと同じ見た目） */
 .modal-reward-title {
-  font-size: 30px;
+  font-size: 16px;
   font-weight: 500;
   font-weight: bold;
   margin: 0;
@@ -808,7 +809,7 @@ body::before {
   flex-direction: column;  /* ← 縦並びにする */
   align-items: center;
   gap: 4px;
-  font-size: 26px;
+  font-size: 16px;
   padding-top: 8px;
 }
 
@@ -820,8 +821,8 @@ body::before {
 }
 
 .reward-stamp-icon {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   display: block;
 }
 
@@ -830,22 +831,38 @@ body::before {
 ========================= */
 .member-tabs {
   display: flex;
+  flex-wrap: nowrap;          /* 折り返さない */
+  overflow-x: auto;           /* 横スクロール */
+  overflow-y: hidden;
+  white-space: nowrap;
   border-bottom: 1px solid #ddd;
   background: #ffffff;
-  width: 970px;
-  height: 70px;
+  width: 100%;
+  height: 40px;
+  box-sizing: border-box;
+  -webkit-overflow-scrolling: touch; /* スマホでなめらかに */
+}
+
+/* スクロールバーを消したい場合 */
+.member-tabs::-webkit-scrollbar {
+  display: none;
+}
+.member-tabs {
+  scrollbar-width: none;
 }
 
 /* =========================
    タブ
 ========================= */
 .member-tab {
-  width: 200px;
+  flex: 0 0 auto;             /* 縮まない・自動幅 */
   text-decoration: none;
-  padding: 10px 20px;
+  padding: 5px 14px;
   position: relative;
   display: flex;
   justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
 }
 
 /* 中身（アイコン＋名前） */
@@ -853,13 +870,15 @@ body::before {
   display: flex;
   align-items: center;
   gap: 8px;
+  white-space: nowrap;        /* 名前を改行させない */
 }
 
 /* 名前 */
 .member-name {
-  font-size: 28px;
+  font-size: 16px;
   color: #111111;
   font-weight: 500;
+  white-space: nowrap;
 }
 
 /* アクティブタブ */
@@ -875,17 +894,18 @@ body::before {
 
 /* アバター */
 .user-avatar-achievement {
-  width: 36px;
-  height: 36px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   object-fit: cover;
+  flex-shrink: 0;
 }
 
 /* =========================
    ステータスエリア
 ========================= */
 .status-bar{
-  width:100%;
+  width:95%;
   display:flex;
   justify-content:center;
   margin-top:20px;
@@ -893,22 +913,18 @@ body::before {
 
 /* カード */
 .status-item{
-  width:84%;
-  height:100px;
+  width:100%;
+  height:100%;
   display:flex;
   justify-content:space-around;
   align-items:center;
 
-  padding:18px 30px;
+  padding:5px 5px;
 
   background:rgba(255,255,255,0.95);
-  border-radius:8px;
+  border-radius:4px;
 
-  box-shadow:
-    0 8px 20px rgba(0,0,0,0.12),
-    0 2px 6px rgba(0,0,0,0.08);
-
-  border:1px solid rgba(0,0,0,0.05);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 
 /* 各ブロック */
@@ -916,7 +932,7 @@ body::before {
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:10px;
+  gap:5px;
 }
 
 /* スタンプ表示部分 */
@@ -924,7 +940,7 @@ body::before {
   display:flex;
   align-items:center;
   gap:6px;
-  font-size:26px;
+  font-size:18px;
   font-weight:600;
 }
 
@@ -937,26 +953,34 @@ body::before {
 
 /* アイコン */
 .status-icon{
-  width:55px;
-  height:55px;
+  width:35px;
+  height:35px;
 }
 
 /* ラベル */
 .status-label{
-  font-size:24px;
+  font-size:14px;
   color:#666;
 }
 
 .multiplication{
-  font-size:20px;
+  font-size:14px;
+}
+
+.achievement-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
 }
 
 /* =========================
    スタンプ帳台紙
 ========================= */
 .stamp-board{
-  width:980px;
-  height:780px;
+  width:100%;
+  height:280px;
 
   background-image:url("<%= asset_path 'stampsheet.jpg' %>");
   background-size:100% auto;
@@ -966,21 +990,21 @@ body::before {
   position:relative;
 
   display:grid;
-  grid-template-columns:repeat(5,140px);
+  grid-template-columns:repeat(5,65px);
   justify-content:center;
   align-content:start;
-  gap:25px;
-  padding-top:100px;
+  gap:10px;
+  padding-top:30px;
 }
 
 /* 薄い白レイヤー */
 .stamp-board::before{
-  width:90%;
-  height:61%;
+  width:95%;
+  height:72%;
   content:"";
   position:absolute;
   inset:0;
-  margin-top:70px;
+  margin-top:19px;
 
   left:50%;
   transform:translateX(-50%);  /* 横中央 */
@@ -992,8 +1016,8 @@ body::before {
 
 /* スタンプ共通 */
 .stamp{
-  width:140px;
-  height:140px;
+  width:60px;
+  height:60px;
   border-radius:50%;
   display:flex;
   align-items:center;
@@ -1021,7 +1045,7 @@ body::before {
 }
 
 .stamp-number{
-  font-size:30px;
+  font-size:14px;
   color:#ffffff;
   font-weight:400;
   font-family: "Noto Sans JP", "Yu Gothic", sans-serif;
@@ -1029,23 +1053,23 @@ body::before {
 
 .reward-container {
   display: flex;
+  width: 100%;
   flex-direction: column;
   align-items: center;
-  gap: 24px;
+  gap: 4px;
 
-  margin-top: 40px;
-  margin-bottom: 30px;
+  margin-top: 10px;
 
   position: relative;
   cursor: pointer;
 }
 
 .reward-box {
-  width: 900px;
-  height: 200px;
-  padding: 14px 40px;
+  width: 95%;
+  height: 88px;
+  padding: 4px 20px;
 
-  box-sizing: border-box; /* ← これが肝 */
+  box-sizing: border-box;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1079,13 +1103,13 @@ body::before {
 }
 
 .reward-title {
-  font-size: 30px;
+  font-size: 14px;
   font-weight: 700;
-  padding-bottom: 8px;
+  padding-bottom: 2px;
 }
 
 .reward-need {
-  font-size: 26px;
+  font-size: 14px;
   color: #ffffff;
 }
 
@@ -1097,8 +1121,8 @@ body::before {
 
 /* 丸表示 */
 .reward-circle {
-  width: 120px;
-  height: 120px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
 
   display: flex;
@@ -1106,7 +1130,7 @@ body::before {
   justify-content: center;
   align-items: center;
 
-  font-size: 26px;
+  font-size: 14px;
   font-weight: 600;
   text-align: center;
 }
@@ -1116,7 +1140,7 @@ body::before {
   background: #fff3f3;
   color: #e05353;
   border: 2px solid #d32f2f;
-  font-size: 26px;
+  font-size: 14px;
   font-weight: 600;
 }
 
@@ -1130,7 +1154,7 @@ body::before {
 /* 「達成まで」だけ黒文字 */
 .reward-circle.ng .reward-label {
   color: #000000;
-  font-size: 24px;
+  font-size: 12px;
   font-weight: normal;
 }
 
@@ -1142,8 +1166,8 @@ body::before {
 }
 
 .mini-stamp-reward {
-  width:  65px;
-  height: 65px;
+  width:  30px;
+  height: 30px;
 }
 
 .detail-edit-link {
@@ -1153,28 +1177,28 @@ body::before {
 .detail-icon,
 .edit-icon,
 .delete-icon {
-  width: 30px;
+  width: 20px;
   height: auto;
   cursor: pointer;
 }
 
 .edit-icon-chore-index {
-  width: 30px;
+  width: 20px;
   height: auto;
   cursor: pointer;
   margin-right: 14px;
 }
 
 .detail-icon-home {
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   display: block;
   padding-top: 4px;
 }
 
 .edit-icon-reward {
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   display: block;
   padding-bottom: 5px;
 }
@@ -1246,6 +1270,7 @@ body::before {
 }
 
 .form-wrapper-chore {
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1254,16 +1279,15 @@ body::before {
 
 .form-card {
   background: #ffffff;
-  width: 700px;                /* 少し広げる */
-  padding: 36px 32px;
-  border-radius: 12px;         /* 角丸を少し大きく */
+  width: 85%;                /* 少し広げる */
+  padding: 10px 20px;
+  border-radius: 4px;         /* 角丸を少し大きく */
   border: 1px solid #dcdfe3;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06); /* うっすら影 */
-  font-size: 30px;
 }
 
 .form-title {
-  font-size: 30px;
+  font-size: 16px;
   font-weight: 600;
   margin-bottom: 28px;
   padding-bottom: 12px;
@@ -1273,14 +1297,14 @@ body::before {
 
 /* グループ間余白を増やす */
 .form-group {
-  margin-bottom: 26px;
+  margin-bottom: 14px;
 }
 
 .form-label {
   display: inline-block;
-  font-size: 30px;
+  font-size: 16px;
   font-weight: 600;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
   color: #6b7280; /* 少し薄く */
   letter-spacing: 0.05em;
 }
@@ -1294,7 +1318,7 @@ body::before {
 .required {
   display: inline-block;
   padding: 2px 4px;
-  font-size: 10px;
+  font-size: 12px;
   color: #c62828;
   background: #fdecea;
   border-radius: 4px;
@@ -1308,7 +1332,7 @@ body::before {
   border-radius: 4px;
   border: 1px solid #cfd3d8;
   background: #ffffff;
-  font-size: 30px;
+  font-size: 16px;
   box-sizing: border-box;   /* ← これを追加 */
 }
 
@@ -1323,6 +1347,31 @@ body::before {
   color: #9aa0a6;
 }
 
+.time-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.time-input {
+  height: 40px;
+  font-size: 16px;
+  padding: 0px 0px;
+
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.time-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  pointer-events: none;
+  color: #888;
+}
+
 /* show専用の表示フィールド */
 /* 表示フィールド */
 .display-field {
@@ -1330,7 +1379,7 @@ body::before {
   padding: 12px 14px;
   border-radius: 8px;
   border: 1px solid #e5e7eb;
-  font-size: 30px;
+  font-size: 16px;
   color: #111827;
   pointer-events: none;
 }
@@ -1347,7 +1396,7 @@ body::before {
   border-radius: 4px;
   border: 1px solid #cfd3d8;
   background: #ffffff;
-  font-size: 30px;
+  font-size: 16px;
   color: #333;
   cursor: pointer;
   text-align: left;
@@ -1358,7 +1407,7 @@ body::before {
 }
 
 .form-actions {
-  margin-top: 30px;
+  margin-top: 20px;
   display: flex;
   justify-content: space-between; /* ← 左右に分ける */
   align-items: center;
@@ -1375,7 +1424,7 @@ body::before {
   border: none;
   background: #f3b769;
   color: #313131;
-  font-size: 30px;
+  font-size: 16px;
   font-weight: 600;
   cursor: pointer;
 }
@@ -1386,11 +1435,11 @@ body::before {
 
 .back-link {
   display: inline-block;
-  padding: 12px 14px;   /* width削除 */
+  padding: 10px 14px;
   border-radius: 6px;
   border: 1px solid #d1d5db;
   background: #ffffff;
-  font-size: 30px;
+  font-size: 16px;
   color: #374151;
   text-decoration: none;
   transition: all 0.2s ease;
@@ -1402,11 +1451,12 @@ body::before {
 
 /* 外側の箱 */
 .home-links-box {
-  width: 500px;
+  width: 85%;
   display: flex;
   flex-direction: column;
-  gap: 20px;             /* ← ボタン間の隙間 */
-  margin-top: 50px;
+  gap: 10px;             /* ← ボタン間の隙間 */
+  margin-top: 30px;
+  margin-bottom: 130px;
 }
 
 /* 各ボタン */
@@ -1415,10 +1465,10 @@ body::before {
   align-items: center;
   justify-content: center;
 
-  padding: 14px 18px;
+  padding: 10px;
 
   /* グラデーションで立体感 */
-  background: #f3b769;
+  background: #ffba3b;
 
   border-radius: 6px;
 
@@ -1434,21 +1484,21 @@ body::before {
 
 /* テキスト */
 .link-text {
-  font-size: 30px;
+  font-size: 16px;
   font-weight: 500;
   margin-right: 10px;
 }
 
 .chore-create-btn {
   position: fixed;      /* 画面固定 */
-  right: 20px;          /* 右から */
-  bottom: 120px;         /* 下から */
+  right: 10px;          /* 右から */
+  bottom: 110px;         /* 下から */
 
-  width: 90px;
-  height: 90px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
 
-  background-color: #ffc04c;
+  background-color: #ffba3b;
   color: white;
 
   display: flex;
@@ -1465,7 +1515,7 @@ body::before {
 
 .field-error-message {
   color: #e53935;
-  font-size: 26px;
+  font-size: 14px;
   margin-top: 6px;
 }
 
@@ -1492,7 +1542,7 @@ body::before {
   padding: 10px;
   border-radius: 8px;
   text-decoration: none;
-  font-size: 30px;
+  font-size: 16px;
   background-color: #d6d6d6;
   color: #333;
   transition: 0.2s ease;
@@ -1509,7 +1559,7 @@ body::before {
   top: 0;
   left: 0;
   width: 100%;
-  padding: 18px 0;
+  padding: 14px 0;
   text-align: center;
   font-weight: bold;
   z-index: 9999;
@@ -1518,7 +1568,7 @@ body::before {
   opacity: 0;
   transition: all 0.5s ease;
 
-  font-size: 30px;
+  font-size: 16px;
 }
 
 /* 表示状態 */
@@ -1528,8 +1578,8 @@ body::before {
 
 /* 成功 */
 .flash-notice {
-  background-color: #d4edda;
-  color: #1e8035;
+  background-color: #cde6d3;
+  color: #2c2c2c;
 }
 
 /* 失敗 */
@@ -1543,17 +1593,17 @@ body::before {
   display: flex;         
   align-items: center;
   gap: 6px;
-  font-size: 30px;
+  font-size: 16px;
   margin-bottom: 6px;
   align-self: flex-start; 
   font-weight: 500;
   color: #333;
-  margin-top: 40px;
+  margin-top: 30px;
 }
 
 .checklist-icon {
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
   object-fit: contain;   /* ← 形を崩さない */
   flex-shrink: 0;
 }
@@ -1561,15 +1611,15 @@ body::before {
 .no-chore-message {
   text-align: center;
   margin-top: 20px;
-  font-size: 30px;
+  font-size: 16px;
   color: #464646;
 }
 
 .form-description {
-  font-size: 28px;
+  font-size: 14px;
   color: #444444;
   margin-top: 4px;
-  margin-left: 57px;
+  margin-left: 17px;
 }
 
 .font-weight-bold {
@@ -1607,7 +1657,7 @@ body::before {
 }
 
 .form-selection-title {
-  font-size: 30px;
+  font-size: 16px;
   font-weight: bold;
   color: #333;
   margin: 0;   /* ← 余計なズレ防止 */
@@ -1615,7 +1665,7 @@ body::before {
 
 .file-name {
   margin-top: 8px;
-  font-size: 30px;
+  font-size: 16px;
   color: #666;
 }
 
@@ -1625,8 +1675,8 @@ body::before {
 .side-menu {
   position: fixed;
   top: 0;
-  left: -510px;
-  width: 500px;
+  left: -290px;
+  width: 280px;
   height: 100%;
   background: #1e1f23;   /* 暗め背景 */
   box-shadow: 4px 0 15px rgba(0,0,0,0.4);
@@ -1649,7 +1699,7 @@ body::before {
   padding: 16px 22px;
   text-decoration: none;
   color: #dcdcdc;
-  font-size: 30px;
+  font-size: 16px;
   font-weight: 500;
   transition: 0.2s;
   border-radius: 8px;
@@ -1713,15 +1763,17 @@ body::before {
 ========================= */
 .hamburger {
   cursor: pointer;
+  margin-bottom: 10px;
 }
 
 .hamburger .footer-icon {
-  font-size: 40px;
+  font-size: 30px;
 }
 
 .category-wrapper {
-  padding: 30px;
-  max-width: 1000px;
+  padding: 20px;
+  width: 100%;
+  max-width: 420px;
   margin: 0 auto;
 }
 
@@ -1729,34 +1781,37 @@ body::before {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 30px;
-  width: 290px;       /* 必要に応じて */
+  margin-top: 20px;
+  width: 100%;       /* 必要に応じて */
   margin-left: auto;  /* 右寄せ */
 }
 
 .category-add-btn {
   background: #f3b769;
   color: #333;
-  padding: 12px 20px;
+  padding: 0px 20px;
+  height: 40px;
   border-radius: 8px;
   text-decoration: none;
-  font-size: 30px;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
   font-weight: 600;
 }
 
 .category-grid {
   display: grid;
-  grid-template-columns: repeat(3, 260px);
+  grid-template-columns: repeat(3, 100px);
   gap: 20px;
 }
 
 .category-card {
-  width: 250px;
-  height: 200px;
+  width: 100%;
+  height: 120px;
   position: relative;
   background: #ffffff;
   border-radius: 16px;
-  padding: 25px 10px;
+  padding: 30px 5px;
   text-align: center;
   text-decoration: none;
   color: #333;
@@ -1765,12 +1820,10 @@ body::before {
 }
 
 .category-icon {
-  width: 124px;
-  height: 124px;
+  width: 80px;
+  height: 80px;
   margin: 0 auto 12px;
 
-  border-radius: 50%;          /* 丸くする */
-  border: 2px solid #e0e0e0;   /* 外枠 */
   background: #fff;            /* 背景を白に */
   
   display: flex;
@@ -1787,7 +1840,7 @@ body::before {
 }
 
 .category-name {
-  font-size: 30px;
+  font-size: 16px;
   font-weight: 600;
   padding: 4px 8px;
   border-radius: 8px;
@@ -1798,6 +1851,7 @@ body::before {
   text-align: center;
   margin-top: 40px;
   color: #777;
+  font-size: 16px;
 }
 
 .card-main-link {
@@ -1845,6 +1899,6 @@ body::before {
 }
 
 .header-icon {
-  width: 50px;
-  height: 50px;
+  width: 30px;
+  height: 30px;
 }

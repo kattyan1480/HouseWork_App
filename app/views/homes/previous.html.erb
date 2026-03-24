@@ -5,13 +5,6 @@
 <% if @before_yesterday_chore_dates.any? %>
   <div class="chore-list">
 
-    <!-- ヘッダー -->
-    <div class="chore-row-header chore-header">
-      <div class="chore-title-header-homes">家事名</div>
-      <div class="chore-reward-header-homes">報酬</div>
-      <div class="chore-date-header-homes">日時</div>
-    </div>
-
     <% @before_yesterday_chore_dates.each do |chore_date| %>
       <% chore = chore_date.chore %>
 

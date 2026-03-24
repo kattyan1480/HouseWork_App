@@ -5,7 +5,6 @@ document.addEventListener("turbo:load", () => {
   const modal = document.getElementById("chore-modal")
   if (!modal) return
 
-  const modalContent = modal.querySelector(".modal-content")
   const title = document.getElementById("modal-chore-title")
   const openButtons = document.querySelectorAll(".js-open-modal")
   const overlay = modal.querySelector(".modal-overlay")
@@ -43,23 +42,40 @@ document.addEventListener("turbo:load", () => {
           mode: "single",
           dateFormat: "Y-m-d",
           locale: Japanese,
-          appendTo: modalContent,
+
+          // 位置ズレ対策
+          appendTo: document.body,
           positionElement: rescheduleBtn,
-          static: true,
+          position: "auto left",
+
+          static: false,
           disableMobile: true,
+
+          // 入力欄を裏方化
           clickOpens: false,
-          allowInput: true,
-          onChange: () => {
-            rescheduleSubmit.disabled = !rescheduleInput.value
+          allowInput: false,
+
+          onChange: (selectedDates, dateStr) => {
+            rescheduleSubmit.disabled = !dateStr
           }
         })
+
+        // ★ズーム防止（最重要）
+        rescheduleInput.setAttribute("readonly", true)
       }
     })
   })
 
   // ===== リスケボタンでカレンダー表示 =====
   rescheduleBtn.addEventListener("click", () => {
-    if (picker) picker.open()
+    if (picker) {
+      picker.open()
+
+      // ★flatpickrの再フォーカスを潰す
+      setTimeout(() => {
+        rescheduleInput.blur()
+      }, 0)
+    }
   })
 
   // ===== モーダル閉じる =====
@@ -88,5 +104,4 @@ document.addEventListener("turbo:load", () => {
         dropdown.style.display === "block" ? "none" : "block"
     })
   })
-
 })
