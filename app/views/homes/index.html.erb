@@ -43,13 +43,6 @@
 
   <% if @today_chore_dates.any? %>
 
-    <!-- ヘッダー -->
-    <div class="chore-row-header chore-header">
-      <div class="chore-title-header-homes">家事名</div>
-      <div class="chore-reward-header-homes">報酬</div>
-      <div class="chore-date-header-homes">時間</div>
-    </div>
-
     <% @today_chore_dates.each do |chore_date| %>
       <% chore = chore_date.chore %>
 
@@ -63,7 +56,7 @@
 
           <!-- 丸アイコン -->
           <div class="chore-icon">
-            <%= image_tag chore.category.stamp, class: "category-icon-home" %>
+             <%= image_tag chore.category.stamp, class: "category-icon-home" if chore.category.stamp.attached? %>
           </div>
 
           <!-- テキスト -->
@@ -118,13 +111,6 @@
 
   <% if @yesterday_chore_dates.any? %>
 
-    <!-- ヘッダー -->
-    <div class="chore-row-header chore-header">
-      <div class="chore-title-header-homes">家事名</div>
-      <div class="chore-reward-header-homes">報酬</div>
-      <div class="chore-date-header-homes">時間</div>
-    </div>
-
     <% @yesterday_chore_dates.each do |chore_date| %>
       <% chore = chore_date.chore %>
 
@@ -138,7 +124,7 @@
 
           <!-- 丸アイコン -->
           <div class="chore-icon">
-            <%= image_tag chore.category.stamp, class: "category-icon-home" %>
+            <%= image_tag chore.category.stamp, class: "category-icon-home" if chore.category.stamp.attached? %>
           </div>
 
           <!-- テキスト -->

@@ -15,7 +15,7 @@
                       data: { turbo_method: :delete, turbo_confirm: "削除しますか？" },
                       class: "delete-link" %>
 
-          <%= link_to category_path(category), class: "card-main-link" do %>
+          <%= link_to "#", class: "card-main-link" do %>
 
             <div class="category-icon">
               <%= image_tag category.stamp %>
@@ -37,7 +37,7 @@
   <% end %>
 
   <div class="category-header">
-    <%= link_to "＋カテゴリを追加", new_category_path, class: "category-add-btn" %>
+    <%= link_to "カテゴリを追加", new_category_path, class: "category-add-btn" %>
   </div>
 
 </div>

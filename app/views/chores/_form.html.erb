@@ -104,12 +104,19 @@
       </div>
 
       <% selected_time =
-           params.dig(:chore, :execute_time) ||
-           @pending_chore_dates&.first&.execute_time %>
+          params.dig(:chore, :execute_time) ||
+          @pending_chore_dates&.first&.execute_time %>
 
-      <%= f.time_field :execute_time,
-            class: "form-input #{'input-error' if @chore.errors[:execute_time].any?}",
-            value: selected_time %>
+      <div class="time-input-wrapper">
+        <span class="time-icon">🕒</span>
+
+        <%= f.time_field :execute_time,
+              class: "form-input time-input #{'input-error' if @chore.errors[:execute_time].any?}",
+              value: selected_time,
+              step: 300,
+              required: true,
+              value: selected_time || "00:00" %>
+      </div>
 
       <% if @chore.errors[:execute_time].any? %>
         <div class="field-error-message">
@@ -125,7 +132,7 @@
       </div>
 
       <%= f.text_area :detail,
-            rows: 4,
+            rows: 2,
             class: "form-textarea #{'input-error' if @chore.errors[:detail].any?}",
             placeholder: "詳細があれば入力してください" %>
 

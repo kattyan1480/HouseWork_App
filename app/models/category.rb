@@ -5,8 +5,12 @@ class Category < ApplicationRecord
   has_one_attached :stamp
 
   validates :name, presence: true
-  validates :stamp, presence: true
   validates :color, presence: true
+  validate :stamp_must_be_attached
+
+  def stamp_must_be_attached
+    errors.add(:stamp, "を選択してください") unless stamp.attached?
+  end
 
   PASTEL_COLORS = {
     "さくら"     => "#FFD1DC",
@@ -20,27 +24,36 @@ class Category < ApplicationRecord
   }.freeze
 
   DEFAULT_CATEGORIES = [
-    { name: "料理", color: "#FFD1DC", stamp: "料理.png" },
-    { name: "洗濯",   color: "#CDE7FF", stamp: "洗濯.png" },
-    { name: "掃除",     color: "#D4F4DD", stamp: "掃除.png" },
-    { name: "買い物",     color: "#FFF4B8", stamp: "買い物.png" }
+    { name: "料理", color: "#FFD1DC", stamp: "cooking.png" },
+    { name: "洗濯",   color: "#CDE7FF", stamp: "washing.png" },
+    { name: "掃除",     color: "#D4F4DD", stamp: "cleaning.png" },
+    { name: "買い物",     color: "#FFF4B8", stamp: "shopping.png" }
   ]
 
-  def self.create_defaults_for(group)
-    DEFAULT_CATEGORIES.each do |cat|
-      category = Category.new(
-        group: group,
-        name: cat[:name],
-        color: cat[:color]
-      )
+def self.create_defaults_for(group)
+  DEFAULT_CATEGORIES.each do |cat|
+    file_name = cat[:stamp]
+    file_name += ".png" unless file_name.end_with?(".png")
 
-      category.stamp.attach(
-        io: File.open(Rails.root.join("app/assets/images/default_categories/#{cat[:stamp]}")),
-        filename: cat[:stamp]
-      )
+    file_path = Rails.root.join("app/assets/images", file_name)
+    raise "画像ファイルが存在しません: #{file_path}" unless File.exist?(file_path)
 
-      category.save!
-    end
+    category = Category.new(
+      group: group,
+      name: cat[:name],
+      color: cat[:color]
+    )
+
+    file_data = File.binread(file_path)
+
+    category.stamp.attach(
+      io: StringIO.new(file_data),
+      filename: "#{SecureRandom.hex}_#{file_name}",
+      content_type: "image/png"
+    )
+
+    category.save!
   end
+end
 
 end

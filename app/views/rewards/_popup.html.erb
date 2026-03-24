@@ -26,13 +26,13 @@
 
       <div class="reward-cost-value">
         <%= image_tag "ガントレット.png", class: "reward-stamp-icon" %>
-        × <%= reward.remain_special_after(current_user) %>
+        <div class="multiplication">×</div><%= reward.remain_special_after(current_user) %>
       </div>
     </div>
 
     <% if user == current_user %>
       <div class="modal-buttons-gain">
-        <%= button_to "獲得！",
+        <%= button_to "獲得する",
             expend_reward_path(reward),
             method: :post %>
       </div>
