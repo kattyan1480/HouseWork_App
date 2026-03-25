@@ -4,6 +4,7 @@ class User < ApplicationRecord
   has_one_attached :avatar_image
   has_many :rewards, dependent: :destroy
   has_many :user_stamps, dependent: :destroy
+  has_many :web_push_subscriptions, dependent: :destroy
   devise :database_authenticatable,
          :registerable,
          :recoverable,

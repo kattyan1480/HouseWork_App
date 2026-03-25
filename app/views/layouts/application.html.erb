@@ -12,6 +12,7 @@
   <meta name="theme-color" content="#f3b769">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 </head>
+
 <body>
   <div class="layout">
     <%= render "layouts/header" %>
@@ -30,12 +31,6 @@
       </div>
     </main>
 
-    <% if content_for?(:fixed_ui_right) %>
-      <div class="fixed-bottom-right">
-        <%= yield :fixed_ui_right %>
-      </div>
-    <% end %>
-
     <% if content_for?(:fixed_ui_left) %>
       <div class="fixed-bottom-left">
         <%= yield :fixed_ui_left %>
@@ -44,4 +39,9 @@
 
     <%= render "layouts/footer" if show_footer? %>
   </div>
+
+  <script>
+    window.vapidPublicKey = "<%= ENV['VAPID_PUBLIC_KEY'] %>";
+  </script>
+
 </body>
