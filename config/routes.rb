@@ -56,4 +56,6 @@ Rails.application.routes.draw do
   resources :chores, only: [:new, :create]
 
   resource :push_subscription, only: [:create, :destroy]
+
+  post "test_push", to: "push_tests#create"
 end
