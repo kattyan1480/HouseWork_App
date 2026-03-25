@@ -54,4 +54,6 @@ Rails.application.routes.draw do
   end
 
   resources :chores, only: [:new, :create]
+
+  resource :push_subscription, only: [:create, :destroy]
 end

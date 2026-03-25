@@ -8,6 +8,7 @@ import "popups"
 import "flash_messages"
 import "hamburger_menus"
 import "categories"
+import "push_subscription"
 
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/service-worker.js');
