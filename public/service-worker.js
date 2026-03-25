@@ -34,10 +34,8 @@ self.addEventListener("push", (event) => {
       body: data.body,
       icon: "/icon-192.png",
       badge: "/icon-192.png",
-      tag: `chore-${data.chore_date_id}`,
       data: {
-        url: "#{ENV['APP_BASE_URL']}/homes/index",
-        choreDateId: data.chore_date_id
+        url: data.url || "/"
       }
     })
   );
@@ -49,6 +47,18 @@ self.addEventListener("notificationclick", (event) => {
   const url = event.notification.data?.url || "/";
 
   event.waitUntil(
-    clients.openWindow(url)
+    clients.matchAll({ type: "window", includeUncontrolled: true }).then((clientList) => {
+      for (const client of clientList) {
+        const clientUrl = new URL(client.url);
+
+        if (clientUrl.pathname === url && "focus" in client) {
+          return client.focus();
+        }
+      }
+
+      if (clients.openWindow) {
+        return clients.openWindow(url);
+      }
+    })
   );
 });

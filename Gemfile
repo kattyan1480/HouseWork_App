@@ -81,4 +81,4 @@ gem 'sendgrid-ruby'
 
 gem "image_processing", "~> 1.2"
 
-gem "webpush"
+gem "web-push"
