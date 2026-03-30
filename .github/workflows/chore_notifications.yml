@@ -1,0 +1,16 @@
+name: Run Chore Notifications
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Call Render notification endpoint
+        run: |
+          curl -X POST https://housework-app-4u9b.onrender.com/run_chore_notifications \
+            -H "X-Scheduler-Token: ${{ secrets.SCHEDULER_TOKEN }}"
