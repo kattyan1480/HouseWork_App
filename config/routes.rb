@@ -57,5 +57,7 @@ Rails.application.routes.draw do
 
   resource :push_subscription, only: [:create, :destroy]
 
+  post "test_push", to: "push_tests#create"
+
   post "run_chore_notifications", to: "notification_runs#create"
 end
